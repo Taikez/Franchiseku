@@ -1,0 +1,328 @@
+/* @import '~bootstrap/dist/css/bootstrap.css'; */
+
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --white:#F8F9FA;
+    --dark: #1F384F;
+    --font-size-large: 1.5rem;
+    --poppins: 'Poppins', sans-serif;
+    --roboto: 'Roboto', sans-serif;
+    --darkGreen: #015051;
+    --garamond: 'EB Garamond', serif;
+}
+
+.text-justify{
+    text-align: justify;
+}
+
+body{
+background: var(--gradient-01, linear-gradient(135deg, #F5F0FF 0%, #EFF6FE 50.36%, #EDFAF5 100%));
+}
+
+ul li{
+    list-style: none;
+}
+
+section{
+    min-height: 100vh;
+}
+
+*{
+    font-family: var(--poppins);
+    box-sizing: border-box;
+}
+
+body{
+    background-color: var(--white);
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+.sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+
+#banner{
+    padding-top: 3rem;
+    background-color: var(--white);
+}
+
+.banner-title{
+    color: #015051;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 3.75rem; /* 120% */
+}
+
+.banner-short-title{
+    color: var(--text-secondary, #575757);
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 1.25;
+    margin-bottom: 3rem;
+}
+
+.banner-short-title strong{
+    color: #015051;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 2rem;
+}
+
+.submitBtn{
+    display: flex;
+    color: var(--white);
+/* width: 12.8125rem; */
+padding: 0.75rem 2rem;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+font-size: 1.25rem;
+transition: 300ms;
+gap: 0.625rem;
+border-radius: 1.875rem;
+border: 1px solid var(--accent-01, #3CBA79);
+background: var(--accent-01, #3CBA79);
+}
+
+.submitBtn:hover{
+    background: var(--accent-01, #50cc8c);
+}
+
+
+.banner-title{
+    margin-bottom: 3rem;
+    font-size: 55px;
+}
+
+.banner-img{
+    width: 80%;
+    margin: 0 auto;
+}
+
+.left-banner{
+    display: flex; 
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.left-banner div{
+}
+
+.contact-us{
+    /* background-color: var(--dark); */
+    width: 100%;
+}
+
+
+.contact-us-div{
+    background-color: var(--dark);
+    color: var(--white);
+    padding: 5rem;
+    /* width: 100%; */
+}
+
+.messageBtn{
+    display: flex;
+    padding: 1.3125rem 1.625rem;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    flex-shrink: 0;
+    border-radius: 1.25rem;
+background: #3CBA79;    
+}
+
+.top-franchise-text p{
+    color: var(--text-secondary, #575757);
+    font-feature-settings: 'liga' off;
+    font-family: Poppins;
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 2rem; /* 177.778% */
+}
+
+.home-top-franchise button{
+    border-radius: 1.875rem;
+    padding: .75rem 5rem;
+    border: 1px solid var(--strock-01, #B7BFC7);
+    background: var(--white-secondary, #FAFBFC);
+}
+
+.home-top-franchise span{
+    color: var(--black, #17181A);
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Poppins;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+
+
+.section-label{
+    color: var(--blue, rgba(0, 112, 240, 0.90));
+    font-feature-settings: 'liga' off;
+    font-family: Poppins;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.125rem; /* 128.571% */
+    letter-spacing: 0.125rem;
+    text-transform: uppercase;
+}
+
+#home-top-franchise .card{
+    transition: 200ms;
+    cursor: pointer;
+}
+
+#home-top-franchise .card:hover{
+    transform: scale(1.05);
+}
+
+
+
+#home-top-news .news-title{
+    color: #1F284F;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+#home-subscription .home-subscription-content{
+padding: 0 4rem;
+}
+
+#home-subscription .container{
+    min-height: 100vh;
+}
+
+#home-subscription .submitBtn{
+    border-radius: 1rem;
+    background-color: #007bff;
+    padding: 0.75rem 4rem;
+    transition: 300ms;
+}
+
+#home-subscription .submitBtn:hover{
+    background-color: #1c8aff !important; 
+}
+
+#registerFranchisor{
+    background-image: url('../../public/frontendImg/register-franchisor-bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.dropdown-item:hover {
+    background-color: #3c9aff; /* Change to your desired hover background color */
+    color: #fff; /* Change to your desired hover text color */
+}
+
+.accordion-header .btn-link:focus, .accordion-header .btn-link:hover {
+    background-color: transparent; /* Remove background color on hover/focus */
+    border: none; /* Remove border on hover/focus */
+    color: #333; /* Change text color if needed */
+}
+
+
+#newsHeader{
+    background-image: url('../../public/frontendImg/news-title-bg.png');
+   background-size: cover;
+   background-repeat: no-repeat;
+}
+
+#newsHeader h1, #newsHeader p{
+    color: var(--darkGreen);
+}
+
+/* bootstrap accordion */
+
+
+.accordion-button{
+    font-family: var(--roboto);
+}
+
+
+#newsTitle{
+    min-height: 50vh;
+    text-align: center;
+
+    background-image: url('../../public/frontendImg/news-title-bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#newsTitle h1{
+    font-family: var(--garamond);
+    margin-bottom: 1rem;
+    color: #015051;
+}
+
+
+.navbar-newsTitle{
+    color: #015051;
+}
+
+
+@media only screen and (max-width:680px){
+    
+    .banner-title{
+        font-size: 2rem;
+    }
+
+    .banner-img{
+        width: 100%;
+    }
+
+    .submitBtn{
+        margin-bottom: 2rem;
+    }
+
+    .banner-title{
+        margin-bottom: 1rem;
+        line-height: 1.5;
+    }
+
+    .banner-short-title{
+        margin-bottom: 2rem;
+    }
+
+    .contact-us-div{
+        padding: 2rem;
+    }
+
+    .buttonGroup{
+        width: 100%;
+    }
+
+    .buttonGroup .col button{
+        font-size: .5rem;
+    }
+
+    .home-top-franchise button{
+        padding: .25rem 1rem;
+    }
+
+    .home-top-franchise span{
+        font-size: 1.25rem;
+    }
+}

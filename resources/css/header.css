@@ -1,0 +1,58 @@
+/* @import '~bootstrap/dist/css/bootstrap.css'; */
+
+*{
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+/* Initially hide the dropdown menu */
+.dropdown-menu {
+    display: none;
+}
+
+.navbar{
+    padding: .5rem 2rem;
+    background-color: #F8F9FA !important;
+
+}
+
+/* Show the dropdown menu when hovering over the parent link */
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.nav-link{
+    color: #17181A;
+    font-size: 1.25rem;
+}
+
+.navbar-collapse{
+    width: 50%;
+}
+
+.navbar-nav{
+    padding: 0 3rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.button-group{
+    width: 35%;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.header-button{
+    width: 6rem;
+    padding: .5rem 1rem;
+    border-radius: 15px;
+}
+
+
+@media screen and (max-width: 600px) {
+    .container {
+        max-width: 100%; /* Set the maximum width to 100% for smaller screens */
+    }
+}

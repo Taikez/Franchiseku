@@ -1,0 +1,123 @@
+/* @import '~bootstrap/dist/css/bootstrap.css'; */
+
+
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --white:#F8F9FA;
+    --font-size-large: 1.5rem;
+    --poppins: 'Poppins', sans-serif;
+    --roboto: 'Roboto', sans-serif;
+    --darkGreen: #015051;
+}
+
+.z-full{
+    z-index: 999 !important;
+}
+
+.form-label{
+    float: left !important;
+    font-weight: 300;
+    margin-top: .5rem;
+    font-family: var(--poppins) !important;
+}
+
+a{
+    text-decoration: none;
+}
+
+*{
+    font-family: var(--poppins);
+}
+
+.logo{
+    width: 80%;
+    margin-bottom: 1.25rem;
+}
+
+.form-logo{
+    width: 30%;
+    margin: 1rem auto;
+    margin-top: 2rem;
+}
+
+.form-title{
+    color: #015051;
+    text-align: center;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Poppins;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 2rem; /* 133.333% */
+}
+
+.register .left-container{
+    position: relative;
+    background-image: url('../../public/authImg/loginImg2.jpeg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 0 -2rem;
+}
+
+.login .left-container{
+    position: relative;
+    background-image: url('../../public/authImg/loginImg1.jpeg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 0 -4rem;
+}
+
+.bg-overlay{
+    position: absolute;
+    background: linear-gradient(135deg, #EDEFEE 0%, #67BC93 50.36%, #279B6E 100%);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    opacity: .5;
+}
+
+.short-title{
+    font-family: var(--poppins);
+    font-weight: 600;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.short-title-desc{
+    font-size: 1.25rem;
+    font-weight: 300;
+}
+
+.short-title,.short-title-desc{
+    z-index: 999 ;
+    position: relative;
+    color: var(--white);
+    text-align: start;
+    padding: 0 2rem;
+}
+
+.inputBtn{
+    border-radius: 1.875rem;
+    background: #1BF5AF;
+    color: #EDFAF5;
+    font-weight: 600;
+    font-size: 1.25rem;
+    border: none;
+    display: flex;
+    width: 90%;
+    margin: auto;
+    padding: 0.75rem 1.5rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    transition: 100ms ease-in-out;
+}
+
+.inputBtn:hover {
+    /* transform: scale(1.025); Scale up to 105% on hover */
+    background-color: rgba(27, 245, 175, .75);
+}

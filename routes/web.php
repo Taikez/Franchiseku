@@ -93,7 +93,4 @@ Route::controller(EducationCategoryController::class)->group(function(){
     Route::get('/News','News')->name('news');
 });
 
-
-
-
 require __DIR__.'/auth.php';

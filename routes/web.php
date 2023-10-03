@@ -7,6 +7,7 @@ use App\Http\Controllers\FranchisorController;
 use App\Http\Controllers\NewsCategoryController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\EducationCategoryController;
 
 /*
 |-------------------------------------------------------------------------- 
@@ -82,6 +83,15 @@ Route::controller(FranchisorController::class)->group(function(){
     
 });
 
+
+Route::controller(EducationCategoryController::class)->group(function(){
+    Route::get('/admin/all/education/category','AllEducationCategory')->middleware('admin')->name('all.education.category');
+    Route::get('/admin/add/education/category','AddEducationCategory')->middleware('admin')->name('add.education.category');
+    Route::get('/news/detail/{id}','NewsDetail')->name('news.detail');
+    Route::post('/admin/post/education/category','PostEducationCategory')->middleware('admin')->name('post.education.category');
+    Route::get('/delete/education/category/{id}','DeleteEducationCategory')->middleware('admin')->name('delete.education.category');
+    Route::get('/News','News')->name('news');
+});
 
 
 

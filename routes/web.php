@@ -72,7 +72,7 @@ Route::controller(NewsController::class)->group(function(){
     Route::get('/admin/add/news','AddNews')->middleware('admin')->name('add.news');
     Route::get('/news/detail/{id}','NewsDetail')->name('news.detail');
     Route::post('/admin/post/news','PostNews')->middleware('admin')->name('post.news');
-    Route::get('/News','News')->name('news');
+    Route::get('/news','news')->name('news');
 });
 
 
@@ -82,8 +82,13 @@ Route::controller(FranchisorController::class)->group(function(){
     
 });
 
+Route::controller(EducationController::class)->group(function(){
+    Route::get('/education', function () {
+        return view('educationContent');
+    })->name('educationContent');
 
-
+    Route::post('/education/search', 'App\Http\Controllers\EducationController@search')->name('searchEducationContent');
+});
 
 
 require __DIR__.'/auth.php';

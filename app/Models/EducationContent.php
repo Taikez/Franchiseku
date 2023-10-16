@@ -5,10 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class NewsCategory extends Model
+class EducationContent extends Model
 {
-    use HasFactory;
+    protected $table = 'education_contents';
 
-    protected $table = 'news_categories';
     protected $guarded = [];
+
+    
+
+    use HasFactory;
 }

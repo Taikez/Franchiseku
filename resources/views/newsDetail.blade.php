@@ -29,10 +29,10 @@
                           @foreach ($latestNews as $item)
                               <li class="rc__post__item">
                                   <div class="rc__post__thumb">
-                                      <a href=""><img class="img-fluid " src="{{asset($item->newsImage)}}" alt=""></a>
+                                      <a href="{{route('news.detail', $item->id)}}"><img class="img-fluid " src="{{asset($item->newsImage)}}" alt=""></a>
                                   </div>
                                   <div class="rc__post__content">
-                                      <h5 class="title"><a href="">{{$item->newsTitle}}</a></h5>
+                                      <h5 class="title"><a href="{{route('news.detail', $item->id)}}">{{$item->newsTitle}}</a></h5>
                                           <span class="post-date"><i class="fal fa-calendar-alt"></i> {{Carbon\Carbon::parse($item->created_at)->diffForHumans()}} </span>
                                       </div>
                               </li>

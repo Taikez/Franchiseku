@@ -8,6 +8,7 @@ use App\Http\Controllers\NewsCategoryController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EducationCategoryController;
+use App\Http\Controllers\EducationController;
 
 /*
 |-------------------------------------------------------------------------- 
@@ -91,6 +92,19 @@ Route::controller(EducationCategoryController::class)->group(function(){
     Route::get('/admin/add/education/category','AddEducationCategory')->middleware('admin')->name('add.education.category');
     Route::post('/admin/post/education/category','PostEducationCategory')->middleware('admin')->name('post.education.category');
     Route::get('/delete/education/category/{id}','DeleteEducationCategory')->middleware('admin')->name('delete.education.category');
+    
+});
+
+Route::middleware(['admin','auth'])->group(function(){
+    Route::controller(EducationController::class)->group(function(){
+        Route::get('/admin/all/education','AllEducation')->name('all.education');
+        Route::get('/admin/add/education','AddEducation')->name('add.education');
+        Route::post('/admin/post/education','PostEducation')->name('post.education');
+    });
+});
+
+Route::get('/phpinfo', function(){
+    phpinfo();
 });
 
 require __DIR__.'/auth.php';

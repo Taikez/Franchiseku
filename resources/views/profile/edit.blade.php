@@ -39,7 +39,7 @@
                 <span class="material-symbols-outlined fs-1 m-2 me-4" >person</span>
 
                 <div class="ml-3">
-                    <h1 class="fs-2">{{ucwords($user->name)}} / General</h1>
+                    <h1 class="fs-3">{{ucwords($user->name)}} / General</h1>
                     <h2 class="fw-light fs-5 text-secondary">Manage your personal information</h2>
                 </div>
             </div>

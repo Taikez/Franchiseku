@@ -84,9 +84,8 @@ Route::controller(FranchisorController::class)->group(function(){
 });
 
 Route::controller(EducationController::class)->group(function(){
-    Route::get('/education', function () {
-        return view('educationContent');
-    })->name('educationContent');
+    Route::get('/education', 'App\Http\Controllers\EducationController@index')->name('education.index');
+    Route::post('/education/search', 'App\Http\Controllers\EducationController@search')->name('searchEducationContent');
 });
 
 Route::controller(EducationCategoryController::class)->group(function(){

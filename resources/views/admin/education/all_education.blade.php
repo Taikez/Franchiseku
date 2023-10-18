@@ -28,8 +28,10 @@
                             <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Thumbnail</th>
                                 <th>Education Title</th>
-                                <th>Description</th>
+                                <th>Category</th>
+                                <th>Price</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -39,10 +41,16 @@
                                 @foreach ($educations  as $item)
                                 <tr>
                                     <td>{{$i++}}</td>
-                                    <td>{{$item->educationCategory}}</td>
-                                    <td>{{$item->educationCategoryDesc}}</td>
+                                    <td><img src="{{asset($item->educationThumbnail)}}" class="w-50" alt=""></td>
+                                    <td>{{$item->educationTitle}}</td>
+                                    <td>{{$item->category->educationCategory}}</td>
+                                    <td>Rp.{{number_format($item->educationPrice, 0, ',', '.')}}</td>
+
                                     <td>
-                                        <a href="{{route('delete.education.category', $item->id)}}" class="btn btn-danger btn" title="Delete data" id="delete">
+                                        <a href="#" class="btn btn-info btn-sm" title="Edit data" id="edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-danger btn-sm" title="Delete data" id="delete">
                                             <i class="fas fa-trash-alt"></i>
                                         </a>
                                     </td>

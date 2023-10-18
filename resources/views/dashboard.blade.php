@@ -120,7 +120,7 @@
 
                     <div class="row mt-4">
                         <div class="col align-self-center">
-                            <div class="buttonGroup d-grid gap-2 d-md-block">
+                            <div class="buttonGroup d-grid gap-2 d-md-block" >
                                  <button class="btn btn-primary border active">Food Franchise</button> 
                                  <button class="btn btn-light border">Cosmetics</button> 
                                  <button class="btn btn-light border">Supplements</button> 

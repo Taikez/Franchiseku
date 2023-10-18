@@ -21,7 +21,7 @@ class EducationController extends Controller
         // FILTER DATA
         $queryEducation = Education::query();
 
-        if($categoryId !== null)
+        if($categoryId !== null) 
             $queryEducation->where('categoryId', $categoryId);
 
         if($minPrice !== null)

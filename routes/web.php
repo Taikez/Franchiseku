@@ -42,9 +42,16 @@ Route::controller(UserController::class)->group(function(){
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [UserController::class, 'userDashboard'])->name('dashboard');
    
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+      // Display the profile update form
+      Route::get('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
+    
+      // Handle the profile update
+      Route::put('/profile/update', [UserController::class, 'update'])->name('profile.update');
+  
 });
 
 // Admin Controller
@@ -59,14 +66,12 @@ Route::controller(AdminController::class)->group(function(){
     Route::post('/update/password','UpdatePassword')->name('update.password');
 });
 
-
 Route::controller(NewsCategoryController::class)->group(function(){
     Route::get('/admin/all/news/category','AllNewsCategory')->middleware('admin')->name('all.news.category');
     Route::get('/admin/add/news/category','AddNewsCategory')->middleware('admin')->name('add.news.category');
     Route::post('/admin/post/news/category','PostNewsCategory')->middleware('admin')->name('post.news.category');
     Route::get('/delete/news/{id}','DeleteNewsCategory')->middleware('admin')->name('delete.news.category');
 });
-
 
 Route::controller(NewsController::class)->group(function(){
     Route::get('/admin/all/news','AllNews')->middleware('admin')->name('all.news');
@@ -76,11 +81,9 @@ Route::controller(NewsController::class)->group(function(){
     Route::get('/news','news')->name('news');
 });
 
-
 Route::controller(FranchisorController::class)->group(function(){
     Route::get('/admin/all/franchisor','AllFranchisor')->middleware('admin')->name('all.franchisor');
     Route::post('/admin/store/franchisor','StoreFranchisor')->name('store.franchisor');
-    
 });
 
 Route::controller(EducationController::class)->group(function(){
@@ -89,12 +92,11 @@ Route::controller(EducationController::class)->group(function(){
 });
 
 Route::controller(EducationCategoryController::class)->group(function(){
+    
     Route::get('/admin/all/education/category','AllEducationCategory')->middleware('admin')->name('all.education.category');
     Route::get('/admin/add/education/category','AddEducationCategory')->middleware('admin')->name('add.education.category');
-    Route::get('/news/detail/{id}','NewsDetail')->name('news.detail');
     Route::post('/admin/post/education/category','PostEducationCategory')->middleware('admin')->name('post.education.category');
     Route::get('/delete/education/category/{id}','DeleteEducationCategory')->middleware('admin')->name('delete.education.category');
-    Route::get('/News','News')->name('news');
 });
 
 require __DIR__.'/auth.php';

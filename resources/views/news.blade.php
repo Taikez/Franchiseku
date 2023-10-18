@@ -28,49 +28,47 @@
                 <div class="col-lg-4">
                   <aside class="blog__sidebar">
                      
-                      <div class="widget">
-                          <h4 class="widget-title">Recent Blog</h4>
-                          <ul class="rc__post">
-                              @foreach ($latestNews as $item)
-                                  <li class="rc__post__item">
-                                      <div class="rc__post__thumb">
-                                          <a href=""><img class="img-fluid " src="{{asset($item->newsImage)}}" alt=""></a>
-                                      </div>
-                                      <div class="rc__post__content">
-                                          <h5 class="title"><a href="">{{$item->newsTitle}}</a></h5>
-                                              <span class="post-date"><i class="fal fa-calendar-alt"></i> {{Carbon\Carbon::parse($item->created_at)->diffForHumans()}} </span>
+                    <div class="widget">
+                        <h4 class="widget-title">Recent Blog</h4>
+                        <ul class="rc__post">
+                            @foreach ($latestNews as $item)
+                                <li class="rc__post__item">
+                                    <div class="rc__post__thumb">
+                                        <a href="{{route('news.detail', $item->id)}}"><img class="img-fluid " src="{{asset($item->newsImage)}}" alt=""></a>
+                                    </div>
+                                    <div class="rc__post__content">
+                                        <h5 class="title"><a href="{{route('news.detail', $item->id)}}">{{$item->newsTitle}}</a></h5>
+                                            <span class="post-date"><i class="fal fa-calendar-alt"></i> {{Carbon\Carbon::parse($item->created_at)->diffForHumans()}} </span>
                                         </div>
-                                  </li>
-                              @endforeach
-                          </ul>
-                      </div>
-                      <div class="widget">
-                          <h4 class="widget-title">Categories</h4>
-                          <ul class="sidebar__cat">
-                              @foreach ($categories as $item)
-                            <li class="sidebar__cat__item w-75">
-                                <a href="">{{$item->newsCategory}}</a>
-                            </li>
-                              @endforeach
-                          </ul>
-                      </div>
-                     
-                      <div class="widget">
-                          <h4 class="widget-title">Popular Tags</h4>
-                          <ul class="sidebar__tags">
-                              <li><a href="blog.html">Business</a></li>
-                              <li><a href="blog.html">Design</a></li>
-                              <li><a href="blog.html">apps</a></li>
-                              <li><a href="blog.html">landing page</a></li>
-                              <li><a href="blog.html">data</a></li>
-                              <li><a href="blog.html">website</a></li>
-                              <li><a href="blog.html">book</a></li>
-                              <li><a href="blog.html">Design</a></li>
-                              <li><a href="blog.html">product design</a></li>
-                              <li><a href="blog.html">landing page</a></li>
-                              <li><a href="blog.html">data</a></li>
-                          </ul>
-                      </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div class="widget">
+                        <h4 class="widget-title">Categories</h4>
+                        <ul class="sidebar__cat">
+                            @foreach ($categories as $item)
+                            <li class="sidebar__cat__item w-75"><a href="">{{$item->newsCategory}}</a></li>
+                            @endforeach
+                        </ul>
+                    </div>
+                   
+                    <div class="widget">
+                        <h4 class="widget-title">Popular Tags</h4>
+                        <ul class="sidebar__tags">
+                            <li><a href="blog.html">Business</a></li>
+                            <li><a href="blog.html">Design</a></li>
+                            <li><a href="blog.html">apps</a></li>
+                            <li><a href="blog.html">landing page</a></li>
+                            <li><a href="blog.html">data</a></li>
+                            <li><a href="blog.html">website</a></li>
+                            <li><a href="blog.html">book</a></li>
+                            <li><a href="blog.html">Design</a></li>
+                            <li><a href="blog.html">product design</a></li>
+                            <li><a href="blog.html">landing page</a></li>
+                            <li><a href="blog.html">data</a></li>
+                        </ul>
+                    </div>
                   </aside>
                 </div>
                 <div class="col rightPanel" style="min-height: 100vh" id="newsContent">
@@ -79,14 +77,16 @@
                     <div class="container mt-5">
                         <div class="row mx-auto">
                             <div class="col-md-8 mx-auto">
-                                <h2 class="fw-bold fs-2" style="color:#015051">{{$item->newsTitle}}</h2>
+                                <h2 class="fw-bold fs-2 mb-3" style="color:#015051">{{$item->newsTitle}}</h2>
                             </div>
                             <div class="col-md-8 mx-auto">
                                 <img src="{{asset($item->newsImage)}}" alt="" class="img-fluid">
                             </div>
                             <div class="col-md-8 mx-auto">
                                 <p class="fw-light mt-2">{{$item->newsAuthor}} {{Carbon\Carbon::parse($item->created_at)->diffForHumans()}}.</p>
-                                <p class="text-success fs-5">Read More >></p>
+                                <a href="{{route('news.detail',$item->id)}}">
+                                    <p class="text-success fs-5">Read More >></p>
+                                </a>
                             </div>
                         </div>
                     </div>

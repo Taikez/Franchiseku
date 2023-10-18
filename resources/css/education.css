@@ -1,0 +1,46 @@
+body {
+    background: #ffffff;
+}
+
+#search-content::placeholder {
+    color: black;
+}
+
+#education-vertical-menu {
+    background: #ffffff;
+}
+
+#resetFilterButton {
+    height: 50px;
+}
+.fixed-height-box {
+    height: 200px;
+}
+
+#educationCategoryList,
+#educationPriceList,
+#educationRatingList {
+    transition: 0.4s;
+}
+
+#educationCategoryList:hover,
+#educationPriceList:hover,
+#educationRatingList:hover {
+    background-color: rgb(247, 246, 246);
+}
+
+.accordion-item,
+.accordion-body,
+.accordion-header,
+.accordion-button {
+    background-color: white;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: transparent !important;
+    color: inherit;
+}
+
+button.accordion-button:focus {
+    box-shadow: inherit;
+}

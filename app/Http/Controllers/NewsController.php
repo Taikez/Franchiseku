@@ -7,7 +7,8 @@ use App\Models\News;
 use App\Models\NewsCategory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
+// use Intervention\Image\Facades\Image;
+use Image;
 use Illuminate\Support\Facades\File;
 
 class NewsController extends Controller

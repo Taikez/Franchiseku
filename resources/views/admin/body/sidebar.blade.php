@@ -9,7 +9,7 @@
                 <li class="menu-title">Menu</li>
 
                 <li>
-                    <a href="{{route('adminDashboard')}}" class="waves-effect">
+                    <a href="{{ route('adminDashboard') }}" class="waves-effect">
                         <i class="ri-dashboard-line"></i><span class="badge rounded-pill bg-success float-end">3</span>
                         <span>Dashboard</span>
                     </a>
@@ -23,8 +23,8 @@
                         <span>News Category</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{route('all.news.category')}}">All News Category</a></li>
-                        <li><a href="{{route('add.news.category')}}">Add News Category</a></li>
+                        <li><a href="{{ route('all.news.category') }}">All News Category</a></li>
+                        <li><a href="{{ route('add.news.category') }}">Add News Category</a></li>
                     </ul>
                 </li>
 
@@ -34,18 +34,18 @@
                         <span>News Page</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{route('all.news')}}">All News</a></li>
-                        <li><a href="{{route('add.news')}}">Add News</a></li>
+                        <li><a href="{{ route('all.news') }}">All News</a></li>
+                        <li><a href="{{ route('add.news') }}">Add News</a></li>
                     </ul>
                 </li>
-                
+
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-profile-line"></i>
                         <span>Franchisor</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{route('all.franchisor')}}">All Franchisor</a></li>
+                        <li><a href="{{ route('all.franchisor') }}">All Franchisor</a></li>
                     </ul>
                 </li>
 
@@ -68,8 +68,8 @@
                         <span>Education Content</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="#">All Education</a></li>
-                        <li><a href="#">Add Education</a></li>
+                        <li><a href="{{route('all.education')}}">All Education</a></li>
+                        <li><a href="{{route('add.education')}}">Add Education</a></li>
                     </ul>
                 </li>
 

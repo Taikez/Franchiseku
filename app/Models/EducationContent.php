@@ -11,7 +11,10 @@ class EducationContent extends Model
 
     protected $guarded = [];
 
+    public function category()
+    {
+        return $this->belongsTo(EducationCategory::class, 'education_category_id');
+    }
     
-
     use HasFactory;
 }

@@ -9,5 +9,12 @@ class EducationCategory extends Model
 {
     use HasFactory;
     protected $table = 'education_categories';
-    protected $guarded = [];
+    protected $guarded = [
+        'id'
+    ];
+
+    public function education()
+    {
+        return $this->hasMany('App\Models\Education');
+    }
 }

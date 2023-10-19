@@ -101,6 +101,8 @@ Route::controller(EducationCategoryController::class)->group(function(){
     
 });
 
+
+//education route for admin
 Route::middleware(['admin','auth'])->group(function(){
     Route::controller(EducationController::class)->group(function(){
         Route::get('/admin/all/education','AllEducation')->name('all.education');

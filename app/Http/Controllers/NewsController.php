@@ -28,10 +28,12 @@ class NewsController extends Controller
     public function NewsDetail($id){
         $news = News::findOrFail($id);
         $categories = NewsCategory::all();
+
+        $allNews = News::latest()->get();
         
         $latestNews = News::latest()->limit(4)->get();
 
-        return view('newsDetail', compact('news','categories', 'latestNews'));
+        return view('newsDetail', compact('news','categories', 'latestNews','allNews'));
     }
 
     public function PostNews(Request $req){
@@ -74,11 +76,14 @@ class NewsController extends Controller
         }
     }
 
-
-
     public function News(){
         $categories = NewsCategory::all();
         $latestNews = News::latest()->limit(4)->get();
-        return view('news',compact('categories','latestNews'));
+        $news = News::latest()->get();
+        return view('news',compact('categories','latestNews','news'));
+    }
+
+    public function NewsByCategory($category){
+        return view('news');
     }
 }

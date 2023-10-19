@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Education;
 use App\Models\EducationContent;
 use App\Models\EducationCategory;
 use Illuminate\Support\Carbon;
@@ -48,7 +49,7 @@ class EducationController extends Controller
     public function PostEducation(Request $req){
         $uploadedFiles = $req->file('educationVideo');
         
-        $this->storeVideo($req);
+        // $this->storeVideo($req);
         // dd($req);
 
         $customMessages = [
@@ -68,7 +69,7 @@ class EducationController extends Controller
         
         $validatedData = $req->validate([
             'educationTitle' => 'required|string|max:255',
-            'educationDesc' => 'required|string|max:255',
+            'educationDesc' => 'required|string',
             'educationShortDesc' => 'required|string|max:255',
             'educationAuthor' => 'required|string|max:255',
             'educationCategory' => 'required|string|max:255',

@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Franchiseku | News')
+
 @section('main')
 @vite('resources/css/blog.css')
     
@@ -18,7 +20,6 @@
             <img src="{{asset('frontendImg/news-header-img.png')}}" alt="" class="img-fluid">
         </div>
     </section>
-
 
 
     {{-- sidebar and content --}}
@@ -56,17 +57,30 @@
                     <div class="widget">
                         <h4 class="widget-title">Popular Tags</h4>
                         <ul class="sidebar__tags">
-                            <li><a href="blog.html">Business</a></li>
-                            <li><a href="blog.html">Design</a></li>
-                            <li><a href="blog.html">apps</a></li>
-                            <li><a href="blog.html">landing page</a></li>
-                            <li><a href="blog.html">data</a></li>
-                            <li><a href="blog.html">website</a></li>
-                            <li><a href="blog.html">book</a></li>
-                            <li><a href="blog.html">Design</a></li>
-                            <li><a href="blog.html">product design</a></li>
-                            <li><a href="blog.html">landing page</a></li>
-                            <li><a href="blog.html">data</a></li>
+
+                            {{-- Ngambil maksimal 10 tags dari news->newsTags soalnya datany multiple   --}}
+                            {{-- ribet bgst --}}
+                            
+                            @php
+                                $totalTagsDisplayed = 0;
+                            @endphp
+
+                            @foreach ($news as $newsItem)
+                                <h2>{{ $newsItem->title }}</h2>
+                                @foreach (explode(',', $newsItem->newsTags) as $tag)
+                                    @if ($totalTagsDisplayed >= 10)
+                                        @break
+                                    @endif
+                                    <li><a href="">{{ trim($tag) }}</a></li>
+                                    @php
+                                        $totalTagsDisplayed++;
+                                    @endphp
+                                @endforeach
+                                @if ($totalTagsDisplayed >= 10)
+                                    @break
+                                @endif
+                            @endforeach
+
                         </ul>
                     </div>
                   </aside>

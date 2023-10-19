@@ -29,7 +29,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>News Category</th>
-                                <th>News Title</th>
+                                <th >News Title</th>
                                 <th>News Tags</th>
                                 <th>News Image</th> 
                                 <th>Action</th>
@@ -42,7 +42,7 @@
                                 <tr>
                                     <td>{{$i++}}</td>
                                     <td>{{$item['category']['newsCategory']}}</td>
-                                    <td>{{$item->newsTitle}}</td>
+                                    <td style="width: 10rem">{{$item->newsTitle}}</td>
                                     <td>{{$item->newsTags}}</td>
                                     <td><img src="{{asset($item->newsImage)}}" alt="" class="" style="width: 5.5rem"></td>
 

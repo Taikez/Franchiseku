@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id(); // This line creates an auto-incrementing 'id' column as the primary key
         
             $table->string('educationTitle')->nullable();
-            $table->string('educationDesc')->nullable();
+            $table->text('educationDesc')->nullable();
             $table->integer('educationPrice')->nullable();
             $table->string('educationAuthor')->nullable();
             $table->string('educationCategory')->nullable();

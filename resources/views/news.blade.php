@@ -49,7 +49,7 @@
                         <h4 class="widget-title">Categories</h4>
                         <ul class="sidebar__cat">
                             @foreach ($categories as $item)
-                            <li class="sidebar__cat__item w-75"><a href="">{{$item->newsCategory}}</a></li>
+                            <li class="sidebar__cat__item w-75"><a href="{{route('news.by.category',$item->id)}}">{{$item->newsCategory}}</a></li>
                             @endforeach
                         </ul>
                     </div>
@@ -60,26 +60,34 @@
 
                             {{-- Ngambil maksimal 10 tags dari news->newsTags soalnya datany multiple   --}}
                             {{-- ribet bgst --}}
-                            
+
                             @php
                                 $totalTagsDisplayed = 0;
+                                $displayedTags = [];
                             @endphp
-
-                            @foreach ($news as $newsItem)
+                            
+                            @foreach ($latestNews as $newsItem)
                                 <h2>{{ $newsItem->title }}</h2>
                                 @foreach (explode(',', $newsItem->newsTags) as $tag)
                                     @if ($totalTagsDisplayed >= 10)
                                         @break
                                     @endif
-                                    <li><a href="">{{ trim($tag) }}</a></li>
                                     @php
-                                        $totalTagsDisplayed++;
+                                        $trimmedTag = trim($tag);
                                     @endphp
+                                    @if (!in_array($trimmedTag, $displayedTags))
+                                        <li><a href="{{ route('news.by.tags', $trimmedTag) }}">{{ $trimmedTag }}</a></li>
+                                        @php
+                                            $displayedTags[] = $trimmedTag;
+                                            $totalTagsDisplayed++;
+                                        @endphp
+                                    @endif
                                 @endforeach
                                 @if ($totalTagsDisplayed >= 10)
                                     @break
                                 @endif
                             @endforeach
+                        
 
                         </ul>
                     </div>
@@ -87,7 +95,7 @@
                 </div>
                 <div class="col rightPanel" style="min-height: 100vh" id="newsContent">
                   
-                    @foreach ($latestNews as $item)     
+                    @foreach ($news as $item)     
                     <div class="container mt-5">
                         <div class="row mx-auto">
                             <div class="col-md-8 mx-auto">

@@ -79,11 +79,23 @@ class NewsController extends Controller
     public function News(){
         $categories = NewsCategory::all();
         $latestNews = News::latest()->limit(4)->get();
-        $news = News::latest()->get();
+        $news = News::latest()->limit(5)->get();
         return view('news',compact('categories','latestNews','news'));
     }
 
-    public function NewsByCategory($category){
-        return view('news');
+    public function NewsByCategory($categoryId){
+        $news = News::where('newsCategoryId', $categoryId)->latest()->limit(4)->get();
+        $categories = NewsCategory::all();
+        $latestNews = News::latest()->limit(4)->get();
+
+        return view('news', compact('categories','latestNews','news'));
+    }
+
+    public function NewsByTags($tag){
+        $news = News::where('newsTags','like','%'.$tag.'%')->latest()->limit(4)->get();
+        $categories = NewsCategory::all();
+        $latestNews = News::latest()->limit(4)->get();
+
+        return view('news', compact('categories','latestNews','news'));
     }
 }

@@ -80,6 +80,8 @@ Route::controller(NewsController::class)->group(function(){
     Route::get('/news/detail/{id}','NewsDetail')->name('news.detail');
     Route::post('/admin/post/news','PostNews')->middleware('admin')->name('post.news');
     Route::get('/news','news')->name('news');
+    Route::get('/news/category/{category}','NewsByCategory')->name('news.by.category');
+    Route::get('/news/tags/{tags}','NewsByTags')->name('news.by.tags');
 });
 
 Route::controller(FranchisorController::class)->group(function(){
@@ -88,8 +90,8 @@ Route::controller(FranchisorController::class)->group(function(){
 });
 
 Route::controller(EducationController::class)->group(function(){
-    Route::get('/education', 'App\Http\Controllers\EducationController@index')->name('education.index');
-    Route::post('/education/search', 'App\Http\Controllers\EducationController@search')->name('searchEducationContent');
+    Route::get('/education', 'index')->name('education.index');
+    Route::post('/education/search', 'search')->name('searchEducationContent');
 });
 
 Route::controller(EducationCategoryController::class)->group(function(){
@@ -97,10 +99,10 @@ Route::controller(EducationCategoryController::class)->group(function(){
     Route::get('/admin/all/education/category','AllEducationCategory')->middleware('admin')->name('all.education.category');
     Route::get('/admin/add/education/category','AddEducationCategory')->middleware('admin')->name('add.education.category');
     Route::post('/admin/post/education/category','PostEducationCategory')->middleware('admin')->name('post.education.category');
-    Route::get('/delete/education/category/{id}','DeleteEducationCategory')->middleware('admin')->name('delete.education.category');
-    
+    Route::get('/delete/education/category/{id}','DeleteEducationCategory')->middleware('admin')->name('delete.education.category');    
 });
 
+//education route for admin
 Route::middleware(['admin','auth'])->group(function(){
     Route::controller(EducationController::class)->group(function(){
         Route::get('/admin/all/education','AllEducation')->name('all.education');

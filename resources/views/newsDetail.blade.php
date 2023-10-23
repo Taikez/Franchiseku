@@ -55,7 +55,6 @@
                             {{-- Ngambil maksimal 10 tags dari news->newsTags soalnya datany multiple   --}}
                             {{-- ribet bgst --}}
                             
-                        
                             @php
                                 $totalTagsDisplayed = 0;
                                 $displayedTags = [];

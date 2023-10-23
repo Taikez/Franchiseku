@@ -48,7 +48,7 @@ class EducationController extends Controller
     public function PostEducation(Request $req){
         $uploadedFiles = $req->file('educationVideo');
         
-        $this->storeVideo($req);
+        // $this->storeVideo($req);
         // dd($req);
 
         $customMessages = [
@@ -138,16 +138,16 @@ class EducationController extends Controller
         $rating = $request->input('rating');
 
         // FILTER DATA
-        $queryEducation = Education::query();
+        $queryEducation = EducationContent::query();
 
         if($categoryId !== null) 
-            $queryEducation->where('categoryId', $categoryId);
+            $queryEducation->where('education_category_id', $categoryId);
 
         if($minPrice !== null)
-            $queryEducation->where('price', '>=', $minPrice);
+            $queryEducation->where('educationPrice', '>=', $minPrice);
 
         if($maxPrice !== null)
-            $queryEducation->where('price', '<=', $maxPrice);
+            $queryEducation->where('educationPrice', '<=', $maxPrice);
 
         // if($rating !== null)
         //     $queryEducation->where('categoryId', $categoryId);
@@ -160,9 +160,17 @@ class EducationController extends Controller
 
     public function search(Request $request)
     {
-        $searchValue = Education::where('title', 'like', '%'. $request->searchValue . '%')->get();
-        return view('resultEducationContent', [
-            'education_contents' => $searchValue
-        ]);
+        $educationCategories = EducationCategory::all();
+        $educations = EducationContent::where('educationTitle', 'like', '%'. $request->searchValue . '%')->get();
+        
+        return view('educationContent', compact('educationCategories', 'educations'));
+    }
+
+    public function detail($id)
+    {
+        $education = EducationContent::findOrFail($id);
+        $educationCategory = EducationCategory::all();
+
+        return view('educationDetail', compact('education','educationCategory'));
     }
 }

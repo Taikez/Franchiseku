@@ -17,7 +17,7 @@
         </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 mb-4 px-3">
-                <form action="{{ route('searchEducationContent') }}" class="col-md-12" method="POST">
+                <form action="{{ route('education.search') }}" class="col-md-12" method="POST">
                     @csrf
                     <div class="input-group">
                         <div class="input-group-prepend">
@@ -46,21 +46,23 @@
                                 <div class="fixed-height-box h-100 rounded border border-1 shadow-sm bg-white"
                                     style="overflow: hidden">
                                     <div class="container-fluid w-100 m-0 p-0" style="overflow: hidden; height: 15rem">
-                                        <img src="{{ asset('frontendImg/educationContentBanner.png') }}"
+                                        <img src="{{ asset($education->educationThumbnail) }}"
                                             alt="Education Content Banner" class="img-fluid w-100"
                                             style="object-fit: cover; height: 100%; width: 100%;">
                                     </div>
                                     <div class="p-3">
-                                        <h3>{{ $education->title }}</h3>
-                                        <p class="mb-2 text-muted">By {{ $education->user->name }}</p>
+                                        <h3>{{ $education->educationTitle }}</h3>
+                                        <p class="mb-2 text-muted">By {{ $education->educationAuthor }}</p>
                                         <span class="badge bg-info mb-3">
-                                            {{ $education->educationCategory->educationCategory }}
+                                            {{ $education->category->educationCategory }}
                                         </span>
-                                        <p class="mb-2">IDR {{ number_format($education->price, 2) }}</p>
-                                        <p class="mb-2 text-muted" style="font-size: 12px;">{{ $education->description }}
+                                        <p class="mb-2">IDR {{ number_format($education->educationPrice, 2) }}</p>
+                                        <p class="mb-2 text-muted" style="font-size: 12px;">
+                                            {{ $education->educationShortDesc }}
                                         </p>
                                         <hr>
-                                        <a href="" class="d-flex justify-content-between">
+                                        <a href="{{ route('education.detail', $education->id) }}"
+                                            class="d-flex justify-content-between">
                                             <div>
                                                 Read More
                                             </div>

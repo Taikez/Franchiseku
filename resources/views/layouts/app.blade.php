@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -29,7 +30,7 @@
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     @vite(['resources/css/app.css', 'resources/css/header.css', 'resources/js/app.js', 'resources/sass/app.scss'])
-    
+
 
     <!-- Bootstrap Css -->
     {{-- <link href="{{asset('backend/assets/css/bootstrap.min.css')}}" id="bootstrap-style" rel="stylesheet" type="text/css" /> --}}
@@ -45,33 +46,32 @@
         integrity="sha384-o5L12U9FZOGqLwHgGzIOz1hO+ndDz6Kz5n5vNvTmNfD4ENK4ShOzCFNvHuX2imlO" crossorigin="anonymous">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,100,0,-25" />
-    </head>
+</head>
 
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.guest_header')
+<body class="font-sans antialiased">
+    <div class="min-h-screen bg-gray-100">
+        @include('layouts.guest_header')
 
-            @vite('resources/css/auth.css')
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
+        @vite('resources/css/auth.css')
+        <!-- Page Heading -->
+        @if (isset($header))
+            <header class="bg-white shadow">
+                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    {{ $header }}
+                </div>
+            </header>
+        @endif
 
-            <!-- Page Content -->
-            @yield('main') <!-- This is where the content will be injected -->
+        <!-- Page Content -->
+        @yield('main') <!-- This is where the content will be injected -->
 
 
-            @include('components.footer')
-        </div>
-    </body>
+        @include('components.footer')
+    </div>
+</body>
 
 </html>
 
 <script>
-    << << << < HEAD
     var baseUrl = "{{ asset('') }}";
 </script>

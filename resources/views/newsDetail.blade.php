@@ -47,7 +47,9 @@
                             <h4 class="widget-title">Categories</h4>
                             <ul class="sidebar__cat">
                                 @foreach ($categories as $item)
-                                    <li class="sidebar__cat__item w-75"><a href="">{{ $item->newsCategory }}</a></li>
+                                    <li class="sidebar__cat__item w-75"><a
+                                            href="{{ route('news.by.category', $item->id) }}">{{ $item->newsCategory }}</a>
+                                    </li>
                                 @endforeach
                             </ul>
                         </div>
@@ -55,43 +57,68 @@
                         <div class="widget">
                             <h4 class="widget-title">Popular Tags</h4>
                             <ul class="sidebar__tags">
-                                <li><a href="blog.html">Business</a></li>
-                                <li><a href="blog.html">Design</a></li>
-                                <li><a href="blog.html">apps</a></li>
-                                <li><a href="blog.html">landing page</a></li>
-                                <li><a href="blog.html">data</a></li>
-                                <li><a href="blog.html">website</a></li>
-                                <li><a href="blog.html">book</a></li>
-                                <li><a href="blog.html">Design</a></li>
-                                <li><a href="blog.html">product design</a></li>
-                                <li><a href="blog.html">landing page</a></li>
-                                <li><a href="blog.html">data</a></li>
-                            </ul>
-                        </div>
-                    </aside>
+
+                                {{-- Ngambil maksimal 10 tags dari news->newsTags soalnya datany multiple   --}}
+                                {{-- ribet bgst --}}
+
+
+                                @php
+                                    $totalTagsDisplayed = 0;
+                                    $displayedTags = [];
+                                @endphp
+
+                                @foreach ($latestNews as $newsItem)
+                                    <h2>{{ $newsItem->title }}</h2>
+                                    @foreach (explode(',', $newsItem->newsTags) as $tag)
+                                        @if ($totalTagsDisplayed >= 10)
+                                        @break
+                                    @endif
+                                    @php
+                                        $trimmedTag = trim($tag);
+                                    @endphp
+                                    @if (!in_array($trimmedTag, $displayedTags))
+                                        <li><a href="{{ route('news.by.tags', $trimmedTag) }}">{{ $trimmedTag }}</a>
+                                        </li>
+                                        @php
+                                            $displayedTags[] = $trimmedTag;
+                                            $totalTagsDisplayed++;
+                                        @endphp
+                                    @endif
+                                @endforeach
+                                @if ($totalTagsDisplayed >= 10)
+                                @break
+                            @endif
+                        @endforeach
+
+                    </ul>
                 </div>
-                <div class="col rightPanel" style="min-height: 100vh" id="newsContent">
-                    <div class="row mt-4">
-                        <div class="col-md-12">
-                            <img src="{{ asset($news->newsImage) }}" class="d-block m-2 shadow-sm rounded img-fluid mx-auto"
-                                alt="">
-                        </div>
-                    </div>
+            </aside>
+        </div>
+        <div class="col rightPanel" style="min-height: 100vh" id="newsContent">
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <img src="{{ asset($news->newsImage) }}"
+                        class="d-block m-2 shadow-sm rounded img-fluid mx-auto" alt="">
+                </div>
+            </div>
 
-                    <div class="row">
-                        <div class="col-md-5 text-center">
-                            <p class="fw-light fs-4 mt-3 text-info"> By {{ $news->newsAuthor }}
-                                {{ Carbon\Carbon::parse($news->created_at)->diffForHumans() }}</p>
-                        </div>
-                    </div>
+            <div class="row">
+                <div class="col-md-5 text-center">
+                    <p class="fw-light fs-4 mt-3 text-info"> By {{ $news->newsAuthor }}
+                        {{ Carbon\Carbon::parse($news->created_at)->diffForHumans() }}</p>
+                </div>
+            </div>
 
-                    <div class="row">
-                        <div class="col-md-12 p-5 pt-2 fs-sm-6 fw-light text-justify">
-                            <p>{!! $news->newsContent !!}</p>
-                        </div>
-                    </div>
+            <div class="row">
+                <div class="col-md-12 p-5 pt-2 fs-sm-6 fw-light text-justify">
+                    <p>{!! $news->newsContent !!}</p>
+                </div>
+                <div class="col-md-12 px-5">
+                    <h5 class="fs-6"> Tags : {{ $news->newsTags }}</h5>
                 </div>
             </div>
         </div>
     </div>
+</div>
+</div>
 @endsection

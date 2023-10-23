@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Franchiseku | News')
+
 @section('main')
 @vite('resources/css/blog.css')
     
@@ -18,7 +20,6 @@
             <img src="{{asset('frontendImg/news-header-img.png')}}" alt="" class="img-fluid">
         </div>
     </section>
-
 
 
     {{-- sidebar and content --}}
@@ -48,7 +49,7 @@
                         <h4 class="widget-title">Categories</h4>
                         <ul class="sidebar__cat">
                             @foreach ($categories as $item)
-                            <li class="sidebar__cat__item w-75"><a href="">{{$item->newsCategory}}</a></li>
+                            <li class="sidebar__cat__item w-75"><a href="{{route('news.by.category',$item->id)}}">{{$item->newsCategory}}</a></li>
                             @endforeach
                         </ul>
                     </div>
@@ -56,24 +57,45 @@
                     <div class="widget">
                         <h4 class="widget-title">Popular Tags</h4>
                         <ul class="sidebar__tags">
-                            <li><a href="blog.html">Business</a></li>
-                            <li><a href="blog.html">Design</a></li>
-                            <li><a href="blog.html">apps</a></li>
-                            <li><a href="blog.html">landing page</a></li>
-                            <li><a href="blog.html">data</a></li>
-                            <li><a href="blog.html">website</a></li>
-                            <li><a href="blog.html">book</a></li>
-                            <li><a href="blog.html">Design</a></li>
-                            <li><a href="blog.html">product design</a></li>
-                            <li><a href="blog.html">landing page</a></li>
-                            <li><a href="blog.html">data</a></li>
+
+                            {{-- Ngambil maksimal 10 tags dari news->newsTags soalnya datany multiple   --}}
+                            {{-- ribet bgst --}}
+
+                            @php
+                                $totalTagsDisplayed = 0;
+                                $displayedTags = [];
+                            @endphp
+                            
+                            @foreach ($latestNews as $newsItem)
+                                <h2>{{ $newsItem->title }}</h2>
+                                @foreach (explode(',', $newsItem->newsTags) as $tag)
+                                    @if ($totalTagsDisplayed >= 10)
+                                        @break
+                                    @endif
+                                    @php
+                                        $trimmedTag = trim($tag);
+                                    @endphp
+                                    @if (!in_array($trimmedTag, $displayedTags))
+                                        <li><a href="{{ route('news.by.tags', $trimmedTag) }}">{{ $trimmedTag }}</a></li>
+                                        @php
+                                            $displayedTags[] = $trimmedTag;
+                                            $totalTagsDisplayed++;
+                                        @endphp
+                                    @endif
+                                @endforeach
+                                @if ($totalTagsDisplayed >= 10)
+                                    @break
+                                @endif
+                            @endforeach
+                        
+
                         </ul>
                     </div>
                   </aside>
                 </div>
                 <div class="col rightPanel" style="min-height: 100vh" id="newsContent">
                   
-                    @foreach ($latestNews as $item)     
+                    @foreach ($news as $item)     
                     <div class="container mt-5">
                         <div class="row mx-auto">
                             <div class="col-md-8 mx-auto">

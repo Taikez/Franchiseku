@@ -31,6 +31,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     @vite(['resources/css/app.css', 'resources/css/header.css', 'resources/js/app.js', 'resources/sass/app.scss'])
 
+
     <!-- Bootstrap Css -->
     {{-- <link href="{{asset('backend/assets/css/bootstrap.min.css')}}" id="bootstrap-style" rel="stylesheet" type="text/css" /> --}}
 

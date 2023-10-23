@@ -28,10 +28,12 @@ class NewsController extends Controller
     public function NewsDetail($id){
         $news = News::findOrFail($id);
         $categories = NewsCategory::all();
+
+        $allNews = News::latest()->get();
         
         $latestNews = News::latest()->limit(4)->get();
 
-        return view('newsDetail', compact('news','categories', 'latestNews'));
+        return view('newsDetail', compact('news','categories', 'latestNews','allNews'));
     }
 
     public function PostNews(Request $req){
@@ -74,11 +76,26 @@ class NewsController extends Controller
         }
     }
 
-
-
     public function News(){
         $categories = NewsCategory::all();
         $latestNews = News::latest()->limit(4)->get();
-        return view('news',compact('categories','latestNews'));
+        $news = News::latest()->limit(5)->get();
+        return view('news',compact('categories','latestNews','news'));
+    }
+
+    public function NewsByCategory($categoryId){
+        $news = News::where('newsCategoryId', $categoryId)->latest()->limit(4)->get();
+        $categories = NewsCategory::all();
+        $latestNews = News::latest()->limit(4)->get();
+
+        return view('news', compact('categories','latestNews','news'));
+    }
+
+    public function NewsByTags($tag){
+        $news = News::where('newsTags','like','%'.$tag.'%')->latest()->limit(4)->get();
+        $categories = NewsCategory::all();
+        $latestNews = News::latest()->limit(4)->get();
+
+        return view('news', compact('categories','latestNews','news'));
     }
 }

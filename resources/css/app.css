@@ -285,6 +285,19 @@ padding: 0 4rem;
 
 /* update profile page */
 
+.update-profile-sidebar-menu{
+    /* background-color: red !important; */
+}
+
+.update-profile-sidebar-menu li{
+    transition: 200ms;
+    margin-bottom: .5rem;
+}
+.update-profile-sidebar-menu li:hover{
+    transform: translateX(.5rem);
+    color: black;
+}
+
 
 
 @media only screen and (max-width:680px){

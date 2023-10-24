@@ -53,6 +53,8 @@ Route::middleware('auth')->group(function () {
       // Handle the profile update
       Route::put('/profile/update', [UserController::class, 'update'])->name('profile.update');
   
+      Route::get('/change/password',[UserController::class, 'ChangePassword'])->name('change.password');
+      Route::post('/update/password',[UserController::class, 'UpdatePassword'])->name('update.password');
 });
 
 // Admin Controller
@@ -63,8 +65,6 @@ Route::controller(AdminController::class)->group(function(){
     Route::get('/admin/profile','profile')->name('admin.profile');
     Route::get('/edit/profile','editProfile')->name('edit.profile');
     Route::post('/store/profile','storeProfile')->name('store.profile');
-    Route::get('/change/password','changePassword')->name('change.password');
-    Route::post('/update/password','UpdatePassword')->name('update.password');
 });
 
 Route::controller(NewsCategoryController::class)->group(function(){

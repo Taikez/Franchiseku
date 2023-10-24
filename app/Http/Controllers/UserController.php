@@ -11,6 +11,8 @@ use Illuminate\View\View;
 use League\CommonMark\Extension\SmartPunct\EllipsesParser;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -87,5 +89,57 @@ class UserController extends Controller
         // ); 
 
         // return redirect()->route('profile.edit')->with($notification);
-      }
+      } // end method
+
+
+      public function ChangePassword(){
+        $user = Auth::user();
+
+        return view('profile.changePassword',compact('user'));
+      } // end method   
+
+    public function UpdatePassword(Request $request){
+        $validator = $request->validate([
+            'old_password' => 'required|old_password',
+            'password' => 'required|confirmed|min:8',
+        ], [
+            'old_password' => 'The current password is incorrect.',
+            'password.required' => 'The new password is required.',
+            'password.confirmed' => 'The new password confirmation does not match.',
+            'password.min' => 'The new password must be at least 8 characters long.',
+        ]);
+
+        
+        $user = auth()->user();
+
+        // dd(Hash::check($request->old_password, $user->password), $request->old_password, $user->password);
+    
+        if (Hash::check($request->old_password, $user->password)) {
+            $user->password = Hash::make($request->password);
+            $user->save();
+    
+            return redirect()->route('welcome')->with('password_change_success', true);
+        } else {
+            return back()->with('old_password', 'Current password is incorrect.');
+        }
+    } // end method
+
+
+    public function deleteAccount(Request $request)
+    {
+        $user = auth()->user();
+
+        // Check if the user is authenticated and authorized to delete their account
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        // You can add additional confirmation steps here, such as asking for the current password.
+
+        // Perform the deletion
+        $user->delete();
+
+        return redirect()->route('login')->with('success', 'Your account has been deleted.');
+    } //end method
+    
 }

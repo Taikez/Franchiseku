@@ -48,11 +48,23 @@
         <div class="row">
             <div class="col-md-4 p-3 px-4">
                 <div class="row">
-                    <p class="fw-medium fs-4">General <br> Information</p>
+                    <p class="fw-medium fs-4">Change <br> Password </p>
                 </div>
-                <div class="row text-secondary fs-5" style=""  >
+                {{-- <div class="row text-secondary fs-5" style=""  >
                     <div class="col-md-8">
-                        <a href="">Password</a>
+                        <a href=""> >>General</a>
+                    </div>
+                </div> --}}
+                <div class="row text-secondary fs-5 mt-3" style=""  >
+                    <div class="col-md-8">
+                        <ul class="update-profile-sidebar-menu">
+                            <li>
+                                <a href="{{route('profile.edit')}}">General</a>
+                            </li>
+                            <li>
+                                <a href="{{route('change.password')}}">Password</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
 

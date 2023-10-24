@@ -1,3 +1,6 @@
+import AOS from "aos";
+AOS.init();
+
 !(function (n) {
     "use strict";
     function s() {

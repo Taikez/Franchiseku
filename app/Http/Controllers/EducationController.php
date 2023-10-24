@@ -9,6 +9,8 @@ use App\Models\EducationCategory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use FFMpeg\FFMpeg;
+use FFMpeg\Coordinate\TimeCode;
 
 use Illuminate\Support\Facades\File;
 
@@ -170,8 +172,14 @@ class EducationController extends Controller
     public function detail($id)
     {
         $education = EducationContent::findOrFail($id);
-        $educationCategory = EducationCategory::all();
+        $videoPublicPath = EducationContent::where('id', $id)->pluck('educationVideo');
+        $otherEducations = EducationContent::where('education_category_id', $education->education_category_id)->whereNot('id', $id)->limit(3)->get();
 
-        return view('educationDetail', compact('education','educationCategory'));
+        // GET VIDEO DURATION
+        $videoPath = public_path($videoPublicPath);
+        $duration = shell_exec("ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 '{$videoPath}'");
+        $educationDuration = round(floatval($duration) / 60, 2);
+
+        return view('educationDetail', compact('education','educationDuration', 'otherEducations'));
     }
 }

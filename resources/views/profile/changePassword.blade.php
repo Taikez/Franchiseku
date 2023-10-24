@@ -93,12 +93,6 @@
                             </span>
                         @enderror
 
-                        @if ($errors->has('old_password'))
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('old_password') }}</strong>
-                            </span>
-                        @endif
-
                     </div>
     
                     <!-- New Password -->

@@ -99,16 +99,16 @@ class UserController extends Controller
       } // end method   
 
     public function UpdatePassword(Request $request){
-        $validator = Validator::make($request->all(), [
-            'old_password' => 'required',
+        $validator = $request->validate([
+            'old_password' => 'required|old_password',
             'password' => 'required|confirmed|min:8',
+        ], [
+            'old_password' => 'The current password is incorrect.',
+            'password.required' => 'The new password is required.',
+            'password.confirmed' => 'The new password confirmation does not match.',
+            'password.min' => 'The new password must be at least 8 characters long.',
         ]);
-    
-        if ($validator->fails()) {
-            return back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+
         
         $user = auth()->user();
 
@@ -120,9 +120,7 @@ class UserController extends Controller
     
             return redirect()->route('welcome')->with('password_change_success', true);
         } else {
-            return back()
-                ->withInput()
-                ->with('error', 'Current password is incorrect.');
+            return back()->with('old_password', 'Current password is incorrect.');
         }
     } // end method
 

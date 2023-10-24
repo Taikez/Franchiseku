@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Education;
 use Illuminate\Http\Request;
 use App\Models\Education;
 use App\Models\EducationContent;

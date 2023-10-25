@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    Education | FranchiseKu
+@endsection
+
 @section('main')
     @vite('resources/css/education.css')
     @vite('resources/js/education.js')

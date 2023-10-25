@@ -73,8 +73,23 @@
                     </ul>
                 </li>
 
+                <li class="menu-title">Franchise</li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-money-dollar-box-fill"></i>
+                        <span>Franchise Category</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{route('all.franchise.category')}}">All Franchise Category</a></li>
+                        <li><a href="{{route('add.franchise.category')}}">Add Franchise Category</a></li>
+                    </ul>
+                </li>
+
             </ul>
         </div>
         <!-- Sidebar -->
     </div>
 </div>
+
+

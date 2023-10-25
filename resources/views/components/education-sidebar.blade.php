@@ -1,6 +1,9 @@
 <div class="accordion" id="accordionPanelsStayOpen">
     <a href="{{ route('education.index') }}" id="resetFilterButton"
-        class="btn btn-danger w-100 rounded-pill mb-3 d-flex justify-content-center align-items-center fs-5 fw-bold">
+        class="btn btn-danger w-50 border border-2 rounded rounded-2 mb-3 d-flex justify-content-center align-items-center fs-5 fw-light text-center">
+        <span class="material-symbols-rounded">
+            filter_alt_off
+        </span>
         Reset Filter
     </a>
     <div class="accordion-item mb-3 border-2 rounded">

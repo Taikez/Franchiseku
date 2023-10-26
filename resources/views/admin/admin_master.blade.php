@@ -69,7 +69,7 @@
         </div>
         <!-- END layout-wrapper -->
 
-       
+      
 
         <!-- Right bar overlay-->
         <div class="rightbar-overlay"></div>
@@ -100,7 +100,8 @@
         <script src="{{asset('backend/assets/js/pages/dashboard.init.js')}}"></script>
 
         <!-- App js -->
-        <script src="{{asset('backend/assets/js/app.js')}}"></script>
+        <script type="" src="{{asset('backend/assets/js/app.js')}}"></script>
+
 
         {{-- Toaster --}}
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>

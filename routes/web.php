@@ -9,6 +9,8 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EducationCategoryController;
 use App\Http\Controllers\EducationController;
+use App\Http\Controllers\FranchiseController;
+use App\Http\Controllers\FranchiseCategoryController;
 
 /*
 |-------------------------------------------------------------------------- 
@@ -110,7 +112,22 @@ Route::middleware(['admin','auth'])->group(function(){
         Route::get('/admin/add/education','AddEducation')->name('add.education');
         Route::post('/admin/post/education','PostEducation')->name('post.education');
     });
+
+    Route::controller(FranchiseCategoryController::class)->group(function(){
+        Route::get('/admin/all/franchise/category','AllFranchiseCategory')->name('all.franchise.category');
+        Route::get('/admin/add/franchise/category','AddFranchiseCategory')->name('add.franchise.category');
+        Route::post('/admin/post/franchise/category','PostFranchiseCategory')->name('post.franchise.category');
+        Route::get('/delete/franchise/category/{id}','DeleteFranchiseCategory')->name('delete.franchise.category');    
+
+        // Route::post('/admin/post/education','PostEducation')->name('post.education');
+    });
 });
+
+
+//route for franchisor
+// Route::middeware(['franchisor','auth'])->group(function(){
+//     Route::controller()
+// });
 
 Route::get('/phpinfo', function(){
     phpinfo();

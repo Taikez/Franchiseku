@@ -3,10 +3,10 @@
 @section('main')
     @vite('resources/css/education.css')
     <div class="container-fluid">
-        <div class="d-flex bg-white">
+        <div class="row">
             <div id="left-content" class="col-lg-7 col-md-7 col-sm-12 p-5">
                 <div id="content-title" class="text-center mb-5">
-                    <div data-aos="fade-do wn">
+                    <div data-aos="fade-down">
                         <h1 class="fw-bold mb-2" style="color: #015051">{{ $education->educationTitle }}</h1>
                     </div>
                     <h6 class="mb-4" style="color: #015051">Home / Education / Detail</h6>
@@ -39,7 +39,8 @@
                     <div class="text-center">
                         <button id="purchaseEducationBtn"
                             class="btn w-100 text-white rounded-pill mt-3 mb-2">Purchase</button>
-                        <a href="{{ route('education.index') }}" id="browseMoreContent" class="text-center mt-4">Browse more
+                        <a href="{{ route('education.index') }}" id="browseMoreContent" class="text-center mt-4">Browse
+                            more
                             content</a>
                     </div>
                 </div>
@@ -47,23 +48,26 @@
                 <div id="review-container" class="rounded-3 border border-2 p-3 mt-5" data-aos="fade-right">
                     <div id="review-container-top" class="d-flex justify-content-between align-items-center mb-3">
                         <h4 class="fw-bold text-center">Top Reviews</h4>
-                        <div class="mb-4" style="width: 50%; height: 3px; background-color: #D9D9D9; margin: auto;"></div>
+                        <div class="mb-4" style="width: 50%; height: 3px; background-color: #D9D9D9; margin: auto;">
+                        </div>
                     </div>
                     <div class="d-flex justify-content-between">
                         <div id="review-container-left" class="col-lg-4 col-md-4 col-sm-12">
-                            <span class="badge py-2 px-5 rounded-pill" style="background-color: #01A7A3">Approved</span>
+                            <span class="badge py-2 px-5 rounded-pill" style="background-color: #01A7A3">Top Five</span>
                         </div>
                         <div id="review-container-right" class="col-lg-8 col-md-8 col-sm-12" style="padding-left: 2rem;">
-                            <p style="font-size: 12px;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore,
+                            <p style="font-size: 12px;">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                Dolore,
                                 quaerat illo quas facilis
-                                praesentium id, perspiciatis explicabo delectus ducimus illum magnam. Doloremque ea dolores
+                                praesentium id, perspiciatis explicabo delectus ducimus illum magnam. Doloremque ea
+                                dolores
                                 consectetur sunt sequi quas, sapiente iste.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="other-contents" class="p-5">
+        <div id="other-contents" class="row p-5">
             <h3 class="text-center fw-bold mb-5">You might also like</h3>
             <div class="row">
                 @if ($otherEducations->count() == 0)

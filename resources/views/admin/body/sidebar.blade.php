@@ -50,15 +50,34 @@
                 </li>
 
                 <li class="menu-title">Education</li>
-
+                {{-- <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-book-2-line"></i>
+                        <span>Education Category</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{ route('all.education.category') }}">All Education Category</a></li>
+                        <li><a href="{{ route('add.education.category') }}">Add Education Category</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-book-2-line"></i>
+                        <span>Education Content</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{ route('all.education.category') }}">All Education Category</a></li>
+                        <li><a href="{{ route('add.education.category') }}">Add Education Category</a></li>
+                    </ul>
+                </li> --}}
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-book-2-line"></i>
                         <span>Education Category</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{route('all.education.category')}}">All Education Category</a></li>
-                        <li><a href="{{route('add.education.category')}}">Add Education Category</a></li>
+                        <li><a href="{{ route('all.education.category') }}">All Education Category</a></li>
+                        <li><a href="{{ route('add.education.category') }}">Add Education Category</a></li>
                     </ul>
                 </li>
 
@@ -68,8 +87,8 @@
                         <span>Education Content</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{route('all.education')}}">All Education</a></li>
-                        <li><a href="{{route('add.education')}}">Add Education</a></li>
+                        <li><a href="{{ route('all.education') }}">All Education</a></li>
+                        <li><a href="{{ route('add.education') }}">Add Education</a></li>
                     </ul>
                 </li>
 

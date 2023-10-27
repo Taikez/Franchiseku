@@ -13,9 +13,14 @@ return new class extends Migration
     {
         Schema::create('education_content_rating', function (Blueprint $table) {
             $table->id();
-            $table->integer('rating')->nullable();
-            $table->string('comment')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('education_content_id');
+            $table->unsignedTinyInteger('rating');
+            $table->string('comment');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('education_content_id')->references('id')->on('education_contents')->onDelete('cascade');
         });
     }
 

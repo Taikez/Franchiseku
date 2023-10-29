@@ -16,5 +16,10 @@ class EducationContent extends Model
         return $this->belongsTo(EducationCategory::class, 'education_category_id');
     }
     
+    public function rating()
+    {
+        return $this->hasMany(EducationContentRating::class);
+    }
+
     use HasFactory;
 }

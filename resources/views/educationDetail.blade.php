@@ -37,8 +37,15 @@
                     <h6 class="fw-light mt-3">Duration: {{ $educationDuration }} minute(s)</h6>
                     <p class="text-muted mt-3">1000 people bought this</p>
                     <div class="text-center">
-                        <button id="purchaseEducationBtn"
-                            class="btn w-100 text-white rounded-pill mt-3 mb-2">Purchase</button>
+                        @include('layouts.flashMessage')
+                        <div class="row">
+                            <button id="purchaseEducationBtn"
+                                class="btn w-50 text-white rounded-pill mt-3 mb-2">Purchase</button>
+                            @include('modals.rateEducationContentModal')
+                            <button type="button" id="rateEducationBtn" class="btn w-50 text-white rounded-pill mt-3 mb-2"
+                                data-bs-toggle="modal" data-bs-target="#ratingModal">Rate
+                                Content</button>
+                        </div>
                         <a href="{{ route('education.index') }}" id="browseMoreContent" class="text-center mt-4">Browse
                             more
                             content</a>
@@ -91,7 +98,8 @@
                                         {{ $otherEducation->category->educationCategory }}
                                     </span>
                                     <p class="mb-2">IDR {{ number_format($otherEducation->educationPrice, 2) }}</p>
-                                    <p class="mb-2 text-muted" style="font-size: 12px;">
+                                    <p class="mb-2 text-muted" style="font-size: 12px;">\
+
                                         {{ $otherEducation->educationShortDesc }}
                                     </p>
                                     <hr>

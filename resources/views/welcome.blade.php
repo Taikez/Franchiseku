@@ -34,7 +34,7 @@
     <script src="{{ asset('backend/assets/libs/jquery/jquery.min.js') }}"></script>
     {{-- <script src="{{asset('backend/assets/libs/bootstrap/js/bootstrap.bundle.min.js')}}"></script> --}}
 
-    @vite('resources/css/header.css')
+    @vite(['resources/css/header.css', 'resources/css/footer.css'])
     @vite(['resources/css/app.css', 'resources/sass/app.scss', 'resources/js/app.js'])
 
 

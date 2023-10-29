@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use FFMpeg\FFMpeg;
 use FFMpeg\Coordinate\TimeCode;
-
+use Auth;
 use Illuminate\Support\Facades\File;
 
 class EducationController extends Controller
@@ -181,5 +181,49 @@ class EducationController extends Controller
         $educationDuration = round(floatval($duration) / 60, 2);
 
         return view('educationDetail', compact('education','educationDuration', 'otherEducations'));
+    }
+
+    public function rateEducation(Request $request, $educationContentId)
+    {
+        if($request->isMethod('POST'))
+        {
+            if(!Auth::check())
+            {
+                $message = "Login to rate this content!";
+                return redirect()->back()->with('error', $message);
+            }
+
+            else
+            {
+                // VALIDATE FOR WHEN USER ALREADY RATED CONTENT
+                $ratingCount = Rating::where(['userId' => Auth::user()->id, 'educationContentId' => $data['educationContentId']])->count();
+                if($ratingCount > 0)
+                {
+                    $message = "You have already rated this product!";
+                    return redirect()->back()->with('error', $message);
+                }
+-
+                // VALIDATE RATING
+                $request->validate([
+                    'rating' => 'required|integer|between:1,5',
+                ]);
+        
+                // STORE RATING
+                Rating::updateOrCreate(
+                    ['userId' => auth()->id(), 'educationContentId' => $educationContentId],
+                    ['rating' => $request->input('rating')],
+                    ['comment' => $request->input('comment')]
+                );
+        
+                // UPDATE RATING IN EDUCATION CONTENT TABLE
+                $educationContent = EducationContent::findOrFail($educationContentId);
+                $averageRating = $educationContent->rating->avg('rating');
+                $educationContent->educationRating = $averageRating;
+                $educationContent->save();
+        
+                $message = 'Rating submitted successfully!';
+                return redirect()->back()->with('success', $message);
+            }
+        }
     }
 }

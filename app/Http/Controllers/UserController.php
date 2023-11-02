@@ -110,7 +110,7 @@ class UserController extends Controller
         ]);
 
         
-        $user = auth()->user();
+        $user = Auth::user();
 
         // dd(Hash::check($request->old_password, $user->password), $request->old_password, $user->password);
     

@@ -121,6 +121,10 @@ Route::middleware(['admin','auth'])->group(function(){
 
         // Route::post('/admin/post/education','PostEducation')->name('post.education');
     });
+
+    Route::controller(FranchiseController::class)->group(function(){
+        Route::get('/admin/all/franchise','AllFranchise')->name('all.franchise');
+    });
 });
 
 

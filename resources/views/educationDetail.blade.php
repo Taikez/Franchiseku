@@ -51,27 +51,38 @@
                             content</a>
                     </div>
                 </div>
-
-                <div id="review-container" class="rounded-3 border border-2 p-3 mt-5" data-aos="fade-right">
-                    <div id="review-container-top" class="d-flex justify-content-between align-items-center mb-3">
-                        <h4 class="fw-bold text-center">Top Reviews</h4>
-                        <div class="mb-4" style="width: 50%; height: 3px; background-color: #D9D9D9; margin: auto;">
+                @if (count($ratings) > 0)
+                    @foreach ($ratings as $rating)
+                        <div id="review-container" class="rounded-3 border border-2 p-3 mt-5" data-aos="fade-right">
+                            <div class="row d-flex justify-content-center mb-3">
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <h3 class="fw-bold">{{ $rating->educationContent->educationTitle }}</h3>
+                                    <h6 class="mt-3 fw-light" style="color: #01A7A3">
+                                        Rated by {{ $rating->user->name }} |
+                                        {{ Carbon\Carbon::parse($rating->created_at)->diffForHumans() }}
+                                    </h6>
+                                </div>
+                                <div class="col-lg-6 col-md 6 col-sm-12">
+                                    <div class="d-flex">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <div id="star" class="px-2 fs-1 fw-bold">★ </div>
+                                        @endfor
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="line" class="col-12" style="height: 5px; background-color: #D9D9D9"></div>
+                            <div class="row">
+                                <div class="col-12 mt-5 lh-lg">
+                                    {{ $rating->comment }}
+                                </div>
+                            </div>
                         </div>
+                    @endforeach
+                @else
+                    <div class="col-lg-12 pb-3">
+                        <div class="alert alert-warning w-100">No rating was found for this education content!</div>
                     </div>
-                    <div class="d-flex justify-content-between">
-                        <div id="review-container-left" class="col-lg-4 col-md-4 col-sm-12">
-                            <span class="badge py-2 px-5 rounded-pill" style="background-color: #01A7A3">Top Five</span>
-                        </div>
-                        <div id="review-container-right" class="col-lg-8 col-md-8 col-sm-12" style="padding-left: 2rem;">
-                            <p style="font-size: 12px;">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                Dolore,
-                                quaerat illo quas facilis
-                                praesentium id, perspiciatis explicabo delectus ducimus illum magnam. Doloremque ea
-                                dolores
-                                consectetur sunt sequi quas, sapiente iste.</p>
-                        </div>
-                    </div>
-                </div>
+                @endif
             </div>
         </div>
         <div id="other-contents" class="row p-5">

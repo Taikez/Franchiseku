@@ -21,4 +21,9 @@ class EducationContentRating extends Model
     {
         return $this->belongsTo(EducationContent::class, 'educationContentId');
     }
+
+    public static function calculateAverageRating($educationContentId)
+    {
+        return static::where('educationContentId', $educationContentId)->avg('rating');
+    }   
 }

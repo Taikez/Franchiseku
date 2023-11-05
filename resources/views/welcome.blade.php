@@ -37,10 +37,8 @@
     @vite(['resources/css/header.css', 'resources/css/footer.css'])
     @vite(['resources/css/app.css', 'resources/sass/app.scss', 'resources/js/app.js'])
 
-
-    <script>
-        AOS.init();
-    </script>
+    {{-- AOS --}}
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
 </head>
 
@@ -76,18 +74,21 @@
         <div class="row d-flex align-items-center justify-content-center mb-5">
             <div id="banner-left" class="col-lg-6 col-md-8 col-sm-12 p-2">
                 <div class="float-right">
-                    <h1 data-aos="fade-down" id="banner-title" class="fw-bold mb-4" style="color:#015051;">Organize your
+                    <h1 data-aos="fade-down" data-aos-duration="800" id="banner-title" class="fw-bold mb-4"
+                        style="color:#015051;">Organize your
                         money investment
                     </h1>
-                    <p data-aos="fade-up" style="font-size: 20px">
+                    <p data-aos="fade-up" data-aos-duration="800" style="font-size: 20px">
                         We will help you organize, learn and <br>
                         <span class="fw-bold" style="color: #015051; font-size: 20px">Look for an investment that suits
                             you</span>
                     </p>
-                    <button data-aos="fade" class="submitBtn rounded-pill fw-bold">Start Searching</button>
+                    <button data-aos="fade-up-right" data-aos-duration="800"
+                        class="submitBtn rounded-pill fw-bold">Start Searching</button>
                 </div>
             </div>
-            <div id="banner-right" class="col-lg-6 col-md-8 col-sm-12 text-center p-5">
+            <div id="banner-right" class="col-lg-6 col-md-8 col-sm-12 text-center p-5" data-aos="fade-right"
+                data-aos-duration="800">
                 <div class="float-left">
                     <img class="img-fluid" src="{{ asset('frontendImg/bannerImg.png') }}" alt="Banner Asset"
                         width="600">
@@ -103,7 +104,8 @@
         @endphp
 
         <div class="container">
-            <div class="card mb-3 border-0 shadow-sm" style="background-color: #EFF6FE;">
+            <div class="card mb-3 border-0 shadow-sm" style="background-color: #EFF6FE;" data-aos="zoom-in-up"
+                data-aos-duration="800">
                 <div class="row">
                     <div class="col-md-8 p-3">
                         <div class="card-body">
@@ -132,47 +134,58 @@
     <section class="home-top-franchise" id="home-top-franchise">
         <div class="container p-4">
             <div class="row mt-4">
-                <div class="col-lg-8 col-md-12 col-sm-12 align-self-start">
-                    <p class="section-label">FranchiseKu Top Franchises</p>
-                    <h1 class="top-franchise-title text-lg">Several Categories Top Franchises</h1>
+                <div class="col-lg-8 col-md-12 col-sm-12 align-self-start" data-aos="fade-down-right"
+                    data-aos-duration="800">
+                    <p class="section-label">FranchiseKu Top
+                        Franchises</p>
+                    <h1 class="top-franchise-title text-lg">Several
+                        Categories Top Franchises
+                    </h1>
                 </div>
             </div>
 
             <div class="row mt-4">
                 <div class="col align-self-center">
                     <div class="buttonGroup d-grid gap-2 d-md-block">
-                        <button class="btn btn-primary border active">Food Franchise</button>
-                        <button class="btn btn-light border">Cosmetics</button>
-                        <button class="btn btn-light border">Supplements</button>
+                        <button class="btn btn-primary border active" data-aos="fade-up-right"
+                            data-aos-duration="800">Food Franchise</button>
+                        <button class="btn btn-light border" data-aos="zoom-in"
+                            data-aos-duration="800">Cosmetics</button>
+                        <button class="btn btn-light border" data-aos="fade-up-left"
+                            data-aos-duration="800">Supplements</button>
                     </div>
                 </div>
             </div>
 
             <div class="row mt-4 mb-4">
                 <div class="col top-franchise-text align-self-end">
-                    <p class="mb-4"><span> Fortunes come to people that takes the chance and effort to get the
+                    <p class="mb-4" data-aos="fade-up" data-aos-duration="800"><span> Fortunes come to people that
+                            takes the chance and effort to get the
                             opportunity. FranchiseKu offers platform that enables user to connect with franchises they
                             desire and help users to know and improve their financial literacy </span></p>
-                    <p>To quickly start, user can click on several top franchises below to see some of our top
+                    <p data-aos="fade-up-right" data-aos-duration="800">To quickly start, user can click on several
+                        top
+                        franchises below to see some of our top
                         recommendations or go to our franchise list page to see the whole selections FranchiseKu has to
                         offer, user could also search franchise investment according to their preference and desire</p>
                 </div>
             </div>
 
             <div class="row mb-4">
-                <div class="col-md-4 mb-3">
+                <div class="col-md-4 mb-3" data-aos="fade-down-left" data-aos-duration="800">
                     <div class="card border-0 shadow-sm bg-light p-2">
                         <a href="#">
                             <img src="{{ asset('upload/franchise/cafe1.jpeg') }}" class="card-img-top rounded"
                                 alt="...">
                         </a>
                         <div class="card-body">
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                            <p class="card-text">Some quick example text to build on the card title and make up the
+                                bulk
                                 of the card's content.</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-3">
+                <div class="col-md-4 mb-3" data-aos="fade-up" data-aos-duration="800">
                     <div class="card border-0 bg-light p-2 shadow-sm">
                         <a href="#">
                             <img src="{{ asset('upload/franchise/cafe1.jpeg') }}" class="card-img-top rounded"
@@ -184,7 +197,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-3">
+                <div class="col-md-4 mb-3" data-aos="fade-down-right" data-aos-duration="800">
                     <div class="card border-0 bg-light p-2 shadow-sm">
                         <a href="#">
                             <img src="{{ asset('upload/franchise/cafe1.jpeg') }}" class="card-img-top rounded"
@@ -199,7 +212,7 @@
             </div>
 
             <div class="row mt-4 text-center">
-                <a href="text-secondary">
+                <a href="text-secondary" data-aos="fade-down-left" data-aos-duration="800">
                     <p>click on the franchises above to see more details >> </p>
                 </a>
             </div>
@@ -210,28 +223,33 @@
     <section id="home-subscription" class="home-subscription">
         <div class="container-fluid bg-white p-2 d-flex align-items-center" style="min-height: 100vh;">
             <div class="row ">
-                <div class="col-md-5 d-flex align-items-center p-4 mb-4">
+                <div class="col-md-5 d-flex align-items-center p-4 mb-4" data-aos="flip-left"
+                    data-aos-duration="800">
                     <img class="home-subscription-img img-fluid" alt=""
                         src="{{ asset('upload/home-asset/home-subscription-img.png') }}">
                 </div>
-                {{-- <div class="col-md-2"></div> --}}
                 <div class="col-md-6 home-subscription-content mx-auto">
-                    <div class="row">
-                        <div class="col">
-                            <p class="text-info">Data Poweredd, Real-time information</p>
+                    <div data-aos="fade-left" data-aos-duration="800">
+                        <div class="row">
+                            <div class="col">
+                                <p class="text-info">Data Powered, Real-time
+                                    information</p>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col">
+                                <h1 class="fs-2">Learn and Educate Yourself!!</h1>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <p>Open your horizon and learn new knowledge to forge your future, using our well structured
+                                education courses suited for you.</p>
                         </div>
                     </div>
-                    <div class="row mb-2">
-                        <div class="col">
-                            <h1 class="fs-2">Learn and Educate Yourself!!</h1>
-                        </div>
-                    </div>
-                    <div class="row mb-4">
-                        <p>Open your horizon and learn new knowledge to forge your future, using our well structured
-                            education courses suited for you.</p>
-                        <p class="fs-5 fw-bold"><a href="" style="color: #1F384F;">get started now.</a></p>
-                    </div>
-                    <div class="row mb-4">
+                    <p class="fs-5 fw-bold" data-aos="fade-up-left" data-aos-duration="800"><a href=""
+                            style="color: #1F384F;">get started now.</a>
+                    </p>
+                    <div class="row mb-4" data-aos="fade-down-right" data-aos-duration="800">
                         <div class="col-md-2 col-sm-2 p-4">
                             <img src="{{ asset('upload/home-asset/feedback-bg.png') }}" class="img-fluid"
                                 alt="asd">
@@ -241,7 +259,7 @@
                             <p>Secure the type of course you want to look at your list</p>
                         </div>
                     </div>
-                    <div class="row mb-4">
+                    <div class="row mb-4" data-aos="fade-up-left" data-aos-duration="800">
                         <div class="col-md-2 col-sm-2 p-4">
                             <img src="{{ asset('upload/home-asset/feedback-bg.png') }}"
                                 class="img-fluid mx-auto d-block" alt="asd">
@@ -253,7 +271,7 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <a href="">
+                            <a href="" data-aos="zoom-in-down" data-aos-duration="800">
                                 <button type="button" class="submitBtn" style="background-color: #0070F0">Start
                                     Now</button>
                             </a>
@@ -264,29 +282,32 @@
         </div>
     </section>
 
-    <section id="contact-us" class="contact-us d-flex justify-content-center align-items-center  "
-        style="min-height: 60vh">
+    <section id="contact-us" class="contact-us d-flex justify-content-center align-items-center"
+        style="min-height: 60vh" data-aos="fade-up" data-aos-duration="800">
         <div class="container">
             <div class="rounded text-center contact-us-div m-auto col-sm-12 col-md-12">
-                <div class="row p-2">
+                <div class="row p-2" data-aos="fade-down-left" data-aos-duration="800">
                     <h1 class="text-lg">Need Help Making a Decision ?</h1>
                 </div>
                 <div class="row">
-                    <a href="" class="text-decoration-none">
+                    <a href="" class="text-decoration-none" data-aos="zoom-in-right" data-aos-duration="800">
                         <button class="submitBtn" style="margin: 2rem auto;">Send Message to Admin</button>
                     </a>
                 </div>
 
                 <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-12 d-flex align-items">
+                    <div class="col-lg-4 col-md-6 col-sm-12 d-flex align-items" data-aos="fade-down-right"
+                        data-aos-duration="800">
                         <span class="material-symbols-outlined">task_alt</span>
                         <p class="text-sm">Ask things you need and the product that matters to you</p>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12 d-flex align-items">
+                    <div class="col-lg-4 col-md-6 col-sm-12 d-flex align-items" data-aos="fade-down"
+                        data-aos-duration="800">
                         <span class="material-symbols-outlined">task_alt</span>
                         <p class="text-sm">Learn how FranciseKu could find the best product for you</p>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12 d-flex align-items">
+                    <div class="col-lg-4 col-md-6 col-sm-12 d-flex align-items" data-aos="fade-down-left"
+                        data-aos-duration="800">
                         <span class="material-symbols-outlined">task_alt</span>
                         <p class="text-sm">Get Top notch support from our team in every step of the application process
                         </p>
@@ -296,14 +317,18 @@
         </div>
     </section>
 
-    @include('components.register_franchisor');
-    @include('modals.success-modal');
-
+    @include('components.register_franchisor')
+    @include('modals.success-modal')
     @include('components.footer')
+
 </body>
 
 {{-- Toaster --}}
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
 <script>
     @if (Session::has('message'))
         var type = "{{ Session::get('alert-type', 'info') }}"

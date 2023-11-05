@@ -6,20 +6,22 @@
         <div class="row">
             <div id="left-content" class="col-lg-7 col-md-7 col-sm-12 p-5">
                 <div id="content-title" class="text-center mb-5">
-                    <div data-aos="fade-down">
+                    <div data-aos="fade-down" data-aos-duration="800">
                         <h1 class="fw-bold mb-2" style="color: #015051">{{ $education->educationTitle }}</h1>
                     </div>
-                    <h6 class="mb-4" style="color: #015051">Home / Education / Detail</h6>
-                    <div class="mb-4" style="width: 25%; height: 3px; background-color: #D9D9D9; margin: auto;"></div>
+                    <div data-aos="fade-up-left" data-aos-duration="800">
+                        <h6 class="mb-4" style="color: #015051">Home / Education / Detail</h6>
+                        <div class="mb-4" style="width: 25%; height: 3px; background-color: #D9D9D9; margin: auto;"></div>
+                    </div>
                 </div>
-                <div id="content-text" class="px-5">
+                <div id="content-text" class="px-5" data-aos="fade-right" data-aos-duration="800">
                     <h5>{!! $education->educationShortDesc !!}</h5>
                     <p class="fw-lighter">{!! $education->educationDesc !!}</p>
                 </div>
             </div>
 
             <div id="right-content" class="col-lg-5 col-md-5 col-sm-12 py-5 px-3">
-                <div id="thumbnail-container" class="rounded">
+                <div id="thumbnail-container" class="rounded" data-aos="fade-down-left" data-aos-duration="800">
                     <img id="thumbnail" class="img-fluid rounded-3 opacity-50"
                         src="{{ asset($education->educationThumbnail) }}" alt="{{ $education->educationThumbnail }}">
                     <div id="overlay">
@@ -30,30 +32,41 @@
                     </div>
                 </div>
                 <div id="content-details">
-                    <h6 class="mt-3 fw-light" style="color: #01A7A3">by {{ $education->educationAuthor }} |
+                    <h6 class="mt-3 fw-light" style="color: #01A7A3" data-aos="fade-left" data-aos-duration="800">by
+                        {{ $education->educationAuthor }} |
                         {{ Carbon\Carbon::parse($education->created_at)->diffForHumans() }}
                     </h6>
-                    <h3 class="fw-bold mt-3">Rp {{ number_format($education->educationPrice, 2) }}</h3>
-                    <h6 class="fw-light mt-3">Duration: {{ $educationDuration }} minute(s)</h6>
-                    <p class="text-muted mt-3">1000 people bought this</p>
+                    <h3 class="fw-bold mt-3" data-aos="fade-right" data-aos-duration="800">Rp
+                        {{ number_format($education->educationPrice, 2) }}</h3>
+                    <h6 class="fw-light mt-3" data-aos="fade-left" data-aos-duration="800">Duration:
+                        {{ $educationDuration }} minute(s)</h6>
+                    <p class="text-muted mt-3" data-aos="fade-right" data-aos-duration="800">1000 people bought this</p>
                     <div class="text-center">
                         @include('layouts.flashMessage')
                         <div class="row">
-                            <button id="purchaseEducationBtn"
-                                class="btn w-50 text-white rounded-pill mt-3 mb-2">Purchase</button>
+                            <div data-aos="fade-up-left" data-aos-duration="800">
+                                <button id="purchaseEducationBtn" class="btn w-50 text-white rounded-pill mt-3 mb-2"
+                                    data-aos="fade-up-right" data-aos-duration="800">Purchase</button>
+                            </div>
                             @include('modals.rateEducationContentModal')
-                            <button type="button" id="rateEducationBtn" class="btn w-50 text-white rounded-pill mt-3 mb-2"
-                                data-bs-toggle="modal" data-bs-target="#ratingModal">Rate
-                                Content</button>
+                            <div data-aos="fade-up-right" data-aos-duration="800">
+                                <button type="button" id="rateEducationBtn"
+                                    class="btn w-50 text-white rounded-pill mt-3 mb-2" data-bs-toggle="modal"
+                                    data-bs-target="#ratingModal">Rate
+                                    Content</button>
+                            </div>
                         </div>
-                        <a href="{{ route('education.index') }}" id="browseMoreContent" class="text-center mt-4">Browse
-                            more
-                            content</a>
+                        <div data-aos="fade-up-left" data-aos-duration="800">
+                            <a href="{{ route('education.index') }}" id="browseMoreContent" class="text-center mt-4">Browse
+                                more
+                                content</a>
+                        </div>
                     </div>
                 </div>
                 @if (count($ratings) > 0)
                     @foreach ($ratings as $rating)
-                        <div id="review-container" class="rounded-3 border border-2 p-3 mt-5" data-aos="fade-right">
+                        <div id="review-container" class="rounded-3 border border-2 p-3 mt-5" data-aos="fade-right"
+                            data-aos-duration="800">
                             <div class="row d-flex justify-content-center mb-3">
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <h3 class="fw-bold">{{ $rating->educationContent->educationTitle }}</h3>
@@ -80,21 +93,22 @@
                     @endforeach
                 @else
                     <div class="col-lg-12 pb-3">
-                        <div class="alert alert-warning w-100">No rating was found for this education content!</div>
+                        <div class="alert alert-warning w-100" data-aos="zoom-in-left" data-aos-duration="800">No rating was
+                            found for this education content!</div>
                     </div>
                 @endif
             </div>
         </div>
         <div id="other-contents" class="row p-5">
-            <h3 class="text-center fw-bold mb-5">You might also like</h3>
+            <h3 class="text-center fw-bold mb-5" data-aos="fade-down" data-aos-duration="800">You might also like</h3>
             <div class="row">
                 @if ($otherEducations->count() == 0)
-                    <div class="col-lg-12 pb-3">
+                    <div class="col-lg-12 pb-3" data-aos="fade" data-aos-duration="800">
                         <div class="alert alert-warning w-100">No education content found!</div>
                     </div>
                 @else
                     @foreach ($otherEducations as $otherEducation)
-                        <div class="col-lg-4 col-md-6 col-sm-9 mb-3">
+                        <div class="col-lg-4 col-md-6 col-sm-9 mb-3" data-aos="fade-up" data-aos-duration="800">
                             <div class="fixed-height-box h-100 rounded border border-1 shadow-sm bg-white"
                                 style="overflow: hidden">
                                 <div class="container-fluid w-100 m-0 p-0" style="overflow: hidden; height: 15rem">

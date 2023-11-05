@@ -11,16 +11,17 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12 p-5">
-                <h1 class="text-center fw-bold">Education Content Spread</h1>
-                <p class="text-center text-secondary mb-4">You can learn something new everyday!</p>
-                <div class="container-fluid w-100">
+                <h1 class="text-center fw-bold" data-aos="fade-down" data-aos-duration="800">Education Content Spread</h1>
+                <p class="text-center text-secondary mb-4" data-aos="zoom-in-up" data-aos-duration="800">You can learn
+                    something new everyday!</p>
+                <div class="container-fluid w-100" data-aos="fade-up-left" data-aos-duration="800">
                     <img src="{{ asset('frontendImg/educationContentBanner.png') }}" alt="Education Content Banner"
                         class="img-fluid w-100">
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 mb-4 px-3">
+            <div class="col-lg-12 col-md-12 col-sm-12 mb-4 px-3" data-aos="fade-up" data-aos-duration="800">
                 <form action="{{ route('education.search') }}" class="col-md-12" method="POST">
                     @csrf
                     <div class="input-group">
@@ -39,14 +40,14 @@
                 @include('components.education-sidebar')
             </div>
             @if ($educations->count() == 0)
-                <div class="col-lg-9 pb-3">
+                <div class="col-lg-9 pb-3" data-aos="fade-down-right" data-aos-duration="800">
                     <div class="alert alert-warning w-100">No education content to be found!</div>
                 </div>
             @else
                 <div class="col-lg-9 pb-3">
                     <div class="row">
                         @foreach ($educations as $education)
-                            <div class="col-lg-4 col-md-6 col-sm-9 mb-3">
+                            <div class="col-lg-4 col-md-6 col-sm-9 mb-3" data-aos="fade-down-left" data-aos-duration="1000">
                                 <div class="fixed-height-box h-100 rounded border border-1 shadow-sm bg-white"
                                     style="overflow: hidden">
                                     <div class="container-fluid w-100 m-0 p-0" style="overflow: hidden; height: 15rem">

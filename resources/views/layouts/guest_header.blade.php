@@ -29,19 +29,20 @@
                 <!-- Add the "ml-auto" class to move the links to the right -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Features
+                        Features 
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{{route('news')}}">News</a></li>
                         <li><a class="dropdown-item" href="{{route('education.index')}}">Education</a></li>
                         @guest
-                            
+
                         @else
-                        
                             @if (Auth::user()->role === 'Admin')
                                 <li><a class="dropdown-item" href="{{ route('adminDashboard') }}">Admin Page</a></li>
                             @elseif(Auth::user()->role === 'Franchisor')
                                 <li><a class="dropdown-item" href="{{ route('register.franchise') }}">Add Franchise</a></li>
+                            @elseif(Auth::user()->role === 'User')
+                                <li><a class="dropdown-item" href="{{route('register.franchisor')}}">Become Our Franchisor</a></li>
                             @endif
                         @endguest
                     </ul>
@@ -73,10 +74,21 @@
                         </li>
                     </div>
                 @else
+
+                    @php
+                        $user = Auth::user();
+                    @endphp
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle fs-5 d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                               @if ($user->profileImage == null|| $user->profileImage == "")
                                 <span class="material-symbols-outlined m-2">person</span>
-                                {{ ucwords(Auth::user()->name) }}
+                               @else
+                                <img class="w-25 rounded" src="{{asset($user->profileImage)}}" alt="">
+                               
+                               @endif
+                               {{ ucwords(Auth::user()->name) }}
+                                
                             </a> 
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{route('profile.edit')}}">Profile</a>

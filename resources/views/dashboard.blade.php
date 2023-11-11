@@ -59,6 +59,10 @@
                 </div>
                 
             @endif
+
+
+                {{-- Success Modal  --}}
+                @include('modals/success-modal')
             
             <div id="banner" class="container-fluid p-5 mb-5">
                 <div class="row d-flex align-items-center justify-content-center mb-5">

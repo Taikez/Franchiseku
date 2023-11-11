@@ -83,12 +83,23 @@ class FranchiseController extends Controller
             'created_at' => Carbon::now(),
         ]);
         
-        $notification = array(
-            'message' => 'Franchise Submitted! Please wait for approval',
-            'alert-type' => 'success',
-        ); 
+        // $notification = array(
+        //     'message' => 'Franchise Submitted! Please wait for approval',
+        //     'alert-type' => 'success',
+        // ); 
 
-        return redirect()->route('dashboard')->with($notification);
+        // return redirect()->route('dashboard')->with($notification);
+
+
+        $response = [
+            'message' => 'Franchise registered successfully, please wait for approval',
+            'modal' => '#successModal', // Modal ID to trigger
+            ];
+
+        // Flash the data to the session
+        session()->flash('success_data', $response);        
+    
+        return  redirect()->route('dashboard')->with('successData', $response);
 
     }
 

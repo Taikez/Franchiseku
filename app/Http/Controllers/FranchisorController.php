@@ -24,6 +24,10 @@ class FranchisorController extends Controller
         ]);
 
 
+        // note
+        // requirement untuk register franchisor apa aja ? user bisa pake klik tombol ajaga gausa bkin form.. jd nnti sesuain sama data user  
+        // 
+
         // Create a new user
         $user = new User;
         $user->name = $validatedData['username'];
@@ -51,7 +55,7 @@ class FranchisorController extends Controller
         // Flash the data to the session
         session()->flash('success_data', $response);        
     
-        return  redirect()->route('dashboard')->with('successData', $response);;
+        return  redirect()->back()->with('successData', $response);
     }
 
     public function addFranchise(Request $request){
@@ -78,5 +82,9 @@ class FranchisorController extends Controller
     public function AllFranchisor(){
         $allFranchisor = Franchisor::all();
         return view('admin.franchisor.all_franchisor',compact('allFranchisor'));
+    }
+
+    public function RegisterFranchisor(){
+        return view('franchisor.add_franchisor');
     }
 }

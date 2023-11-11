@@ -66,6 +66,7 @@
         @yield('main') <!-- This is where the content will be injected -->
 
 
+
         @include('components.footer')
     </div>
 </body>

@@ -103,6 +103,7 @@ Route::controller(EducationCategoryController::class)->group(function(){
 
 Route::controller(FranchisorController::class)->group(function(){
     Route::post('/admin/store/franchisor','StoreFranchisor')->name('store.franchisor');
+    Route::get('/register/franchisor','RegisterFranchisor')->name('register.franchisor');
     Route::get('/admin/all/franchisor','AllFranchisor')->middleware('admin')->name('all.franchisor');
 });
 

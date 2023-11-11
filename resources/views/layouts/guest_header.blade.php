@@ -37,9 +37,11 @@
                         @guest
                             
                         @else
-
+                        
                             @if (Auth::user()->role === 'Admin')
                                 <li><a class="dropdown-item" href="{{ route('adminDashboard') }}">Admin Page</a></li>
+                            @elseif(Auth::user()->role === 'Franchisor')
+                                <li><a class="dropdown-item" href="{{ route('register.franchise') }}">Add Franchise</a></li>
                             @endif
                         @endguest
                     </ul>

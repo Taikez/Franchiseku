@@ -48,7 +48,7 @@
                                     <td style="width: 10rem">{{$item->franchiseName}}</td>
                                     <td>{{$item->franchiseLocation}}</td>
                                     <td><img src="{{asset($item->franchisePrice)}}" alt="" class="" style="width: 5.5rem"></td>
-
+                                    <td>{{$item->status}}</td>
                                     <td>
                                         <a href="#" class="btn btn-info btn-sm" title="Edit News" >
                                             <i class="fas fa-edit"></i>

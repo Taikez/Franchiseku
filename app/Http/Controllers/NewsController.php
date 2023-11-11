@@ -36,6 +36,7 @@ class NewsController extends Controller
     }
 
     public function PostNews(Request $req){
+
         if ($req->file('newsImage')) {
             $image = $req->file('newsImage');
             $name_gen = hexdec(uniqid()). '.' . $image->getClientOriginalExtension();

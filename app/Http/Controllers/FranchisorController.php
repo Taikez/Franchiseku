@@ -23,6 +23,7 @@ class FranchisorController extends Controller
             'password' => 'required|string|min:8',
         ]);
 
+
         // Create a new user
         $user = new User;
         $user->name = $validatedData['username'];
@@ -46,8 +47,11 @@ class FranchisorController extends Controller
             'message' => 'Franchisor Registered Successfully!',
             'modal' => '#successModal', // Modal ID to trigger
             ];
+
+        // Flash the data to the session
+        session()->flash('success_data', $response);        
     
-        return response()->json($response);
+        return  redirect()->route('dashboard')->with('successData', $response);;
     }
 
     public function addFranchise(Request $request){
@@ -68,7 +72,7 @@ class FranchisorController extends Controller
         'modal' => '#successModal', // Modal ID to trigger
         ];
 
-    return response()->json($response);
+        return response()->json($response);
     }
 
     public function AllFranchisor(){

@@ -291,13 +291,43 @@
                 </div>
               </section>
 
-            @include('components.register_franchisor');
-            @include('modals.success-modal');
-            
+        
+          {{-- Kalo user, muncul register franchisor || kalo franchisor muncul register franchise --}}
+         
+{{-- 
+
+
+
+        @if(auth()->check())
+          @if (auth()->user()->role == 'Franchisor')
+            <div id="registerFranchise">
+                @include('components.register_franchise')
+                @include('modals.register-franchise-success')
+            </div>
+        @elseif(auth()->user()->role == 'User')
+            <div id="registerFranchisor">
+                @include('components.register_franchisor')
+                @include('modals.register-franchisor-success')
+            </div>
+            @endif
+        @endif --}}
+
             @include('components.footer')
     </body>
 
+    {{-- Call Modal   --}}
+    @if(isset($successData))
+        <script>
+            // Trigger the success modal
+            $(document).ready(function(){
+                $("{!! $successData['modal'] !!}").modal('show');
+            });
+        </script>
+    @endif
+
+
       {{-- Toaster --}}
+
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
       <script>
           @if(Session::has('message'))
@@ -322,5 +352,16 @@
           @endif 
          </script>
 
-      
+         {{-- auto scroll into register franchise (franchisor)--}}
+        @if(isset($scrollToRegisterFranchise) && $scrollToRegisterFranchise)
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    const registerFranchiseSection = document.getElementById("registerFranchise");
+                    if (registerFranchiseSection) {
+                        registerFranchiseSection.scrollIntoView({ behavior: "smooth" });
+                    }
+                });
+            </script>
+        @endif
+
 </html>

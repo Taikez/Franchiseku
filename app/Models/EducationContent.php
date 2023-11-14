@@ -13,8 +13,13 @@ class EducationContent extends Model
 
     public function category()
     {
-        return $this->belongsTo(EducationCategory::class, 'education_category_id');
+        return $this->belongsTo(EducationCategory::class, 'education_category_id', 'id');
     }
     
+    public function rating()
+    {
+        return $this->hasMany(EducationContentRating::class, 'educatonContentId', 'id');
+    }
+
     use HasFactory;
 }

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('educationThumbnail')->nullable();
             $table->string('educationShortDesc')->nullable();
             $table->string('educationVideo')->nullable();
+            $table->decimal('educationRating', 3, 2)->nullable();
             $table->timestamps();
         
             // Define the foreign key constraint with a different name for the column

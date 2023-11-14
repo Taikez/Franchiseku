@@ -6,12 +6,13 @@ use Illuminate\Http\Request;
 use App\Models\Education;
 use App\Models\EducationContent;
 use App\Models\EducationCategory;
+use App\Models\EducationContentRating;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use FFMpeg\FFMpeg;
 use FFMpeg\Coordinate\TimeCode;
-
+use Auth;
 use Illuminate\Support\Facades\File;
 
 class EducationController extends Controller
@@ -171,15 +172,80 @@ class EducationController extends Controller
 
     public function detail($id)
     {
+        // GET EDUCATION CONTENT
         $education = EducationContent::findOrFail($id);
         $videoPublicPath = EducationContent::where('id', $id)->pluck('educationVideo');
         $otherEducations = EducationContent::where('education_category_id', $education->education_category_id)->whereNot('id', $id)->limit(3)->get();
+        $countingStars = $education->educationRating;
 
         // GET VIDEO DURATION
         $videoPath = public_path($videoPublicPath);
         $duration = shell_exec("ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 '{$videoPath}'");
         $educationDuration = round(floatval($duration) / 60, 2);
 
-        return view('educationDetail', compact('education','educationDuration', 'otherEducations'));
+        // GET RATINGS 
+        $ratings = EducationContentRating::where(['educationContentId' => $id, 'rating' => 5])->limit(5)->get();
+
+        return view('educationDetail', compact('education','educationDuration', 'otherEducations', 'countingStars', 'ratings'));
+    }
+
+    public function rateEducation(Request $request, $educationContentId)
+    {
+        if($request->isMethod('POST'))
+        { 
+            if(!Auth::check())
+            {
+                $message = "Login to rate this content!";
+                return redirect()->back()->with('error', $message);
+            }
+
+            else
+            {
+                // VALIDATE FOR WHEN USER ALREADY RATED CONTENT
+                $ratingCount = EducationContentRating::where(['userId' => Auth::user()->id, 'educationContentId' => $educationContentId])->count();
+                if($ratingCount > 0)
+                {
+                    $message = "You have already rated this product!";
+                    return redirect()->back()->with('error', $message);
+                } 
+                
+                else
+                {
+                    // DO SOME VALIDATION HERE YEA
+                    if($request->rating == null || $request->rating == "")
+                    {
+                        $message = "You haven't given this content a rating!";
+                        return redirect()->back()->with('warning', $message);
+                    }
+                    
+                    else if($request->ratingComment == null || $request->ratingComment == "")
+                    {
+                        $message = "Give the content a comment first!";
+                        return redirect()->back()->with('warning', $message);
+                    }
+
+                    else
+                    {
+                        // STORE THE RATING
+                        $rating = new EducationContentRating;
+                        $rating->userId = Auth::user()->id;
+                        $rating->educationContentId = $educationContentId;
+                        $rating->rating = $request->rating;
+                        $rating->comment = $request->ratingComment;
+                        $rating->save();
+
+                        // CALCULATE AVERAGE RATING AND STORE IT
+                        $averageRating = EducationContentRating::calculateAverageRating($educationContentId);
+
+                        $education = EducationContent::findOrFail($educationContentId);
+                        $education->educationRating = $averageRating;
+                        $education->save();
+
+                        $message = 'Rating submitted successfully.';
+                        return redirect()->back()->with('success', $message);
+                    }
+                }
+            }
+        }
     }
 }

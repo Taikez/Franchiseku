@@ -113,6 +113,7 @@
                                     {{ Carbon\Carbon::parse($latestNews->created_at)->diffForHumans() }} </small></p>
                             <p class="card-text">By: {{ $latestNews->newsAuthor }}</p>
                             <a href="#">See More >></a>
+
                         </div>
                     </div>
                     <div class="col-md-4 d-flex align-items-center p-4">
@@ -377,6 +378,81 @@
         }
     @endif
 </script>
+
+
+
+        
+          {{-- Kalo user, muncul register franchisor || kalo franchisor muncul register franchise --}}
+         
+{{-- 
+
+
+
+        @if(auth()->check())
+          @if (auth()->user()->role == 'Franchisor')
+            <div id="registerFranchise">
+                @include('components.register_franchise')
+                @include('modals.register-franchise-success')
+            </div>
+        @elseif(auth()->user()->role == 'User')
+            <div id="registerFranchisor">
+                @include('components.register_franchisor')
+                @include('modals.register-franchisor-success')
+            </div>
+            @endif
+        @endif --}}
+
+            @include('components.footer')
+    </body>
+
+    {{-- Call Modal   --}}
+    @if(isset($successData))
+        <script>
+            // Trigger the success modal
+            $(document).ready(function(){
+                $("{!! $successData['modal'] !!}").modal('show');
+            });
+        </script>
+    @endif
+
+
+      {{-- Toaster --}}
+
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+      <script>
+          @if(Session::has('message'))
+          var type = "{{ Session::get('alert-type','info') }}"
+          switch(type){
+             case 'info':
+             toastr.info(" {{ Session::get('message') }} ");
+             break; 
+         
+             case 'success':
+             toastr.success(" {{ Session::get('message') }} ");
+             break;
+         
+             case 'warning':
+             toastr.warning(" {{ Session::get('message') }} ");
+             break;
+         
+             case 'error':
+             toastr.error(" {{ Session::get('message') }} ");
+             break; 
+          }
+          @endif 
+         </script>
+
+         {{-- auto scroll into register franchise (franchisor)--}}
+        @if(isset($scrollToRegisterFranchise) && $scrollToRegisterFranchise)
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    const registerFranchiseSection = document.getElementById("registerFranchise");
+                    if (registerFranchiseSection) {
+                        registerFranchiseSection.scrollIntoView({ behavior: "smooth" });
+                    }
+                });
+            </script>
+        @endif
 
 
 </html>

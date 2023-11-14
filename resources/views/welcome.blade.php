@@ -317,8 +317,10 @@
         </div>
     </section>
 
-    @include('components.register_franchisor')
-    @include('modals.success-modal')
+
+    @include('components.register_franchisor');
+    @include('modals.register-franchisor-success');
+
     @include('components.footer')
 
 </body>

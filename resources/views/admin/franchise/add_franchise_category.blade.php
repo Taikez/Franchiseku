@@ -5,6 +5,37 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
+<!-- Your modal in the Blade view -->
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successModalLabel">Success Message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Your success message content goes here -->
+                <p>{{ session('success_data.message') }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Your JavaScript to trigger the modal -->
+<script>
+    @if(session()->has('success_data'))
+        $(document).ready(function () {
+            $("{!! session('success_data.modal') !!}").modal('show');
+        });
+    @endif
+</script>
+
+
 <div class="page-content">
     <div class="container-fluid">
        
@@ -19,7 +50,6 @@
                      
                         <form action="{{route('post.franchise.category')}}" method="POST">
                             @csrf
-
 
                             {{-- blog category  --}}
                             <div class="row mb-3">

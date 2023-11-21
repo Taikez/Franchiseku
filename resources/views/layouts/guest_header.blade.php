@@ -34,6 +34,7 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{{route('news')}}">News</a></li>
                         <li><a class="dropdown-item" href="{{route('education.index')}}">Education</a></li>
+                        <li><a class="dropdown-item" href="{{route('franchise')}}">Franchises</a></li>
                         @guest
 
                         @else
@@ -79,17 +80,22 @@
                         $user = Auth::user();
                     @endphp
 
+                 
+
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle fs-5 d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                               @if ($user->profileImage == null|| $user->profileImage == "")
-                                <span class="material-symbols-outlined m-2">person</span>
-                               @else
-                                <img class="w-25 rounded" src="{{asset($user->profileImage)}}" alt="">
+
+                            <div class="d-flex align-items-center">
+                                @if ($user->profileImage == null|| $user->profileImage == "")
+                                <span class="material-symbols-outlined ">person</span>
+                                @else
+                                    <img class="rounded-circle" style="height:2.5rem; width:2.5rem"  src="{{asset($user->profileImage)}}" alt="">
+                                @endif
+                                <a class="nav-link dropdown-toggle fs-5 d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                
-                               @endif
-                               {{ ucwords(Auth::user()->name) }}
-                                
-                            </a> 
+                                   {{ ucwords(Auth::user()->name) }}
+                                    
+                                </a> 
+                            </div>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{route('profile.edit')}}">Profile</a>
                                 <a class="dropdown-item" href="">Settings</a>

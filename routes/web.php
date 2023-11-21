@@ -111,6 +111,7 @@ Route::controller(FranchisorController::class)->group(function(){
 
 Route::controller(FranchiseController::class)->group(function(){
     Route::get('/admin/all/franchise','AllFranchise')->name('all.franchise');
+    Route::get('/franchise','Franchise')->name('franchise');
     Route::get('/register/franchise','RegisterFranchise')->middleware('franchisor')->name('register.franchise');
     Route::post('/post/franchise','StoreFranchise')->middleware('franchisor')->name('store.franchise');
     Route::get('/dashboard/registerFranchise','RegisterFranchise')->middleware('franchisor')->name('dashboard.register.franchise');
@@ -135,6 +136,9 @@ Route::middleware(['admin','auth'])->group(function(){
 
     Route::controller(FranchiseController::class)->group(function(){
         Route::get('/admin/all/franchise','AllFranchise')->name('all.franchise');
+        Route::get('/admin/all/franchise/Request','AllFranchiseRequest')->name('all.franchise.request');
+        Route::get('/admin/approve/franchise/{id}','ApproveFranchise')->name('approve.franchise');
+        Route::get('/admin/reject/franchise/{id}','RejectFranchise')->name('reject.franchise');
     });
 });
 

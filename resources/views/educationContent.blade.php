@@ -85,8 +85,6 @@
                 </div>
             @endif
         </div>
-        <div class="col-lg-9 px-3 pb-3 w-100">
-            @include('components.register_franchisor')
-        </div>
+       
     </div>
 @endsection

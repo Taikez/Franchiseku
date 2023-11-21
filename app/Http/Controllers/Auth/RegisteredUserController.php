@@ -23,6 +23,10 @@ class RegisteredUserController extends Controller
         return view('auth.register');
     }
 
+    public function createFranchisor(): View{
+        return view('auth.register_franchisor');
+    }
+
     /**
      * Handle an incoming registration request.
      *
@@ -41,6 +45,30 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phoneNumber' => $request->phoneNumber,
+            'password' => Hash::make($request->password),
+        ]);
+
+        event(new Registered($user));
+
+        Auth::login($user);
+
+        return redirect(RouteServiceProvider::HOME);
+    }
+
+    public function storeFranchisor(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'phoneNumber'=>['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10' ],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phoneNumber' => $request->phoneNumber,
+            'role' => 'Franchisor',
             'password' => Hash::make($request->password),
         ]);
 

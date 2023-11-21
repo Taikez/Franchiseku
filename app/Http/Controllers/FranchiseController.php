@@ -20,6 +20,12 @@ class FranchiseController extends Controller
         return view("admin.franchise.all_franchise", compact('allFranchise'));
     } // end method
 
+    public function AllFranchiseRequest(){
+        $allFranchise = Franchise::latest()->where('status','Request')->get();
+
+        return view("admin.franchise.all_franchise_request", compact('allFranchise'));
+    }
+
 
     public function RegisterFranchise(){
         $user = Auth::user();
@@ -78,7 +84,7 @@ class FranchiseController extends Controller
             'franchiseLocation' => $validatedData['franchiseLocation'],
             'franchiseCategory' => $validatedData['franchiseCategory'],
             'franchisePrice' => $validatedData['franchisePrice'], 
-            'franchiseReport' => $name_gen_report,
+            'franchiseReport' => $saveReportUrl,
             'status' => 'Request',
             'created_at' => Carbon::now(),
         ]);
@@ -103,6 +109,32 @@ class FranchiseController extends Controller
 
     }
 
+    public function ApproveFranchise($id){
+        $franchise = Franchise::findOrFail($id);
+
+        $franchise->status = 'Approved';
+        $franchise->save();
+
+        $notification = array(
+            'message' => $franchise->franchiseName.' Approved!',
+            'alert-type' => 'success',
+        );
+        return redirect()->back()->with($notification);
+    }
+    
+
+    public function RejectFranchise($id){
+        $franchise = Franchise::findOrFail($id);
+
+        $franchise->status = 'Rejected';
+        $franchise->save();
+
+        $notification = array(
+            'message' => $franchise->franchiseName.' Rejected!',
+            'alert-type' => 'success',
+        );
+        return redirect()->back()->with($notification);
+    }
     // public function RegisterFranchise(){
     //     return view('dashboard')->with('scrollToRegisterFranchise', true);
     // }

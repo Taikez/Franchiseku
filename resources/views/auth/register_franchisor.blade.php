@@ -25,11 +25,13 @@
                                         Create a Personal Account
                                     @elseif(Request::is('login'))
                                         Login
+                                    @elseif(Request::is('registerFranchisor'))
+                                        Create Franchisor Account
                                     @endif
                                 </h1>
                             </div>
 
-                            <form method="POST" class="bg-white rounded p-4" action="{{ route('register') }}"
+                            <form method="POST" class="bg-white rounded p-4" action="{{ route('register.franchisor') }}"
                                 data-aos="fade-left" data-aos-duration="800">
                                 @csrf
                                 <!-- Name -->
@@ -82,7 +84,7 @@
                                         </a>
                                     </p>
 
-                                    <a href="{{route('register.franchisor')}}">Register as franchisor</a>
+                                    <a href="{{route('register')}}" class="text-decoration-none fs-5" >Register as User</a>
                                 </div>
                             </form>
                         </div>

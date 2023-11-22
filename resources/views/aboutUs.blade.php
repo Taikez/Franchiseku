@@ -59,6 +59,4 @@
         </div>
     </div>
 
-    @include('components.register_franchisor');
-    @include('modals.success-modal');
 @endsection

@@ -141,12 +141,10 @@
             <div class="row mt-4">
                 <div class="col align-self-center">
                     <div class="buttonGroup d-grid gap-2 d-md-block">
-                        <button class="btn btn-primary border active" data-aos="fade-up-right"
-                            data-aos-duration="800">Food Franchise</button>
-                        <button class="btn btn-light border" data-aos="fade-up"
-                            data-aos-duration="800">Cosmetics</button>
-                        <button class="btn btn-light border" data-aos="fade-up-left"
-                            data-aos-duration="800">Supplements</button>
+                        @foreach ($franchiseCategory as $item)
+                            <button class="btn btn-light border" data-aos="fade-up"
+                                data-aos-duration="800">{{$item->franchiseCategory}}</button>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -265,7 +263,7 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <a href="" data-aos="zoom-in-down" data-aos-duration="800">
+                            <a href="{{route('education.index')}}" data-aos="zoom-in-down" data-aos-duration="800">
                                 <button type="button" class="submitBtn" style="background-color: #0070F0">Start
                                     Now</button>
                             </a>

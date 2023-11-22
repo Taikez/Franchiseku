@@ -31,7 +31,7 @@
                                 <th>Category</th>
                                 <th>Name</th>
                                 <th>Location</th>
-                                <th>Price</th>
+                                <th>Price (Rp.)</th>
                                 <th>Status</th>
                                 <th>Report</th>
                                 

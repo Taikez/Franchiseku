@@ -42,7 +42,7 @@
                                     <td>{{$item->franchiseCategory}}</td>
                                     <td>{{$item->franchiseCategoryDesc}}</td>
                                     <td>
-                                        <a href="{{route('delete.education.category', $item->id)}}" class="btn btn-danger btn" title="Delete data" id="delete">
+                                        <a href="{{route('delete.franchise.category', $item->id)}}" class="btn btn-danger btn" title="Delete data" id="delete">
                                             <i class="fas fa-trash-alt"></i>
                                         </a>
                                     </td>

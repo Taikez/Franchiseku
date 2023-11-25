@@ -31,10 +31,11 @@
                                 <th>Category</th>
                                 <th>Name</th>
                                 <th>Location</th>
-                                <th>Price (Rp.)</th>
+                                <th>Price</th>
                                 <th>Status</th>
                                 <th>Report</th>
                                 
+                                <th>Action</th>
                             </tr>
                             </thead>    
 
@@ -47,17 +48,16 @@
                                     <td style="width: 10rem">{{$item->franchiseName}}</td>
                                     <td>{{$item->franchiseLocation}}</td>
                                     <td>{{$item->franchisePrice}}</td>
-
-                                    @if ($item->status == 'Approved')
-                                        <td style="background-color:aquamarine;">{{$item->status}}</td>
-                                    @elseif($item->status == 'Rejected') 
-                                        <td class="background-color: lightcoral; color:black;">{{$item->status}}</td>
-                                        @else
-                                        <td>{{$item->status}}</td>
-                                    @endif
-
+                                    <td>{{$item->status}}</td>
                                     <td><a href="{{asset($item->franchiseReport)}}" download="{{$item->franchiseName}}-{{$item->franchiseReport}}">Download</a></td>
-                                   
+                                    <td>
+                                        <a href="{{route('approve.franchise',$item->id)}}" class="btn btn-info btn-sm" title="Edit News" >
+                                            Approve
+                                        </a>
+                                        <a href="{{route('reject.franchise',$item->id)}}" class="btn btn-danger btn-sm" title="Delete News" id="delete">
+                                            Reject
+                                        </a>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>

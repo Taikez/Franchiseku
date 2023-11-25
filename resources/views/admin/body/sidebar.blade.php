@@ -92,7 +92,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{route('all.franchise')}}">All Franchise</a></li>
-                        <li><a href="#">Franchise Requests</a></li>
+                        <li><a href="{{route('all.franchise.request')}}">Franchise Requests</a></li>
                     </ul>
                 </li>
 

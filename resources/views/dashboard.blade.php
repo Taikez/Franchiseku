@@ -74,11 +74,18 @@
             <div class="row mt-4">
                 <div class="col align-self-center">
                     <div class="buttonGroup d-grid gap-2 d-md-block">
+<<<<<<< HEAD
                         <button class="btn btn-primary border active" data-aos="fade-up-right" data-aos-duration="800">Food
                             Franchise</button>
                         <button class="btn btn-light border" data-aos="fade-up" data-aos-duration="800">Cosmetics</button>
                         <button class="btn btn-light border" data-aos="fade-up-left"
                             data-aos-duration="800">Supplements</button>
+=======
+                        @foreach ($franchiseCategory as $item)
+                            <button class="btn btn-light border" data-aos="fade-up"
+                                data-aos-duration="800">{{$item->franchiseCategory}}</button>
+                        @endforeach
+>>>>>>> 649ab4fd7e79ee995affebf007964e261185021e
                     </div>
                 </div>
             </div>
@@ -196,7 +203,7 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <a href="" data-aos="zoom-in-down" data-aos-duration="800">
+                            <a href="{{route('education.index')}}" data-aos="zoom-in-down" data-aos-duration="800">
                                 <button type="button" class="submitBtn" style="background-color: #0070F0">Start
                                     Now</button>
                             </a>
@@ -275,8 +282,17 @@
         </div>
 
     </section>
+<<<<<<< HEAD
     </body>
 @endsection
+=======
+
+    {{-- @include('components.register_franchisor'); --}}
+    @include('modals.success-modal');
+    @include('components.footer')
+</body>
+
+>>>>>>> 649ab4fd7e79ee995affebf007964e261185021e
 {{-- Toaster --}}
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -333,6 +349,7 @@
     </script>
 @endif
 
+<<<<<<< HEAD
 {{-- auto scroll into register franchise (franchisor) --}}
 @if (isset($scrollToRegisterFranchise) && $scrollToRegisterFranchise)
     <script>
@@ -341,6 +358,26 @@
             if (registerFranchiseSection) {
                 registerFranchiseSection.scrollIntoView({
                     behavior: "smooth"
+=======
+    {{-- Call Modal   --}}
+    @if(isset($successData))
+        <script>
+            // Trigger the success modal
+            $(document).ready(function(){
+                $("{!! $successData['modal'] !!}").modal('show');
+            });
+        </script>
+    @endif
+
+         {{-- auto scroll into register franchise (franchisor)--}}
+        @if(isset($scrollToRegisterFranchise) && $scrollToRegisterFranchise)
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    const registerFranchiseSection = document.getElementById("registerFranchise");
+                    if (registerFranchiseSection) {
+                        registerFranchiseSection.scrollIntoView({ behavior: "smooth" });
+                    }
+>>>>>>> 649ab4fd7e79ee995affebf007964e261185021e
                 });
             }
         });

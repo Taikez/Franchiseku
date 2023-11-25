@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Education | FranchiseKu
+    Franchise | FranchiseKu
 @endsection
 
 @section('main')
@@ -11,7 +11,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12 p-5">
-                <h1 class="text-center fw-bold" data-aos="fade-down" data-aos-duration="800">Education Content Spread</h1>
+                <h1 class="text-center fw-bold" data-aos="fade-down" data-aos-duration="800">Franchise List</h1>
                 <p class="text-center text-secondary mb-4" data-aos="zoom-in-up" data-aos-duration="800">You can learn
                     something new everyday!</p>
                 <div class="container-fluid w-100" data-aos="fade-up-left" data-aos-duration="800">
@@ -37,36 +37,36 @@
         </div>
         <div class="row">
             <div id="education-vertical-menu" class="col-lg-3 col-md-3 col-sm-3">
-                @include('components.education-sidebar')
+                {{-- @include('components.education-sidebar') --}}
             </div>
-            @if ($educations->count() == 0)
+            @if ($allFranchise->count() == 0)
                 <div class="col-lg-9 pb-3" data-aos="fade-down-right" data-aos-duration="800">
                     <div class="alert alert-warning w-100">No education content to be found!</div>
                 </div>
             @else
                 <div class="col-lg-9 pb-3">
-                    <div class="row mb-3">
-                        @foreach ($educations as $education)
+                    <div class="row">
+                        @foreach ($allFranchise as $item)
                             <div class="col-lg-4 col-md-6 col-sm-9 mb-3" data-aos="fade-down-left" data-aos-duration="1000">
                                 <div class="fixed-height-box h-100 rounded border border-1 shadow-sm bg-white"
                                     style="overflow: hidden">
                                     <div class="container-fluid w-100 m-0 p-0" style="overflow: hidden; height: 15rem">
-                                        <img src="{{ asset($education->educationThumbnail) }}"
+                                        <img src="{{ asset($item->educationThumbnail) }}"
                                             alt="Education Content Banner" class="img-fluid w-100"
                                             style="object-fit: cover; height: 100%; width: 100%;">
                                     </div>
                                     <div class="p-3">
-                                        <h3>{{ $education->educationTitle }}</h3>
-                                        <p class="mb-2 text-muted">By {{ $education->educationAuthor }}</p>
+                                        <h3>{{ $item->franchiseName }}</h3>
+                                        <p class="mb-2 text-muted">By {{ $item->franchisePIC }}</p>
                                         <span class="badge bg-info mb-3">
-                                            {{ $education->category->educationCategory }}
+                                            {{ $item->franchiseCategory }}
                                         </span>
-                                        <p class="mb-2">IDR {{ number_format($education->educationPrice, 2) }}</p>
+                                        <p class="mb-2">IDR {{ number_format($item->franchisePrice, 2) }}</p>
                                         <p class="mb-2 text-muted" style="font-size: 12px;">
-                                            {{ $education->educationShortDesc }}
+                                            {{ $item->educationShortDesc }}
                                         </p>
                                         <hr>
-                                        <a href="{{ route('education.detail', $education->id) }}"
+                                        <a href="{{ route('education.detail', $item->id) }}"
                                             class="d-flex justify-content-between">
                                             <div>
                                                 Read More
@@ -82,15 +82,11 @@
                             </div>
                         @endforeach
                     </div>
-                    <div class="d-flex justify-content-center">
-                        <a href="{{ route('education.all') }}"
-                            class="browse-all-content fs-5 link-underline link-underline-opacity-0 border border-3 p-3 mt-5">Browse
-                            All
-                            Content</a>
-                    </div>
                 </div>
             @endif
         </div>
        
     </div>
 @endsection
+
+

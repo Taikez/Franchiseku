@@ -131,7 +131,7 @@ class EducationController extends Controller
         return redirect()->route('all.education')->with($notification);
     } // end method
 
-      public function index(Request $request)
+    public function index(Request $request)
     {
         $educationCategories = EducationCategory::all();
 
@@ -153,19 +153,50 @@ class EducationController extends Controller
         if($maxPrice !== null)
             $queryEducation->where('educationPrice', '<=', $maxPrice);
 
-        // if($rating !== null)
-        //     $queryEducation->where('categoryId', $categoryId);
+        if($rating !== null)
+            $queryEducation->where('rating', $rating);
 
         // FETCH FILTERED DATA
-        $educations = $queryEducation->get();
+        $educations = $queryEducation->limit(9)->get();
 
         return view('educationContent', compact('educationCategories', 'educations'));
+    }
+
+    public function userAllEducation(Request $request)
+    {
+        $educationCategories = EducationCategory::all();
+
+        // GET PARAMETER VALUES
+        $categoryId = $request->input('category');
+        $minPrice = $request->input('minPrice');
+        $maxPrice = $request->input('maxPrice');
+        $rating = $request->input('rating');
+
+        // FILTER DATA
+        $queryEducation = EducationContent::query();
+
+        if($categoryId !== null) 
+            $queryEducation->where('education_category_id', $categoryId);
+
+        if($minPrice !== null)
+            $queryEducation->where('educationPrice', '>=', $minPrice);
+
+        if($maxPrice !== null)
+            $queryEducation->where('educationPrice', '<=', $maxPrice);
+
+        if($rating !== null)
+            $queryEducation->where('rating', $rating);
+
+        // FETCH FILTERED DATA
+        $educations = $queryEducation->paginate(1);
+
+        return view('allEducationContent', compact('educationCategories', 'educations'));
     }
 
     public function search(Request $request)
     {
         $educationCategories = EducationCategory::all();
-        $educations = EducationContent::where('educationTitle', 'like', '%'. $request->searchValue . '%')->get();
+        $educations = EducationContent::where('educationTitle', 'like', '%'. $request->searchValue . '%')->paginate(9);
         
         return view('educationContent', compact('educationCategories', 'educations'));
     }

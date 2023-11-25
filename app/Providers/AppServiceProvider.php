@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Pagination\Paginator;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -25,5 +26,7 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('old_password', function ($attribute, $value, $parameters, $validator) {
             return Hash::check($value, auth()->user()->password);
         });
+
+        Paginator::useBootstrapFive(); 
     }
 }

@@ -17,7 +17,11 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
     public function userDashboard(){
-        return view('dashboard');
+         // Retrieve flashed data from the session
+        $successData = session('success_data');
+
+        // Pass the data to the view or use it as needed
+        return view('dashboard')->with('successData', $successData);
     }
 
       // Display the profile update form
@@ -29,6 +33,7 @@ class UserController extends Controller
 
       public function update(Request $req){
         $userId = $req->id;
+
         
         //if theres any image
         if($req->file('profileImage')){
@@ -110,7 +115,7 @@ class UserController extends Controller
         ]);
 
         
-        $user = auth()->user();
+        $user = Auth::user();
 
         // dd(Hash::check($request->old_password, $user->password), $request->old_password, $user->password);
     

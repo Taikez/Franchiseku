@@ -64,7 +64,8 @@
                     </div>
                 </div>
                 @if (count($ratings) > 0)
-                    <div id="ratingCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div id="ratingCarousel" class="carousel slide p-5 d-flex justify-content-center align-items-center"
+                        data-bs-ride="carousel" data-aos="fade-down-right" data-aos-duration="800">
                         <div class="carousel-inner">
                             @foreach ($ratings as $rating)
                                 <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
@@ -72,16 +73,16 @@
                                         data-aos="fade-right" data-aos-duration="800">
                                         <div class="row d-flex justify-content-center mb-3">
                                             <div class="col-lg-6 col-md-6 col-sm-12">
-                                                <h3 class="fw-bold">{{ $rating->educationContent->educationTitle }}</h3>
+                                                <h4 class="fw-bold">{{ $rating->educationContent->educationTitle }}</h4>
                                                 <h6 class="mt-3 fw-light" style="color: #01A7A3">
                                                     Rated by {{ $rating->user->name }} |
                                                     {{ Carbon\Carbon::parse($rating->created_at)->diffForHumans() }}
                                                 </h6>
                                             </div>
                                             <div class="col-lg-6 col-md 6 col-sm-12">
-                                                <div class="d-flex">
+                                                <div class="d-flex justify-content-center">
                                                     @for ($i = 1; $i <= $rating->rating; $i++)
-                                                        <div id="star" class="px-2 fs-1 fw-bold">★ </div>
+                                                        <div id="star" class="px-2 fs-2 fw-bold">★ </div>
                                                     @endfor
                                                 </div>
                                             </div>
@@ -99,7 +100,7 @@
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#ratingCarousel"
                             data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon bg-primary" aria-hidden="true"></span>
+                            <span class="carousel-control-prev-icon text-primary" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
                         <button class="carousel-control-next" type="button" data-bs-target="#ratingCarousel"

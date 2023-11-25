@@ -6,33 +6,35 @@
  <link
      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&family=Roboto:wght@100;300;500;700;900&display=swap"
      rel="stylesheet">
-
  <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
 
  <!-- Scripts -->
  @vite(['resources/css/app.css', 'resources/js/app.js'])
 
- <nav class="navbar navbar-expand-lg p-3 sticky-top">
+ <nav class="navbar navbar-expand-lg p-3 sticky-top main-navigation">
      <div class="container-fluid">
          <!-- Navbar brand on the left -->
          {{-- <a href="" class="navbar-brand">FranchiseKu</a> --}}
 
-         <a class="navbar-brand" href="{{ route('dashboard') }}">
+         <a class="navbar-brand order-2 order-lg-1 mr-auto mr-lg-3 ml-3 ml-lg-0 mx-lg-5"
+             href="{{ route('dashboard') }}">
              <img src="{{ asset('authImg/franchiseku_logo.png') }}" alt="FranchiseKu" width="200">
          </a>
 
          <!-- Toggler button for small screens -->
-         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+         <button class="navbar-toggler collapsed" type="button">
              <span class="navbar-toggler-icon"></span>
          </button>
 
-         <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
-             <ul class="navbar-nav ml-auto">
+         {{-- Overlay --}}
+         <div class="overlay d-flex d-lg-none text-center"></div>
+
+         <div class="order-lg-2 d-lg-flex w-50 pb-3 pb-lg-0 sidebar" id="navbarNav">
+             <ul class="navbar-nav mr-lg-auto mb-2 mb-lg-0 text-center">
                  <!-- Add the "ml-auto" class to move the links to the right -->
                  <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown"
-                         aria-expanded="false">
+                     <a class="nav-link dropdown-toggle fs-5 px-3 px-lg-2" href="#" role="button"
+                         data-bs-toggle="dropdown" aria-expanded="false">
                          Features
                      </a>
                      <ul class="dropdown-menu">
@@ -48,8 +50,8 @@
                  </li>
 
                  <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown"
-                         aria-expanded="false">
+                     <a class="nav-link dropdown-toggle fs-5 px-3 px-lg-2" href="#" role="button"
+                         data-bs-toggle="dropdown" aria-expanded="false">
                          About
                      </a>
                      <ul class="dropdown-menu">
@@ -60,7 +62,7 @@
                  </li>
 
                  <li class="nav-item">
-                     <a class="nav-link fs-5" href="#">Subscribe</a>
+                     <a class="nav-link fs-5 px-3 px-lg-2" href="#">Subscribe</a>
                  </li>
 
                  @guest
@@ -77,7 +79,7 @@
                      </div>
                  @else
                      <li class="nav-item dropdown">
-                         <a class="nav-link dropdown-toggle fs-5 d-flex align-items-center" href="#"
+                         <a class="nav-link dropdown-toggle fs-5 d-flex align-items-center px-3 px-lg-2" href="#"
                              id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
                              aria-expanded="false">
                              <span class="material-symbols-outlined m-2">person</span>
@@ -95,8 +97,6 @@
                          </div>
                      </li>
                  @endguest
-
-
              </ul>
          </div>
      </div>

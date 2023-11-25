@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('main')
-    <div id="banner" class="container-fluid p-5 mb-5">
+    <div id="banner" class="container-fluid p-5 p-md-5 mb-5">
         <div class="row d-flex align-items-center justify-content-center mb-5">
             <div id="banner-left" class="col-lg-6 col-md-8 col-sm-12 p-2">
                 <div class="float-right">
@@ -47,6 +47,7 @@
                                     {{ Carbon\Carbon::parse($latestNews->created_at)->diffForHumans() }} </small></p>
                             <p class="card-text">By: {{ $latestNews->newsAuthor }}</p>
                             <a href="#">See More >></a>
+
                         </div>
                     </div>
                     <div class="col-md-4 d-flex align-items-center p-4">
@@ -274,4 +275,77 @@
         </div>
 
     </section>
+    </body>
 @endsection
+{{-- Toaster --}}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
+<script>
+    @if (Session::has('message'))
+        var type = "{{ Session::get('alert-type', 'info') }}"
+        switch (type) {
+            case 'info':
+                toastr.info(" {{ Session::get('message') }} ");
+                break;
+
+            case 'success':
+                toastr.success(" {{ Session::get('message') }} ");
+                break;
+
+            case 'warning':
+                toastr.warning(" {{ Session::get('message') }} ");
+                break;
+
+            case 'error':
+                toastr.error(" {{ Session::get('message') }} ");
+                break;
+        }
+    @endif
+</script>
+{{-- Kalo user, muncul register franchisor || kalo franchisor muncul register franchise --}}
+
+{{-- 
+        @if (auth()->check())
+          @if (auth()->user()->role == 'Franchisor')
+            <div id="registerFranchise">
+                @include('components.register_franchise')
+                @include('modals.register-franchise-success')
+            </div>
+        @elseif(auth()->user()->role == 'User')
+            <div id="registerFranchisor">
+                @include('components.register_franchisor')
+                @include('modals.register-franchisor-success')
+            </div>
+            @endif
+        @endif --}}
+</body>
+
+{{-- Call Modal --}}
+@if (isset($successData))
+    <script>
+        // Trigger the success modal
+        $(document).ready(function() {
+            $("{!! $successData['modal'] !!}").modal('show');
+        });
+    </script>
+@endif
+
+{{-- auto scroll into register franchise (franchisor) --}}
+@if (isset($scrollToRegisterFranchise) && $scrollToRegisterFranchise)
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const registerFranchiseSection = document.getElementById("registerFranchise");
+            if (registerFranchiseSection) {
+                registerFranchiseSection.scrollIntoView({
+                    behavior: "smooth"
+                });
+            }
+        });
+    </script>
+@endif
+
+
+</html>

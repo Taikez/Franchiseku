@@ -86,13 +86,9 @@ Route::controller(NewsController::class)->group(function(){
     Route::get('/news/tags/{tags}','NewsByTags')->name('news.by.tags');
 });
 
-Route::controller(FranchisorController::class)->group(function(){
-    Route::get('/admin/all/franchisor','AllFranchisor')->middleware('admin')->name('all.franchisor');
-    Route::post('/admin/store/franchisor','StoreFranchisor')->name('store.franchisor');
-});
-
 Route::controller(EducationController::class)->group(function(){
     Route::get('/education', 'index')->name('education.index');
+    Route::get('/education/all', 'userAllEducation')->name('education.all');
     Route::post('/education/search', 'search')->name('education.search');
     Route::get('/education/detail/{id}','detail')->name('education.detail');
     Route::get('/education/ratingView', 'ratingView');
@@ -105,6 +101,20 @@ Route::controller(EducationCategoryController::class)->group(function(){
     Route::get('/admin/add/education/category','AddEducationCategory')->middleware('admin')->name('add.education.category');
     Route::post('/admin/post/education/category','PostEducationCategory')->middleware('admin')->name('post.education.category');
     Route::get('/delete/education/category/{id}','DeleteEducationCategory')->middleware('admin')->name('delete.education.category');    
+});
+
+
+Route::controller(FranchisorController::class)->group(function(){
+    Route::post('/admin/store/franchisor','StoreFranchisor')->name('store.franchisor');
+    Route::get('/register/franchisor','RegisterFranchisor')->name('register.franchisor');
+    Route::get('/admin/all/franchisor','AllFranchisor')->middleware('admin')->name('all.franchisor');
+});
+
+Route::controller(FranchiseController::class)->group(function(){
+    Route::get('/admin/all/franchise','AllFranchise')->name('all.franchise');
+    Route::get('/register/franchise','RegisterFranchise')->middleware('franchisor')->name('register.franchise');
+    Route::post('/post/franchise','StoreFranchise')->middleware('franchisor')->name('store.franchise');
+    Route::get('/dashboard/registerFranchise','RegisterFranchise')->middleware('franchisor')->name('dashboard.register.franchise');
 });
 
 //education route for admin
@@ -123,7 +133,14 @@ Route::middleware(['admin','auth'])->group(function(){
 
         // Route::post('/admin/post/education','PostEducation')->name('post.education');
     });
+
+    Route::controller(FranchiseController::class)->group(function(){
+        Route::get('/admin/all/franchise','AllFranchise')->name('all.franchise');
+    });
 });
+
+
+
 
 
 //route for franchisor

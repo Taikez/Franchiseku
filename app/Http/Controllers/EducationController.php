@@ -35,7 +35,7 @@ class EducationController extends Controller
     public function storeVideo(Request $req){
  
         $video = $req->file('educationVideo');
-        $name_gen_vid = hexdec(uniqid()). '.' . $video->getClientOriginalExtension();
+        $name_gen_vid = hexdec(uniqid()) . '.' . $video->getClientOriginalExtension();
         //resize image
         
         //specify desired directory path
@@ -43,9 +43,12 @@ class EducationController extends Controller
         
         $save_url_vid = $directory . $name_gen_vid;
 
-        dd($directory,$name_gen_vid,'public');
+        dd($directory, $name_gen_vid, 'public');
+
         //store video
-        $video->storeAs($directory,$name_gen_vid,'public');
+        EducationContent::updateOrCreate([
+            'educationVideo' => $save_url_vid,
+        ]);
     }
 
 
@@ -107,9 +110,9 @@ class EducationController extends Controller
         Image::make($image)->resize(800,450)->save(public_path($directory . $name_gen_img));
 
         //store video
-        $video->storeAs($directory,$name_gen_vid,'public');
+        // $video->storeAs($directory,$name_gen_vid,'public');
+        $video->move(public_path($directory), $name_gen_vid);
         
-
         EducationContent::insert([
             'educationTitle' => $validatedData['educationTitle'],
             'educationCategory' => $education->educationCategory,

@@ -277,9 +277,3 @@ a img {
 a:hover img {
     transform: scale(1.25);
 }
-
-.pagination {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}

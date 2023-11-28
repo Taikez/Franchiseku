@@ -32,7 +32,6 @@
                                 <th>Address</th>
                                 <th>Email</th>
                                 <th>Phone Number</th>
-                                <th>Action</th>
                             </tr>
                             </thead>
 
@@ -45,14 +44,7 @@
                                     <td>{{$item->address}}</td>
                                     <td>{{$item->email}}</td>
                                     <td>{{$item->phoneNumber}}</td>
-                                    <td>
-                                        <a href="#" class="btn btn-info btn-sm" title="Edit News" >
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-danger btn-sm" title="Delete News" id="delete">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </a>
-                                    </td>
+                                   
                                 </tr>
                                 @endforeach
                             </tbody>

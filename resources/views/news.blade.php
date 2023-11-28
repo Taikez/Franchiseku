@@ -7,7 +7,7 @@
 
     <section id="newsHeader" class="d-flex align-items-center justify-content-center" style="min-height: 30vh;">
         <div class="container-fluid">
-            <div class="row text-center gap-4" data-aos="fade-down" data-aos-duration="800">
+            <div class="row text-center gap-4" data-aos="zoom-in" data-aos-duration="800">
                 <h1 class="fs-1 fw-bold">Today Business News</h1>
                 <p class="fs-5">See What’s Happening In The World Today</p>
             </div>
@@ -31,10 +31,10 @@
                     <aside class="blog__sidebar">
 
                         <div class="widget">
-                            <h4 class="widget-title" data-aos="fade-down-right" data-aos-duration="800">Recent Blog</h4>
+                            <h4 class="widget-title">Recent Blog</h4>
                             <ul class="rc__post">
                                 @foreach ($latestNews as $item)
-                                    <li class="rc__post__item" data-aos="fade-right" data-aos-duration="800">
+                                    <li class="rc__post__item" >
                                         <div class="rc__post__thumb">
                                             <a href="{{ route('news.detail', $item->id) }}"><img class="img-fluid "
                                                     src="{{ asset($item->newsImage) }}" alt=""></a>
@@ -51,10 +51,10 @@
                             </ul>
                         </div>
                         <div class="widget">
-                            <h4 class="widget-title" data-aos="fade-right" data-aos-duration="800">Categories</h4>
+                            <h4 class="widget-title" >Categories</h4>
                             <ul class="sidebar__cat">
                                 @foreach ($categories as $item)
-                                    <li class="sidebar__cat__item w-75" data-aos="fade-left" data-aos-duration="800"><a
+                                    <li class="sidebar__cat__item w-75" ><a
                                             href="{{ route('news.by.category', $item->id) }}">{{ $item->newsCategory }}</a>
                                     </li>
                                 @endforeach
@@ -62,7 +62,7 @@
                         </div>
 
                         <div class="widget">
-                            <h4 class="widget-title" data-aos="fade-up-right" data-aos-duration="800">Popular Tags</h4>
+                            <h4 class="widget-title" >Popular Tags</h4>
                             <ul class="sidebar__tags">
 
                                 {{-- Ngambil maksimal 10 tags dari news->newsTags soalnya datany multiple   --}}
@@ -83,7 +83,7 @@
                                         $trimmedTag = trim($tag);
                                     @endphp
                                     @if (!in_array($trimmedTag, $displayedTags))
-                                        <li data-aos="flip-left" data-aos-duration="800"><a
+                                        <li ><a
                                                 href="{{ route('news.by.tags', $trimmedTag) }}">{{ $trimmedTag }}</a>
                                         </li>
                                         @php
@@ -115,11 +115,11 @@
                             <img src="{{ asset($item->newsImage) }}" alt="" class="img-fluid">
                         </div>
                         <div class="col-md-8 mx-auto">
-                            <p class="fw-light mt-2" data-aos="fade-up-right" data-aos-duration="800">
+                            <p class="fw-light mt-2" >
                                 {{ $item->newsAuthor }}
                                 {{ Carbon\Carbon::parse($item->created_at)->diffForHumans() }}.</p>
                             <a href="{{ route('news.detail', $item->id) }}">
-                                <p class="text-success fs-5" data-aos="flip-right" data-aos-duration="800">Read More
+                                <p class="text-success fs-5" >Read More
                                     >></p>
                             </a>
                         </div>

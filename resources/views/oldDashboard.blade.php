@@ -1,7 +1,72 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-@section('main')
-    <div id="banner" class="container-fluid p-5 p-md-5 mb-5">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>FranchiseKu</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&family=Roboto:wght@100;300;500;700;900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+    {{-- Toaster --}}
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
+
+    {{-- icon --}}
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+    <!-- Styles -->
+    <!-- Bootstrap Css -->
+    {{-- <link href="{{asset('backend/assets/css/bootstrap.min.css')}}" id="bootstrap-style" rel="stylesheet"  /> --}}
+    {{-- AOS --}}
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Scripts -->
+    <script src="{{ asset('backend/assets/libs/jquery/jquery.min.js') }}"></script>
+    {{-- <script src="{{asset('backend/assets/libs/bootstrap/js/bootstrap.bundle.min.js')}}"></script> --}}
+
+    @vite(['resources/css/header.css', 'resources/css/footer.css'])
+    @vite(['resources/css/app.css', 'resources/sass/app.scss', 'resources/js/app.js'])
+</head>
+
+<body class="antialiased border-0">
+    {{-- login validation --}}
+    @if (Route::has('login'))
+        {{-- <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
+                    @auth
+                        <a href="{{ url('/dashboard') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</a>
+                        @include('layouts.guest_header')
+                    @else
+                        <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
+
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
+                        @endif
+                    @endauth
+                </div> --}}
+        <div class="">
+            @if (auth()->check())
+                @if (auth()->user()->role == 'Franchisor')
+                @endif
+                @include('layouts.guest_header')
+            @else
+                @include('layouts.guest_header')
+            @endif
+        </div>
+
+    @endif
+
+    <div id="banner" class="container-fluid p-5 mb-5">
         <div class="row d-flex align-items-center justify-content-center mb-5">
             <div id="banner-left" class="col-lg-6 col-md-8 col-sm-12 p-2">
                 <div class="float-right">
@@ -20,7 +85,8 @@
             <div id="banner-right" class="col-lg-6 col-md-8 col-sm-12 text-center p-5" data-aos="fade-down-left"
                 data-aos-duration="800">
                 <div class="float-left">
-                    <img class="img-fluid" src="{{ asset('frontendImg/bannerImg.png') }}" alt="Banner Asset" width="600">
+                    <img class="img-fluid" src="{{ asset('frontendImg/bannerImg.png') }}" alt="Banner Asset"
+                        width="600">
                 </div>
             </div>
         </div>
@@ -47,12 +113,12 @@
                                     {{ Carbon\Carbon::parse($latestNews->created_at)->diffForHumans() }} </small></p>
                             <p class="card-text">By: {{ $latestNews->newsAuthor }}</p>
                             <a href="#">See More >></a>
-
                         </div>
                     </div>
                     <div class="col-md-4 d-flex align-items-center p-4">
                         <a href="{{ route('news.detail', $latestNews->id) }}">
-                            <img src="{{ asset($latestNews->newsImage) }}" class=" w-100 img-fluid rounded" alt="...">
+                            <img src="{{ asset($latestNews->newsImage) }}" class=" w-100 img-fluid rounded"
+                                alt="...">
                         </a>
                     </div>
                 </div>
@@ -74,18 +140,12 @@
             <div class="row mt-4">
                 <div class="col align-self-center">
                     <div class="buttonGroup d-grid gap-2 d-md-block">
-<<<<<<< HEAD
-                        <button class="btn btn-primary border active" data-aos="fade-up-right" data-aos-duration="800">Food
-                            Franchise</button>
-                        <button class="btn btn-light border" data-aos="fade-up" data-aos-duration="800">Cosmetics</button>
+                        <button class="btn btn-primary border active" data-aos="fade-up-right"
+                            data-aos-duration="800">Food Franchise</button>
+                        <button class="btn btn-light border" data-aos="fade-up"
+                            data-aos-duration="800">Cosmetics</button>
                         <button class="btn btn-light border" data-aos="fade-up-left"
                             data-aos-duration="800">Supplements</button>
-=======
-                        @foreach ($franchiseCategory as $item)
-                            <button class="btn btn-light border" data-aos="fade-up"
-                                data-aos-duration="800">{{$item->franchiseCategory}}</button>
-                        @endforeach
->>>>>>> 649ab4fd7e79ee995affebf007964e261185021e
                     </div>
                 </div>
             </div>
@@ -156,7 +216,8 @@
     <section id="home-subscription" class="home-subscription">
         <div class="container-fluid bg-white p-2 d-flex align-items-center" style="min-height: 100vh;">
             <div class="row ">
-                <div class="col-md-5 d-flex align-items-center p-4 mb-4" data-aos="flip-left" data-aos-duration="800">
+                <div class="col-md-5 d-flex align-items-center p-4 mb-4" data-aos="flip-left"
+                    data-aos-duration="800">
                     <img class="home-subscription-img img-fluid" alt=""
                         src="{{ asset('upload/home-asset/home-subscription-img.png') }}">
                 </div>
@@ -193,8 +254,8 @@
                     </div>
                     <div class="row mb-4" data-aos="fade-up-left" data-aos-duration="800">
                         <div class="col-md-2 col-sm-2 p-4">
-                            <img src="{{ asset('upload/home-asset/feedback-bg.png') }}" class="img-fluid mx-auto d-block"
-                                alt="asd">
+                            <img src="{{ asset('upload/home-asset/feedback-bg.png') }}"
+                                class="img-fluid mx-auto d-block" alt="asd">
                         </div>
                         <div class="col-md-8">
                             <p class="fs-5">Easy Information Transparency</p>
@@ -203,7 +264,7 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <a href="{{route('education.index')}}" data-aos="zoom-in-down" data-aos-duration="800">
+                            <a href="" data-aos="zoom-in-down" data-aos-duration="800">
                                 <button type="button" class="submitBtn" style="background-color: #0070F0">Start
                                     Now</button>
                             </a>
@@ -282,17 +343,12 @@
         </div>
 
     </section>
-<<<<<<< HEAD
-    </body>
-@endsection
-=======
 
-    {{-- @include('components.register_franchisor'); --}}
+    @include('components.register_franchisor');
     @include('modals.success-modal');
     @include('components.footer')
 </body>
 
->>>>>>> 649ab4fd7e79ee995affebf007964e261185021e
 {{-- Toaster --}}
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -321,68 +377,6 @@
         }
     @endif
 </script>
-{{-- Kalo user, muncul register franchisor || kalo franchisor muncul register franchise --}}
-
-{{-- 
-        @if (auth()->check())
-          @if (auth()->user()->role == 'Franchisor')
-            <div id="registerFranchise">
-                @include('components.register_franchise')
-                @include('modals.register-franchise-success')
-            </div>
-        @elseif(auth()->user()->role == 'User')
-            <div id="registerFranchisor">
-                @include('components.register_franchisor')
-                @include('modals.register-franchisor-success')
-            </div>
-            @endif
-        @endif --}}
-</body>
-
-{{-- Call Modal --}}
-@if (isset($successData))
-    <script>
-        // Trigger the success modal
-        $(document).ready(function() {
-            $("{!! $successData['modal'] !!}").modal('show');
-        });
-    </script>
-@endif
-
-<<<<<<< HEAD
-{{-- auto scroll into register franchise (franchisor) --}}
-@if (isset($scrollToRegisterFranchise) && $scrollToRegisterFranchise)
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const registerFranchiseSection = document.getElementById("registerFranchise");
-            if (registerFranchiseSection) {
-                registerFranchiseSection.scrollIntoView({
-                    behavior: "smooth"
-=======
-    {{-- Call Modal   --}}
-    @if(isset($successData))
-        <script>
-            // Trigger the success modal
-            $(document).ready(function(){
-                $("{!! $successData['modal'] !!}").modal('show');
-            });
-        </script>
-    @endif
-
-         {{-- auto scroll into register franchise (franchisor)--}}
-        @if(isset($scrollToRegisterFranchise) && $scrollToRegisterFranchise)
-            <script>
-                document.addEventListener("DOMContentLoaded", function() {
-                    const registerFranchiseSection = document.getElementById("registerFranchise");
-                    if (registerFranchiseSection) {
-                        registerFranchiseSection.scrollIntoView({ behavior: "smooth" });
-                    }
->>>>>>> 649ab4fd7e79ee995affebf007964e261185021e
-                });
-            }
-        });
-    </script>
-@endif
 
 
 </html>

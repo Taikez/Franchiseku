@@ -13,15 +13,19 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\FranchiseCategory;
+use App\Models\Franchise;
 
 class UserController extends Controller
 {
     public function userDashboard(){
          // Retrieve flashed data from the session
+
+        $franchiseCategory = FranchiseCategory::latest()->take(3)->get();
         $successData = session('success_data');
 
         // Pass the data to the view or use it as needed
-        return view('dashboard')->with('successData', $successData);
+        return view('dashboard', compact('franchiseCategory'))->with('successData', $successData);
     }
 
       // Display the profile update form

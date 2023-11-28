@@ -88,6 +88,7 @@ Route::controller(NewsController::class)->group(function(){
 
 Route::controller(EducationController::class)->group(function(){
     Route::get('/education', 'index')->name('education.index');
+    Route::get('/education/all', 'userAllEducation')->name('education.all');
     Route::post('/education/search', 'search')->name('education.search');
     Route::get('/education/detail/{id}','detail')->name('education.detail');
     Route::get('/education/ratingView', 'ratingView');

@@ -71,6 +71,10 @@ class FranchiseController extends Controller
         $directory = 'upload/FranchiseReport/';
         $saveReportUrl = $directory . $name_gen_report;
 
+        //get user
+        $userId = Auth::id();
+        $username = Auth::user()->name;
+
          // Create the directory if it doesn't exist
         if (!File::isDirectory($directory)) {
             File::makeDirectory($directory);
@@ -85,6 +89,8 @@ class FranchiseController extends Controller
             'franchiseCategory' => $validatedData['franchiseCategory'],
             'franchisePrice' => $validatedData['franchisePrice'], 
             'franchiseReport' => $saveReportUrl,
+            'franchisePIC' => $userId,
+            'franchisePICName' => $username,
             'status' => 'Request',
             'created_at' => Carbon::now(),
         ]);
@@ -135,7 +141,10 @@ class FranchiseController extends Controller
         );
         return redirect()->back()->with($notification);
     }
-    // public function RegisterFranchise(){
-    //     return view('dashboard')->with('scrollToRegisterFranchise', true);
-    // }
+   
+
+    public function Franchise(){
+        $allFranchise = Franchise::where('status','approved')->get();
+        return view('franchise.franchise', compact('allFranchise'));
+    }
 }

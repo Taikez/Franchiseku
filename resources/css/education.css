@@ -241,3 +241,39 @@ button.accordion-button:focus {
 #star {
     color: #01a7a3;
 }
+
+.carousel-control-prev,
+.carousel-control-next {
+    filter: invert(100%);
+}
+
+.carousel-control-prev {
+    left: -5%;
+}
+
+.carousel-control-next {
+    right: -5%;
+}
+
+.browse-all-content {
+    display: inline-block;
+    padding-bottom: 2px;
+    background-image: linear-gradient(#000 0 0);
+    background-position: 0 100%; /*OR bottom left*/
+    background-size: 0% 2px;
+    background-repeat: no-repeat;
+    transition: background-size 0.3s, background-position 0s 0.3s; /*change after the size immediately*/
+}
+
+.browse-all-content:hover {
+    background-position: 100% 100%; /*OR bottom right*/
+    background-size: 100% 2px;
+}
+
+a img {
+    transition: all 0.1s linear;
+}
+
+a:hover img {
+    transform: scale(1.25);
+}

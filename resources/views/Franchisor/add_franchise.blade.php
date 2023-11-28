@@ -58,6 +58,25 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+
+                         {{-- Franchise Image  --}}
+                         <div class="form-group mb-3">
+                            <label for="example-text-input" class="col-sm-10 col-form-label">Franchise Logo</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" name="franchiseLogo" type="file" placeholder="Franchise Logo" id="image" >
+                                @error('franchiseLogo')
+                                   <span class="text-danger">{{$message}}</span>
+                               @enderror 
+                            </div>
+                        </div>
+
+                         {{-- Image Display  --}}
+                        <div class="form-group mb-3">
+                            <label for="example-text-input" class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <img id="showImage" style="width: 128px" class="rounded avatar-lg" src="{{(url('upload/no_image.jpg'))}}" alt="Card image cap">
+                            </div>
+                        </div>
      
                         <button type="submit" class="btn btn-lg p-4 pt-1 pb-1 btn-primary rounded mt-4">Register Franchise</button>
                     </form>
@@ -66,4 +85,20 @@
             </div>
         </div>
     </section>
+
+    <script>
+
+        $(document).ready(function() {
+            $('#image').change(function(e) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#showImage').attr('src', e.target.result);
+                    console.log(e.target.result);
+                    }
+    
+                    reader.readAsDataURL(e.target.files['0']);
+                });          
+        });
+    
+    </script>
 @endsection

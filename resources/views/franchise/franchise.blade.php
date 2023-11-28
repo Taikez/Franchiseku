@@ -37,7 +37,7 @@
         </div>
         <div class="row">
             <div id="education-vertical-menu" class="col-lg-3 col-md-3 col-sm-3">
-                {{-- @include('components.education-sidebar') --}}
+                @include('components.franchise-sidebar')
             </div>
             @if ($allFranchise->count() == 0)
                 <div class="col-lg-9 pb-3" data-aos="fade-down-right" data-aos-duration="800">
@@ -51,7 +51,7 @@
                                 <div class="fixed-height-box h-100 rounded border border-1 shadow-sm bg-white"
                                     style="overflow: hidden">
                                     <div class="container-fluid w-100 m-0 p-0" style="overflow: hidden; height: 15rem">
-                                        <img src="{{ asset($item->educationThumbnail) }}"
+                                        <img src="{{ asset($item->franchiseLogo) }}"
                                             alt="Education Content Banner" class="img-fluid w-100"
                                             style="object-fit: cover; height: 100%; width: 100%;">
                                     </div>

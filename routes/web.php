@@ -11,6 +11,8 @@ use App\Http\Controllers\EducationCategoryController;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\FranchiseController;
 use App\Http\Controllers\FranchiseCategoryController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |-------------------------------------------------------------------------- 
@@ -34,6 +36,7 @@ Route::get('/welcome', function () {
 Route::get('/aboutUs', function () {
     return view('aboutUs');
 })->name('aboutUs');
+
 
 Route::get('/admin/dashboard', function () {
     return view('admin.admin_index');

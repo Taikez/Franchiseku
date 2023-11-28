@@ -50,6 +50,10 @@
 
     {{-- AOS --}}
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+
+    {{-- google api --}}
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 
 <body class="font-sans antialiased">

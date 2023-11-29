@@ -148,6 +148,16 @@ class FranchiseController extends Controller
         );
         return redirect()->back()->with($notification);
     }
+
+    public function MyFranchise(){
+        //get user
+        $userId = Auth::id();
+
+        $allFranchise = Franchise::where('franchisePIC',$userId)->orderBy('created_at','desc')->get();
+        $franchiseCategories = FranchiseCategory::all();
+
+        return view('franchise.franchise', compact('allFranchise','franchiseCategories'));
+    }
     
 
     public function RejectFranchise($id){

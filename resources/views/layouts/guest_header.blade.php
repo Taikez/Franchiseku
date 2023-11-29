@@ -34,13 +34,14 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{{route('news')}}">News</a></li>
                         <li><a class="dropdown-item" href="{{route('education.index')}}">Education</a></li>
-                        <li><a class="dropdown-item" href="{{route('franchise')}}">Franchises</a></li>
+                        <li><a class="dropdown-item" href="{{route('franchise')}}">All Franchises</a></li>
                         @guest
-
+                        
                         @else
-                            @if (Auth::user()->role === 'Admin')
-                                <li><a class="dropdown-item" href="{{ route('adminDashboard') }}">Admin Page</a></li>
-                            @elseif(Auth::user()->role === 'Franchisor')
+                        @if (Auth::user()->role === 'Admin')
+                        <li><a class="dropdown-item" href="{{ route('adminDashboard') }}">Admin Page</a></li>
+                        @elseif(Auth::user()->role === 'Franchisor')
+                                <li><a class="dropdown-item" href="{{route('my.franchise')}}">My Franchise</a></li>
                                 <li><a class="dropdown-item" href="{{ route('register.franchise') }}">Add Franchise</a></li>
                             @elseif(Auth::user()->role === 'User')
                                 <li><a class="dropdown-item" href="{{route('register.franchisor')}}">Become Our Franchisor</a></li>

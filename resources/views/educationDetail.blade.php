@@ -111,7 +111,8 @@
                     </div>
                 @else
                     <div class="col-lg-12 pb-3">
-                        <div class="alert alert-warning w-100" data-aos="zoom-in-left" data-aos-duration="800">No rating
+                        <div class="alert alert-warning w-100 mt-5" data-aos="zoom-in-left" data-aos-duration="800">No
+                            rating
                             was
                             found for this education content!</div>
                     </div>

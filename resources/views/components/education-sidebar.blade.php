@@ -7,17 +7,23 @@
         </span>
         Reset Filter
     </a>
-    <div class="accordion-item mb-3" data-aos="fade-down-right" data-aos-duration="800">
+    <div class="accordion-item>
         <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false"
-                aria-controls="panelsStayOpen-collapseOne">
-                <h5>Category</h5>
-            </button>
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false"
+            aria-controls="panelsStayOpen-collapseOne">
+            <h5>Category</h5>
+        </button>
         </h2>
         <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse"
             aria-labelledby="panelsStayOpen-headingOne">
             <div class="accordion-body">
+                @if ($educationCategories->count() == 0)
+                    <div class="col-lg-12 pb-3" data-aos="fade-down-right" data-aos-duration="800">
+                        <div class="alert alert-warning w-100">No categories to be found!</div>
+                    </div>
+                @else
+                @endif
                 @foreach ($educationCategories as $educationCategory)
                     <div id="educationCategoryList" class="row d-flex align-items-center">
                         <a href="{{ route('education.index', ['category' => $educationCategory->id] + request()->except('category')) }}"
@@ -27,8 +33,8 @@
             </div>
         </div>
     </div>
-    <div class="accordion-item mb-3">
-        <h2 class="accordion-header" id="panelsStayOpen-headingTwo" data-aos="fade-right" data-aos-duration="800">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                 data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
                 aria-controls="panelsStayOpen-collapseTwo">
@@ -60,8 +66,8 @@
             </div>
         </div>
     </div>
-    <div class="accordion-item mb-3">
-        <h2 class="accordion-header" id="panelsStayOpen-headingThree" data-aos="fade-up-right" data-aos-duration="800">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                 data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
                 aria-controls="panelsStayOpen-collapseThree">
@@ -71,25 +77,25 @@
         <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
             aria-labelledby="panelsStayOpen-headingThree">
             <div class="accordion-body">
-                <div id="educationPriceList" class="row d-flex align-items-center">
+                <div id="educationRatingList" class="row d-flex align-items-center">
                     <a href="{{ route('education.index', ['rating' => 1]) }}"
-                        class="w-100 bg-transparent border-0 text-start fs-6 p-3">Rating 1</a>
+                        class="w-100 bg-transparent border-0 text-start fs-6 p-3">1 Star</a>
                 </div>
-                <div id="educationPriceList" class="row d-flex align-items-center">
+                <div id="educationRatingList" class="row d-flex align-items-center">
                     <a href="{{ route('education.index', ['rating' => 2]) }}"
-                        class="w-100 bg-transparent border-0 text-start fs-6 p-3">Rating 2</a>
+                        class="w-100 bg-transparent border-0 text-start fs-6 p-3">2 Star</a>
                 </div>
-                <div id="educationPriceList" class="row d-flex align-items-center">
+                <div id="educationRatingList" class="row d-flex align-items-center">
                     <a href="{{ route('education.index', ['rating' => 3]) }}"
-                        class="w-100 bg-transparent border-0 text-start fs-6 p-3">Rating 3</a>
+                        class="w-100 bg-transparent border-0 text-start fs-6 p-3">3 Star</a>
                 </div>
-                <div id="educationPriceList" class="row d-flex align-items-center">
+                <div id="educationRatingList" class="row d-flex align-items-center">
                     <a href="{{ route('education.index', ['rating' => 4]) }}"
-                        class="w-100 bg-transparent border-0 text-start fs-6 p-3">Rating 4</a>
+                        class="w-100 bg-transparent border-0 text-start fs-6 p-3">4 Star</a>
                 </div>
-                <div id="educationPriceList" class="row d-flex align-items-center">
+                <div id="educationRatingList" class="row d-flex align-items-center">
                     <a href="{{ route('education.index', ['rating' => 5]) }}"
-                        class="w-100 bg-transparent border-0 text-start fs-6 p-3">Rating 5</a>
+                        class="w-100 bg-transparent border-0 text-start fs-6 p-3">5 Star</a>
                 </div>
             </div>
         </div>

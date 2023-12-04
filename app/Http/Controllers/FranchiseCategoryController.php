@@ -28,6 +28,7 @@ class FranchiseCategoryController extends Controller
         $notification = array(
             'message' => 'Franchise Category Added Successfully!',
             'alert-type' => 'success',
+            'showLoadingSpinner' => true,
         );
 
         return redirect()->route('all.franchise.category')->with($notification);
@@ -50,6 +51,7 @@ class FranchiseCategoryController extends Controller
         $notification = array(
             'message' => $categoryName.' Deleted Successfully!',
             'alert-type' => 'success',
+            'showLoadingSpinner' => true,
         );
 
         return redirect()->back()->with($notification);

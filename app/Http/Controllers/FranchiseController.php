@@ -124,6 +124,7 @@ class FranchiseController extends Controller
         $notification = array(
             'message' => $franchise->franchiseName.' Approved!',
             'alert-type' => 'success',
+            'showLoadingSpinner' => true,
         );
         return redirect()->back()->with($notification);
     }
@@ -138,6 +139,7 @@ class FranchiseController extends Controller
         $notification = array(
             'message' => $franchise->franchiseName.' Rejected!',
             'alert-type' => 'success',
+            'showLoadingSpinner' => true,
         );
         return redirect()->back()->with($notification);
     }

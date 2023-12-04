@@ -129,6 +129,7 @@ class EducationController extends Controller
         $notification = array(
             'message' => 'Education Added Successfully',
             'alert-type' => 'success',
+            'showLoadingSpinner' => true,
         ); 
 
         return redirect()->route('all.education')->with($notification);
@@ -191,7 +192,7 @@ class EducationController extends Controller
             $queryEducation->where('rating', $rating);
 
         // FETCH FILTERED DATA
-        $educations = $queryEducation->paginate(1);
+        $educations = $queryEducation->paginate(9);
 
         return view('allEducationContent', compact('educationCategories', 'educations'));
     }

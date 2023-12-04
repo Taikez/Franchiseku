@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('main')
+    @include('modals.register-franchise-success')
+
     <div id="banner" class="container-fluid p-5 p-md-5 mb-5">
         <div class="row d-flex align-items-center justify-content-center mb-5">
             <div id="banner-left" class="col-lg-6 col-md-8 col-sm-12 p-2">
@@ -72,22 +74,20 @@
             </div>
 
             <div class="row mt-4">
-                <div class="col align-self-center">
-                    <div class="buttonGroup d-grid gap-2 d-md-block">
-<<<<<<< HEAD
-                        <button class="btn btn-primary border active" data-aos="fade-up-right" data-aos-duration="800">Food
-                            Franchise</button>
-                        <button class="btn btn-light border" data-aos="fade-up" data-aos-duration="800">Cosmetics</button>
-                        <button class="btn btn-light border" data-aos="fade-up-left"
-                            data-aos-duration="800">Supplements</button>
-=======
-                        @foreach ($franchiseCategory as $item)
-                            <button class="btn btn-light border" data-aos="fade-up"
-                                data-aos-duration="800">{{$item->franchiseCategory}}</button>
-                        @endforeach
->>>>>>> 649ab4fd7e79ee995affebf007964e261185021e
+                @if ($franchiseCategories->count() == 0)
+                    <div class="col-lg-3 pb-3" data-aos="fade-down-right" data-aos-duration="800">
+                        <div class="alert alert-warning w-100">No franchise categories to be found!</div>
                     </div>
-                </div>
+                @else
+                    <div class="col align-self-center">
+                        <div class="buttonGroup d-grid gap-2 d-md-block">
+                            @foreach ($franchiseCategories as $franchiseCategory)
+                                <button class="btn btn-light border" data-aos="fade-up"
+                                    data-aos-duration="800">{{ $franchiseCategory->franchiseCategory }}</button>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
             </div>
 
             <div class="row mt-4 mb-4">
@@ -102,54 +102,45 @@
                         offer, user could also search franchise investment according to their preference and desire</p>
                 </div>
             </div>
-
-            <div class="row mb-4">
-                <div class="col-md-4 mb-3" data-aos="fade-up-right" data-aos-duration="800">
-                    <div class="card border-0 shadow-sm bg-light p-2">
-                        <a href="#">
-                            <img src="{{ asset('upload/franchise/cafe1.jpeg') }}" class="card-img-top rounded"
-                                alt="...">
-                        </a>
-                        <div class="card-body">
-                            <p class="card-text">Some quick example text to build on the card title and make up the
-                                bulk
-                                of the card's content.</p>
-                        </div>
-                    </div>
+            @if ($franchises->count() == 0)
+                <div class="col-lg-12 pb-3" data-aos="fade-down-right" data-aos-duration="800">
+                    <div class="alert alert-warning w-100">No franchises to be found!</div>
                 </div>
-                <div class="col-md-4 mb-3" data-aos="fade-up" data-aos-duration="800">
-                    <div class="card border-0 bg-light p-2 shadow-sm">
-                        <a href="#">
-                            <img src="{{ asset('upload/franchise/cafe1.jpeg') }}" class="card-img-top rounded"
-                                alt="...">
-                        </a>
-                        <div class="card-body">
-                            <p class="card-text">Some quick example text to build on the card title and make up the
-                                bulk
-                                of the card's content.</p>
+            @else
+                <div class="row mb-4">
+                    @foreach ($franchises as $franchise)
+                        <div class="col-lg-4 col-md-6 col-sm-9 mb-3" data-aos="fade-down-left" data-aos-duration="1000">
+                            <div class="fixed-height-box h-100 rounded border border-1 shadow-sm bg-white"
+                                style="overflow: hidden">
+                                <div class="container-fluid w-100 m-0 p-0" style="overflow: hidden; height: 15rem">
+                                    <img src="{{ asset($franchise->franchiseLogo) }}" alt="Education Content Banner"
+                                        class="img-fluid w-100" style="object-fit: cover; height: 100%; width: 100%;">
+                                </div>
+                                <div class="p-3">
+                                    <h3>{{ $franchise->franchiseName }}</h3>
+                                    <p class="mb-2 text-muted">By {{ $franchise->franchisePIC }}</p>
+                                    <span class="badge bg-info mb-3">
+                                        {{ $franchise->franchiseCategory }}
+                                    </span>
+                                    <p class="mb-2">IDR {{ number_format($franchise->franchisePrice, 2) }}</p>
+                                    <hr>
+                                    <a href="{{ route('education.detail', $franchise->id) }}"
+                                        class="d-flex justify-content-between">
+                                        <div>
+                                            Read More
+                                        </div>
+                                        <div>
+                                            <span class="material-symbols-rounded">
+                                                north_east
+                                            </span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    @endforeach
                 </div>
-                <div class="col-md-4 mb-3" data-aos="fade-up-left" data-aos-duration="800">
-                    <div class="card border-0 bg-light p-2 shadow-sm">
-                        <a href="#">
-                            <img src="{{ asset('upload/franchise/cafe1.jpeg') }}" class="card-img-top rounded"
-                                alt="...">
-                        </a>
-                        <div class="card-body">
-                            <p class="card-text">Some quick example text to build on the card title and make up the
-                                bulk of the card's content.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-4 text-center">
-                <a href="text-secondary" data-aos="fade-up" data-aos-duration="800">
-                    <p>click on the franchises above to see more details >> </p>
-                </a>
-            </div>
-
+            @endif
         </div>
     </section>
 
@@ -203,7 +194,7 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <a href="{{route('education.index')}}" data-aos="zoom-in-down" data-aos-duration="800">
+                            <a href="{{ route('education.index') }}" data-aos="zoom-in-down" data-aos-duration="800">
                                 <button type="button" class="submitBtn" style="background-color: #0070F0">Start
                                     Now</button>
                             </a>
@@ -282,17 +273,8 @@
         </div>
 
     </section>
-<<<<<<< HEAD
     </body>
 @endsection
-=======
-
-    {{-- @include('components.register_franchisor'); --}}
-    @include('modals.success-modal');
-    @include('components.footer')
-</body>
-
->>>>>>> 649ab4fd7e79ee995affebf007964e261185021e
 {{-- Toaster --}}
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -349,7 +331,6 @@
     </script>
 @endif
 
-<<<<<<< HEAD
 {{-- auto scroll into register franchise (franchisor) --}}
 @if (isset($scrollToRegisterFranchise) && $scrollToRegisterFranchise)
     <script>
@@ -358,26 +339,6 @@
             if (registerFranchiseSection) {
                 registerFranchiseSection.scrollIntoView({
                     behavior: "smooth"
-=======
-    {{-- Call Modal   --}}
-    @if(isset($successData))
-        <script>
-            // Trigger the success modal
-            $(document).ready(function(){
-                $("{!! $successData['modal'] !!}").modal('show');
-            });
-        </script>
-    @endif
-
-         {{-- auto scroll into register franchise (franchisor)--}}
-        @if(isset($scrollToRegisterFranchise) && $scrollToRegisterFranchise)
-            <script>
-                document.addEventListener("DOMContentLoaded", function() {
-                    const registerFranchiseSection = document.getElementById("registerFranchise");
-                    if (registerFranchiseSection) {
-                        registerFranchiseSection.scrollIntoView({ behavior: "smooth" });
-                    }
->>>>>>> 649ab4fd7e79ee995affebf007964e261185021e
                 });
             }
         });

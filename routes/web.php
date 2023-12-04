@@ -23,14 +23,6 @@ use App\Http\Controllers\FranchiseCategoryController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/welcome', function () {
-    return view('welcome');
-})->name('welcome');
-
 Route::get('/aboutUs', function () {
     return view('aboutUs');
 })->name('aboutUs');
@@ -40,23 +32,23 @@ Route::get('/admin/dashboard', function () {
 })->middleware(['auth', 'verified','admin'])->name('adminDashboard');
 
 Route::controller(UserController::class)->group(function(){
+    Route::get('/', [UserController::class, 'userDashboard'])->name('dashboard');
+    Route::get('/dashboard', [UserController::class, 'userDashboard'])->name('dashboard');
 });    
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [UserController::class, 'userDashboard'])->name('dashboard');
-   
     // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-      // Display the profile update form
-      Route::get('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
-    
-      // Handle the profile update
-      Route::put('/profile/update', [UserController::class, 'update'])->name('profile.update');
-  
-      Route::get('/change/password',[UserController::class, 'ChangePassword'])->name('change.password');
-      Route::post('/update/password',[UserController::class, 'UpdatePassword'])->name('update.password');
+    // Display the profile update form
+    Route::get('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
+
+    // Handle the profile update
+    Route::put('/profile/update', [UserController::class, 'update'])->name('profile.update');
+
+    Route::get('/change/password',[UserController::class, 'ChangePassword'])->name('change.password');
+    Route::post('/update/password',[UserController::class, 'UpdatePassword'])->name('update.password');
 });
 
 // Admin Controller

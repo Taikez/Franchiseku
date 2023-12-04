@@ -21,11 +21,12 @@ class UserController extends Controller
     public function userDashboard(){
          // Retrieve flashed data from the session
 
-        $franchiseCategory = FranchiseCategory::latest()->take(3)->get();
+        $franchiseCategories = FranchiseCategory::latest()->take(3)->get();
+        $franchises = Franchise::latest()->take(3)->get();
         $successData = session('success_data');
 
         // Pass the data to the view or use it as needed
-        return view('dashboard', compact('franchiseCategory'))->with('successData', $successData);
+        return view('dashboard', compact('franchiseCategories', 'franchises'))->with('successData', $successData);
     }
 
       // Display the profile update form

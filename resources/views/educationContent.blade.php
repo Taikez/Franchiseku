@@ -84,13 +84,12 @@
                     </div>
                     <div class="d-flex justify-content-center">
                         <a href="{{ route('education.all') }}"
-                            class="browse-all-content fs-5 link-underline link-underline-opacity-0 border border-3 p-3 mt-5">Browse
+                            class="browse-all-content fs-6 link-underline link-underline-opacity-0 mt-3">Browse
                             All
                             Content</a>
                     </div>
                 </div>
             @endif
         </div>
-       
     </div>
 @endsection

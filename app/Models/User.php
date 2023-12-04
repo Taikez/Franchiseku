@@ -45,4 +45,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function hasPurchasedEducationContent($educationContentId)
+    {
+        return $this->purchases()
+            ->whereHas('details', function ($query) use ($educationContentId) {
+                $query->where('educationContentId', $educationContentId);
+            })
+            ->exists();
+    }
+
+    public function purchases()
+    {
+        return $this->hasMany(EducationTransaction::class, 'userId');
+    }
 }

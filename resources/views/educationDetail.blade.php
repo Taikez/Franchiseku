@@ -22,14 +22,19 @@
 
             <div id="right-content" class="col-lg-5 col-md-5 col-sm-12 py-5 px-3">
                 <div id="thumbnail-container" class="rounded" data-aos="fade-down-left" data-aos-duration="800">
-                    <img id="thumbnail" class="img-fluid rounded-3 opacity-50"
-                        src="{{ asset($education->educationThumbnail) }}" alt="{{ $education->educationThumbnail }}">
-                    <div id="overlay">
-                        <span class="material-symbols-rounded fw-light text-black opacity-50" style="font-size: 5rem">
-                            lock
-                        </span>
-                        <h5 class="mt-3 text-black opacity-50">This video is locked</h5>
-                    </div>
+                    @if (auth()->user() &&
+                            auth()->user()->hasPurchasedEducationContent($education->id))
+                        <h1>User bought this content!</h1>
+                    @else
+                        <img id="thumbnail" class="img-fluid rounded-3 opacity-50"
+                            src="{{ asset($education->educationThumbnail) }}" alt="{{ $education->educationThumbnail }}">
+                        <div id="overlay">
+                            <span class="material-symbols-rounded fw-light text-black opacity-50" style="font-size: 5rem">
+                                lock
+                            </span>
+                            <h5 class="mt-3 text-black opacity-50">This video is locked</h5>
+                        </div>
+                    @endif
                 </div>
                 <div id="content-details">
                     <h6 class="mt-3 fw-light" style="color: #01A7A3" data-aos="fade-left" data-aos-duration="800">by
@@ -44,17 +49,24 @@
                     <div class="text-center">
                         @include('layouts.flashMessage')
                         <div class="row">
-                            <div data-aos="fade-up-left" data-aos-duration="800">
-                                <button id="purchaseEducationBtn" class="btn w-50 text-white rounded-pill mt-3 mb-2"
-                                    data-aos="fade-up-right" data-aos-duration="800">Purchase</button>
-                            </div>
-                            @include('modals.rateEducationContentModal')
-                            <div data-aos="fade-up-right" data-aos-duration="800">
-                                <button type="button" id="rateEducationBtn"
-                                    class="btn w-50 text-white rounded-pill mt-3 mb-2" data-bs-toggle="modal"
-                                    data-bs-target="#ratingModal">Rate
-                                    Content</button>
-                            </div>
+                            @if (auth()->user() &&
+                                    auth()->user()->hasPurchasedEducationContent($education->id))
+                                @include('modals.rateEducationContentModal')
+                                <div data-aos="fade-up-right" data-aos-duration="800">
+                                    <button type="button" id="rateEducationBtn"
+                                        class="btn w-50 text-white rounded-pill mt-3 mb-2" data-bs-toggle="modal"
+                                        data-bs-target="#ratingModal">Rate
+                                        Content</button>
+                                </div>
+                            @else
+                                <div data-aos="fade-up-left" data-aos-duration="800">
+                                    @include('modals.purchaseEducationContentModal')
+                                    <button type="button" id="purchaseEducationBtn"
+                                        class="btn w-50 text-white rounded-pill mt-3 mb-2" data-bs-toggle="modal"
+                                        data-bs-target="#purchaseModal">Purchase
+                                        Content</button>
+                                </div>
+                            @endif
                         </div>
                         <div data-aos="fade-up-left" data-aos-duration="800">
                             <a href="{{ route('education.index') }}" id="browseMoreContent" class="text-center mt-4">Browse

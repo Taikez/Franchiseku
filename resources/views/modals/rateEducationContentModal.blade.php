@@ -36,8 +36,9 @@
                         </div>
                         <div class="row">
                             <div class="col-12 text-center">
-                                <button type="submit" id="rateEducationBtn"
-                                    class="btn rounded rounded-pill w-100 text-white">Submit</button>
+                                <input type="submit" id="rateEducationBtn"
+                                    class="btn rounded rounded-pill w-100 text-white"
+                                    onclick="showLoading()">Submit</input>
                             </div>
                         </div>
                     </div>

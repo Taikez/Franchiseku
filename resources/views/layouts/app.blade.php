@@ -97,12 +97,13 @@
     let fadeTarget = document.querySelector(".loading");
 
     function showLoading() {
+        console.log("show loading");
         fadeTarget.style.display = "block";
     }
 
     function hideLoading() {
         fadeTarget.style.display = "none";
-        let fateEffect = setInterval(() => {
+        let fadeEffect = setInterval(() => {
             if (!fadeTarget.style.opacity) {
                 fadeTarget.style.opacity = 1;
             }

@@ -15,8 +15,6 @@
  <nav class="navbar navbar-expand-lg p-3 sticky-top">
      <div class="container-fluid">
          <!-- Navbar brand on the left -->
-         {{-- <a href="" class="navbar-brand">FranchiseKu</a> --}}
-
          <a class="navbar-brand" href="{{ route('dashboard') }}">
              <img src="{{ asset('authImg/franchiseku_logo.png') }}" alt="FranchiseKu" width="200">
          </a>
@@ -28,14 +26,14 @@
          </button>
 
          <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
+             <!-- Add the "ml-auto" class to move the links to the right -->
              <ul class="navbar-nav ml-auto">
-                 <!-- Add the "ml-auto" class to move the links to the right -->
                  <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown"
-                         aria-expanded="false">
+                     <a class="nav-link dropdown-toggle fs-5 text-start" href="#" id="navbarFeatures"
+                         role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                          Features
                      </a>
-                     <ul class="dropdown-menu">
+                     <ul class="dropdown-menu" aria-labelledby="navbarFeatures">
                          <li><a class="dropdown-item" href="{{ route('news') }}">News</a></li>
                          <li><a class="dropdown-item" href="{{ route('education.index') }}">Education</a></li>
                          <li><a class="dropdown-item" href="{{ route('franchise') }}">Franchises</a></li>
@@ -55,8 +53,8 @@
                  </li>
 
                  <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown"
-                         aria-expanded="false">
+                     <a class="nav-link dropdown-toggle fs-5 text-start" href="#" role="button"
+                         data-bs-toggle="dropdown" aria-expanded="false">
                          About
                      </a>
                      <ul class="dropdown-menu">
@@ -67,19 +65,20 @@
                  </li>
 
                  <li class="nav-item">
-                     <a class="nav-link fs-5" href="#">Subscribe</a>
+                     <a class="nav-link fs-5 text-start" href="#">Subscribe</a>
                  </li>
 
                  @guest
-                     <div class="button-group d-flex">
+                     <div id="loginRegisterBtn" class="button-group d-flex">
                          <li class="nav-item">
-                             <a class="btn btn-success header-button border-0 p-2" href="{{ route('login') }}"
-                                 type="submit" style="background-color: #3CBA79;">Login</a>
+                             <a id="loginBtn" class="btn btn-success header-button border-0 p-2"
+                                 href="{{ route('login') }}" type="submit" style="background-color: #3CBA79;">Login</a>
                          </li>
 
                          <li class="nav-item">
-                             <a class="btn btn-info header-button border-0 p-2" style="background: #4F7097; color:#fafbfc"
-                                 href="{{ route('register') }}" type="submit">Register</a>
+                             <a id="registerBtn" class="btn btn-info header-button border-0 p-2"
+                                 style="background: #4F7097; color:#fafbfc" href="{{ route('register') }}"
+                                 type="submit">Register</a>
                          </li>
                      </div>
                  @else
@@ -88,12 +87,14 @@
                      @endphp
                      <li class="nav-item dropdown">
                          <div class="d-flex align-items-center">
-                             @if ($user->profileImage == null || $user->profileImage == '')
-                                 <span class="material-symbols-outlined ">person</span>
-                             @else
-                                 <img class="rounded-circle" style="height:2.5rem; width:2.5rem"
-                                     src="{{ asset($user->profileImage) }}" alt="">
-                             @endif
+                             <div id="profilePicture">
+                                 @if ($user->profileImage == null || $user->profileImage == '')
+                                     <span class="material-symbols-outlined ">person</span>
+                                 @else
+                                     <img class="rounded-circle" style="height:2.5rem; width:2.5rem"
+                                         src="{{ asset($user->profileImage) }}" alt="">
+                                 @endif
+                             </div>
                              <a class="nav-link dropdown-toggle fs-5 d-flex align-items-center" href="#"
                                  id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
                                  aria-expanded="false">

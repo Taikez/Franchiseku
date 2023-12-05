@@ -169,6 +169,7 @@
         let fadeTarget = document.querySelector(".loading");
 
         function showLoading() {
+            console.log("show loading");
             fadeTarget.style.display = "block";
         }
 

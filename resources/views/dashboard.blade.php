@@ -35,7 +35,7 @@
         @endphp
 
         <div class="container">
-            <div class="card mb-3 border-0 shadow-sm" style="background-color: #EFF6FE;" data-aos="zoom-in"
+            <div class="card mb-3 border-0 shadow-sm" style="background-color: #EFF6FE;" data-aos="fade"
                 data-aos-duration="800">
                 <div class="row">
                     <div class="col-md-8 p-3">
@@ -48,7 +48,7 @@
                             <p class="card-text"><small class="text-body-secondary">Published
                                     {{ Carbon\Carbon::parse($latestNews->created_at)->diffForHumans() }} </small></p>
                             <p class="card-text">By: {{ $latestNews->newsAuthor }}</p>
-                            <a href="#">See More >></a>
+                            <a href="{{ route('news.detail', $latestNews->id) }}"">See More >></a>
 
                         </div>
                     </div>
@@ -66,23 +66,23 @@
         <div class="container p-4">
             <div class="row mt-4">
                 <div class="col-lg-8 col-md-12 col-sm-12 align-self-start">
-                    <p class="section-label" data-aos="fade-down-right" data-aos-duration="800">FranchiseKu Top
+                    <p class="section-label">FranchiseKu Top
                         Franchises</p>
-                    <h1 class="top-franchise-title text-lg" data-aos="fade-right" data-aos-duration="800">Several
+                    <h1 class="top-franchise-title text-lg">Several
                         Categories Top Franchises</h1>
                 </div>
             </div>
 
             <div class="row mt-4">
                 @if ($franchiseCategories->count() == 0)
-                    <div class="col-lg-3 pb-3" data-aos="fade-down-right" data-aos-duration="800">
+                    <div class="col-lg-3 pb-3" data-aos="fade" data-aos-duration="800">
                         <div class="alert alert-warning w-100">No franchise categories to be found!</div>
                     </div>
                 @else
                     <div class="col align-self-center">
                         <div class="buttonGroup d-grid gap-2 d-md-block">
                             @foreach ($franchiseCategories as $franchiseCategory)
-                                <button class="btn btn-light border" data-aos="fade-up"
+                                <button class="btn btn-light border" data-aos="fade-right"
                                     data-aos-duration="800">{{ $franchiseCategory->franchiseCategory }}</button>
                             @endforeach
                         </div>
@@ -92,18 +92,18 @@
 
             <div class="row mt-4 mb-4">
                 <div class="col top-franchise-text align-self-end">
-                    <p class="mb-4" data-aos="fade-left" data-aos-duration="800"><span> Fortunes come to people
+                    <p class="mb-4"><span> Fortunes come to people
                             that takes the chance and effort to get the
                             opportunity. FranchiseKu offers platform that enables user to connect with franchises they
                             desire and help users to know and improve their financial literacy </span></p>
-                    <p data-aos="fade-right" data-aos-duration="800">To quickly start, user can click on several top
+                    <p>To quickly start, user can click on several top
                         franchises below to see some of our top
                         recommendations or go to our franchise list page to see the whole selections FranchiseKu has to
                         offer, user could also search franchise investment according to their preference and desire</p>
                 </div>
             </div>
             @if ($franchises->count() == 0)
-                <div class="col-lg-12 pb-3" data-aos="fade-down-right" data-aos-duration="800">
+                <div class="col-lg-12 pb-3" data-aos="fade" data-aos-duration="800">
                     <div class="alert alert-warning w-100">No franchises to be found!</div>
                 </div>
             @else
@@ -147,12 +147,12 @@
     <section id="home-subscription" class="home-subscription">
         <div class="container-fluid bg-white p-2 d-flex align-items-center" style="min-height: 100vh;">
             <div class="row ">
-                <div class="col-md-5 d-flex align-items-center p-4 mb-4" data-aos="flip-left" data-aos-duration="800">
+                <div class="col-md-5 d-flex align-items-center p-4 mb-4" data-aos="fade" data-aos-duration="800">
                     <img class="home-subscription-img img-fluid" alt=""
                         src="{{ asset('upload/home-asset/home-subscription-img.png') }}">
                 </div>
                 <div class="col-md-6 home-subscription-content mx-auto">
-                    <div data-aos="fade-left" data-aos-duration="800">
+                    <div>
                         <div class="row">
                             <div class="col">
                                 <p class="text-info">Data Powered, Real-time
@@ -169,9 +169,6 @@
                                 education courses suited for you.</p>
                         </div>
                     </div>
-                    <p class="fs-5 fw-bold" data-aos="fade-up-left" data-aos-duration="800"><a href=""
-                            style="color: #1F384F;">get started now.</a>
-                    </p>
                     <div class="row mb-4" data-aos="fade-down-right" data-aos-duration="800">
                         <div class="col-md-2 col-sm-2 p-4">
                             <img src="{{ asset('upload/home-asset/feedback-bg.png') }}" class="img-fluid"
@@ -205,50 +202,21 @@
         </div>
     </section>
 
-    {{-- <section id="contact-us" class="contact-us d-flex justify-content-center align-items-center  " style="min-height: 60vh">
-                <div class="container">
-                    <div class="rounded text-center contact-us-div m-auto col-sm-12 col-md-12">
-                        <div class="row p-2">
-                            <h1 class="text-lg">Need Help Making a Decision ?</h1>
-                        </div>
-                        <div class="row">
-                            <a href="" class="text-decoration-none">
-                                <button class="submitBtn" style="margin: 2rem auto;">Send Message to Admin</button>
-                            </a>
-                        </div>
-            
-                        <div class="row">
-                            <div class="col-lg-4 col-md-6 col-sm-12 d-flex align-items">
-                                <span class="material-symbols-outlined">task_alt</span>
-                                <p class="text-sm">Ask things you need and the product that matters to you</p>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 d-flex align-items">
-                                <span class="material-symbols-outlined">task_alt</span>
-                                <p class="text-sm">Learn how FranciseKu could find the best product for you</p>
-                            </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 d-flex align-items">
-                                <span class="material-symbols-outlined">task_alt</span>
-                                <p class="text-sm">Get Top notch support from our team in every step of the application process</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section> --}}
-
-    <section id="contact-us" class="contact-us" style="min-height: 60vh">
-        <div class="container mt-5 mb-5 p-4 rounded contact-us-div" data-aos="fade-right" data-aos-duration="800">
+    <section id="contact-us" class="contact-us" style="min-height: 60vh" data-aos="fade-down-right"
+        data-aos-duration="800">
+        <div class="container mt-5 mb-5 p-4 rounded contact-us-div">
             <div class="row d-flex align-items-center">
                 <div class="col-md-6 mx-auto d-flex flex-column justify-content-between p-4" style="height: 35vh;">
-                    <h1 class="fs-3 fw-normal text-light" data-aos="fade-down-right" data-aos-duration="800">Have a
+                    <h1 class="fs-3 fw-normal text-light">Have a
                         question or need assistance? Reach Out to Our Admin
                         Team</h1>
-                    <p class="fs-5 fw-light" data-aos="fade-up-right" data-aos-duration="800">Your inquiries are
+                    <p class="fs-5 fw-light">Your inquiries are
                         important to us, and we're here to help. Send us a
-                        message today!"</p>
+                        message today!</p>
                 </div>
 
-                <div class="col-md-6" data-aos="fade-left" data-aos-duration="800">
-                    <form method="POST" action="">
+                <div class="col-md-6">
+                    <form method="POST" action="{{ route('send.email') }}">
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
                             <input type="text" class="form-control" id="name">
@@ -263,87 +231,15 @@
                         </div>
                         <div class="mb-3 mt-4 d-flex justify-content-end">
                             <button type="submit" class="submitBtn fs-5"
-                                style="padding: .25rem 1rem; border-radius:5px;" data-aos="zoom-in"
-                                data-aos-duration="800">Send Message</button>
+                                style="padding: .25rem 1rem; border-radius:5px;">Send Message</button>
                         </div>
                     </form>
                 </div>
                 <div class="col-md-6"></div>
             </div>
         </div>
-
     </section>
     </body>
 @endsection
-{{-- Toaster --}}
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-    AOS.init();
-</script>
-<script>
-    @if (Session::has('message'))
-        var type = "{{ Session::get('alert-type', 'info') }}"
-        switch (type) {
-            case 'info':
-                toastr.info(" {{ Session::get('message') }} ");
-                break;
-
-            case 'success':
-                toastr.success(" {{ Session::get('message') }} ");
-                break;
-
-            case 'warning':
-                toastr.warning(" {{ Session::get('message') }} ");
-                break;
-
-            case 'error':
-                toastr.error(" {{ Session::get('message') }} ");
-                break;
-        }
-    @endif
-</script>
-{{-- Kalo user, muncul register franchisor || kalo franchisor muncul register franchise --}}
-
-{{-- 
-        @if (auth()->check())
-          @if (auth()->user()->role == 'Franchisor')
-            <div id="registerFranchise">
-                @include('components.register_franchise')
-                @include('modals.register-franchise-success')
-            </div>
-        @elseif(auth()->user()->role == 'User')
-            <div id="registerFranchisor">
-                @include('components.register_franchisor')
-                @include('modals.register-franchisor-success')
-            </div>
-            @endif
-        @endif --}}
-</body>
-
-{{-- Call Modal --}}
-@if (isset($successData))
-    <script>
-        // Trigger the success modal
-        $(document).ready(function() {
-            $("{!! $successData['modal'] !!}").modal('show');
-        });
-    </script>
-@endif
-
-{{-- auto scroll into register franchise (franchisor) --}}
-@if (isset($scrollToRegisterFranchise) && $scrollToRegisterFranchise)
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const registerFranchiseSection = document.getElementById("registerFranchise");
-            if (registerFranchiseSection) {
-                registerFranchiseSection.scrollIntoView({
-                    behavior: "smooth"
-                });
-            }
-        });
-    </script>
-@endif
-
 
 </html>

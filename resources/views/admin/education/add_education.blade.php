@@ -22,7 +22,8 @@
 
                             <h4 class="card-title">Add Education Page</h4>
 
-                            <form action="{{ route('post.education') }}" method="POST" enctype="multipart/form-data">
+                            <form id="addEducationForm" action="{{ route('post.education') }}" method="POST"
+                                enctype="multipart/form-data">
                                 @csrf
                                 @method('POST')
 
@@ -66,7 +67,7 @@
                                     </div>
                                 </div>
 
-                                {{-- Educationn Price --}}
+                                {{-- Education Price --}}
                                 <div class="row mb-3">
                                     <label for="example-text-input" class="col-sm-2 col-form-label">Education Price
                                         (Rp)</label>
@@ -79,7 +80,7 @@
                                     </div>
                                 </div>
 
-                                {{-- Educationn Shord Desc --}}
+                                {{-- Education Short Desc --}}
                                 <div class="row mb-3">
                                     <label for="example-text-input" class="col-sm-2 col-form-label">Short
                                         Description</label>
@@ -137,6 +138,12 @@
                                     </div>
                                 </div>
 
+                                {{-- Progress Bar --}}
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+                                        role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+                                        style="width: 0%"></div>
+                                </div>
 
                                 <input type="submit" class="btn btn-info waves-effect waves-light" id="submitBtn"
                                     value="Insert Education Data" onclick="showLoading()">
@@ -161,6 +168,21 @@
                 }
 
                 reader.readAsDataURL(e.target.files['0']);
+            });
+
+            $('#addEducationForm').ajaxForm({
+                beforeSend: function() {
+                    var percentage = '0';
+                },
+                uploadProgress: function(event, position, total, percentComplete) {
+                    var percentage = percentComplete;
+                    $('.progress .progress-bar').css("width", percentage + '%', function() {
+                        return $(this).attr("aria-valuenow", percentage) + "%";
+                    })
+                },
+                complete: function(xhr) {
+                    console.log('File has been uploaded');
+                }
             });
         });
     </script>

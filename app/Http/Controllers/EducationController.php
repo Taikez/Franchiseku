@@ -158,7 +158,7 @@ class EducationController extends Controller
             $queryEducation->where('educationPrice', '<=', $maxPrice);
 
         if($rating !== null)
-            $queryEducation->where('rating', $rating);
+            $queryEducation->where('educationRating', $rating);
 
         // FETCH FILTERED DATA
         $educations = $queryEducation->limit(9)->get();
@@ -282,5 +282,10 @@ class EducationController extends Controller
                 }
             }
         }
+    }
+
+    public function purchaseEducation()
+    {
+        
     }
 }

@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 mb-4 px-3" data-aos="fade-up" data-aos-duration="800">
+            <div class="col-lg-12 col-md-12 col-sm-12 mb-4 px-3">
                 <form action="{{ route('education.search') }}" class="col-md-12" method="POST">
                     @csrf
                     <div class="input-group">
@@ -81,9 +81,6 @@
                     </div>
                 </div>
             @endif
-        </div>
-        <div class="col-lg-9 px-3 pb-3 w-100">
-            @include('components.register_franchisor')
         </div>
     </div>
 @endsection

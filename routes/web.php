@@ -11,6 +11,7 @@ use App\Http\Controllers\EducationCategoryController;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\FranchiseController;
 use App\Http\Controllers\FranchiseCategoryController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -25,14 +26,6 @@ use Laravel\Socialite\Facades\Socialite;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/welcome', function () {
-    return view('welcome');
-})->name('welcome');
-
 Route::get('/aboutUs', function () {
     return view('aboutUs');
 })->name('aboutUs');
@@ -43,30 +36,28 @@ Route::get('/admin/dashboard', function () {
 })->middleware(['auth', 'verified','admin'])->name('adminDashboard');
 
 Route::controller(UserController::class)->group(function(){
-    
+    Route::get('/', [UserController::class, 'userDashboard'])->name('dashboard');
+    Route::get('/dashboard', [UserController::class, 'userDashboard'])->name('dashboard');
+
 });    
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [UserController::class, 'userDashboard'])->name('dashboard');
-   
     // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-      // Display the profile update form
-      Route::get('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
-    
-      // Handle the profile update
-      Route::put('/profile/update', [UserController::class, 'update'])->name('profile.update');
-  
-      Route::get('/change/password',[UserController::class, 'ChangePassword'])->name('change.password');
-      Route::post('/update/password',[UserController::class, 'UpdatePassword'])->name('update.password');
+    // Display the profile update form
+    Route::get('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
+
+    // Handle the profile update
+    Route::put('/profile/update', [UserController::class, 'update'])->name('profile.update');
+    Route::get('/change/password',[UserController::class, 'ChangePassword'])->name('change.password');
+    Route::post('/update/password',[UserController::class, 'UpdatePassword'])->name('update.password');
 });
 
 // Admin Controller
 Route::controller(AdminController::class)->group(function(){
     Route::get('/admin/login', 'login')->name('admin.login');
-
     Route::get('/admin/logout','destroy')->name('admin.logout');
     Route::get('/admin/profile','profile')->name('admin.profile');
     Route::get('/edit/profile','editProfile')->name('edit.profile');
@@ -97,10 +88,10 @@ Route::controller(EducationController::class)->group(function(){
     Route::get('/education/detail/{id}','detail')->name('education.detail');
     Route::get('/education/ratingView', 'ratingView');
     Route::post('/education/{id}/rate', 'rateEducation')->name('education.rate');
+    Route::post('/education/{id}/purchase', 'purchaseEducation')->name('education.purchase');
 });
 
-Route::controller(EducationCategoryController::class)->group(function(){
-    
+Route::controller(EducationCategoryController::class)->group(function(){   
     Route::get('/admin/all/education/category','AllEducationCategory')->middleware('admin')->name('all.education.category');
     Route::get('/admin/add/education/category','AddEducationCategory')->middleware('admin')->name('add.education.category');
     Route::post('/admin/post/education/category','PostEducationCategory')->middleware('admin')->name('post.education.category');
@@ -149,8 +140,7 @@ Route::middleware(['admin','auth'])->group(function(){
     });
 });
 
-
-
+Route::post('/send/email', [MailController::class, 'sendEmail'])->name('send.email');
 
 
 //route for franchisor

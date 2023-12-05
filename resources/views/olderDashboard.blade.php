@@ -29,28 +29,18 @@
     <!-- Styles -->
     <!-- Bootstrap Css -->
     {{-- <link href="{{asset('backend/assets/css/bootstrap.min.css')}}" id="bootstrap-style" rel="stylesheet"  /> --}}
-
+    {{-- AOS --}}
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <!-- Scripts -->
     <script src="{{ asset('backend/assets/libs/jquery/jquery.min.js') }}"></script>
     {{-- <script src="{{asset('backend/assets/libs/bootstrap/js/bootstrap.bundle.min.js')}}"></script> --}}
 
     @vite(['resources/css/header.css', 'resources/css/footer.css'])
     @vite(['resources/css/app.css', 'resources/sass/app.scss', 'resources/js/app.js'])
-
-    {{-- AOS --}}
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
 </head>
 
 <body class="antialiased border-0">
-    <div class="lds-ring">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
-    {{-- login validation '
-    --}}
+    {{-- login validation --}}
     @if (Route::has('login'))
         {{-- <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
                     @auth
@@ -80,20 +70,19 @@
         <div class="row d-flex align-items-center justify-content-center mb-5">
             <div id="banner-left" class="col-lg-6 col-md-8 col-sm-12 p-2">
                 <div class="float-right">
-                    <h1 data-aos="fade-down" data-aos-duration="800" id="banner-title" class="fw-bold mb-4"
-                        style="color:#015051;">Organize your
-                        money investment
+                    <h1 id="banner-title" class="fw-bold mb-4" style="color:#015051;" data-aos="fade-down-right"
+                        data-aos-duration="800">Organize your money investment
                     </h1>
-                    <p data-aos="fade-up" data-aos-duration="800" style="font-size: 20px">
+                    <p style="font-size: 20px" data-aos="fade-right" data-aos-duration="800">
                         We will help you organize, learn and <br>
                         <span class="fw-bold" style="color: #015051; font-size: 20px">Look for an investment that suits
                             you</span>
                     </p>
-                    <button data-aos="fade-up-right" data-aos-duration="800"
-                        class="submitBtn rounded-pill fw-bold">Start Searching</button>
+                    <button class="submitBtn rounded-pill fw-bold" data-aos="flip-right" data-aos-duration="800">Start
+                        Searching</button>
                 </div>
             </div>
-            <div id="banner-right" class="col-lg-6 col-md-8 col-sm-12 text-center p-5" data-aos="fade-right"
+            <div id="banner-right" class="col-lg-6 col-md-8 col-sm-12 text-center p-5" data-aos="fade-down-left"
                 data-aos-duration="800">
                 <div class="float-left">
                     <img class="img-fluid" src="{{ asset('frontendImg/bannerImg.png') }}" alt="Banner Asset"
@@ -110,7 +99,7 @@
         @endphp
 
         <div class="container">
-            <div class="card mb-3 border-0 shadow-sm" style="background-color: #EFF6FE;" data-aos="zoom-in-up"
+            <div class="card mb-3 border-0 shadow-sm" style="background-color: #EFF6FE;" data-aos="zoom-in"
                 data-aos-duration="800">
                 <div class="row">
                     <div class="col-md-8 p-3">
@@ -118,7 +107,7 @@
                             <h2 class="badge bg-secondary mb-4 fs-4 fw-light">
                                 {{ $latestNews['category']['newsCategory'] }}</h2>
                             <a href="{{ route('news.detail', $latestNews->id) }}" class="text-decoration-0">
-                                <p class="card-title fs-1 news-title mb-4">{{ $latestNews->newsTitle }}</p>
+                                <p class="card-title fs-1 fw-light news-title mb-4">{{ $latestNews->newsTitle }}</p>
                             </a>
                             <p class="card-text"><small class="text-body-secondary">Published
                                     {{ Carbon\Carbon::parse($latestNews->created_at)->diffForHumans() }} </small></p>
@@ -140,13 +129,11 @@
     <section class="home-top-franchise" id="home-top-franchise">
         <div class="container p-4">
             <div class="row mt-4">
-                <div class="col-lg-8 col-md-12 col-sm-12 align-self-start" data-aos="fade-down-right"
-                    data-aos-duration="800">
-                    <p class="section-label">FranchiseKu Top
+                <div class="col-lg-8 col-md-12 col-sm-12 align-self-start">
+                    <p class="section-label" data-aos="fade-down-right" data-aos-duration="800">FranchiseKu Top
                         Franchises</p>
-                    <h1 class="top-franchise-title text-lg">Several
-                        Categories Top Franchises
-                    </h1>
+                    <h1 class="top-franchise-title text-lg" data-aos="fade-right" data-aos-duration="800">Several
+                        Categories Top Franchises</h1>
                 </div>
             </div>
 
@@ -155,7 +142,7 @@
                     <div class="buttonGroup d-grid gap-2 d-md-block">
                         <button class="btn btn-primary border active" data-aos="fade-up-right"
                             data-aos-duration="800">Food Franchise</button>
-                        <button class="btn btn-light border" data-aos="zoom-in"
+                        <button class="btn btn-light border" data-aos="fade-up"
                             data-aos-duration="800">Cosmetics</button>
                         <button class="btn btn-light border" data-aos="fade-up-left"
                             data-aos-duration="800">Supplements</button>
@@ -165,12 +152,11 @@
 
             <div class="row mt-4 mb-4">
                 <div class="col top-franchise-text align-self-end">
-                    <p class="mb-4" data-aos="fade-up" data-aos-duration="800"><span> Fortunes come to people that
-                            takes the chance and effort to get the
+                    <p class="mb-4" data-aos="fade-left" data-aos-duration="800"><span> Fortunes come to people
+                            that takes the chance and effort to get the
                             opportunity. FranchiseKu offers platform that enables user to connect with franchises they
                             desire and help users to know and improve their financial literacy </span></p>
-                    <p data-aos="fade-up-right" data-aos-duration="800">To quickly start, user can click on several
-                        top
+                    <p data-aos="fade-right" data-aos-duration="800">To quickly start, user can click on several top
                         franchises below to see some of our top
                         recommendations or go to our franchise list page to see the whole selections FranchiseKu has to
                         offer, user could also search franchise investment according to their preference and desire</p>
@@ -178,7 +164,7 @@
             </div>
 
             <div class="row mb-4">
-                <div class="col-md-4 mb-3" data-aos="fade-down-left" data-aos-duration="800">
+                <div class="col-md-4 mb-3" data-aos="fade-up-right" data-aos-duration="800">
                     <div class="card border-0 shadow-sm bg-light p-2">
                         <a href="#">
                             <img src="{{ asset('upload/franchise/cafe1.jpeg') }}" class="card-img-top rounded"
@@ -199,11 +185,12 @@
                         </a>
                         <div class="card-body">
                             <p class="card-text">Some quick example text to build on the card title and make up the
-                                bulk of the card's content.</p>
+                                bulk
+                                of the card's content.</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-3" data-aos="fade-down-right" data-aos-duration="800">
+                <div class="col-md-4 mb-3" data-aos="fade-up-left" data-aos-duration="800">
                     <div class="card border-0 bg-light p-2 shadow-sm">
                         <a href="#">
                             <img src="{{ asset('upload/franchise/cafe1.jpeg') }}" class="card-img-top rounded"
@@ -218,7 +205,7 @@
             </div>
 
             <div class="row mt-4 text-center">
-                <a href="text-secondary" data-aos="fade-down-left" data-aos-duration="800">
+                <a href="text-secondary" data-aos="fade-up" data-aos-duration="800">
                     <p>click on the franchises above to see more details >> </p>
                 </a>
             </div>
@@ -288,43 +275,78 @@
         </div>
     </section>
 
-    <section id="contact-us" class="contact-us d-flex justify-content-center align-items-center"
-        style="min-height: 60vh" data-aos="fade-up" data-aos-duration="800">
-        <div class="container">
-            <div class="rounded text-center contact-us-div m-auto col-sm-12 col-md-12">
-                <div class="row p-2" data-aos="fade-down-left" data-aos-duration="800">
-                    <h1 class="text-lg">Need Help Making a Decision ?</h1>
+    {{-- <section id="contact-us" class="contact-us d-flex justify-content-center align-items-center  " style="min-height: 60vh">
+                <div class="container">
+                    <div class="rounded text-center contact-us-div m-auto col-sm-12 col-md-12">
+                        <div class="row p-2">
+                            <h1 class="text-lg">Need Help Making a Decision ?</h1>
+                        </div>
+                        <div class="row">
+                            <a href="" class="text-decoration-none">
+                                <button class="submitBtn" style="margin: 2rem auto;">Send Message to Admin</button>
+                            </a>
+                        </div>
+            
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-12 d-flex align-items">
+                                <span class="material-symbols-outlined">task_alt</span>
+                                <p class="text-sm">Ask things you need and the product that matters to you</p>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-12 d-flex align-items">
+                                <span class="material-symbols-outlined">task_alt</span>
+                                <p class="text-sm">Learn how FranciseKu could find the best product for you</p>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-12 d-flex align-items">
+                                <span class="material-symbols-outlined">task_alt</span>
+                                <p class="text-sm">Get Top notch support from our team in every step of the application process</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="row">
-                    <a href="" class="text-decoration-none" data-aos="zoom-in-right" data-aos-duration="800">
-                        <button class="submitBtn" style="margin: 2rem auto;">Send Message to Admin</button>
-                    </a>
+            </section> --}}
+
+    <section id="contact-us" class="contact-us" style="min-height: 60vh">
+        <div class="container mt-5 mb-5 p-4 rounded contact-us-div" data-aos="fade-right" data-aos-duration="800">
+            <div class="row d-flex align-items-center">
+                <div class="col-md-6 mx-auto d-flex flex-column justify-content-between p-4" style="height: 35vh;">
+                    <h1 class="fs-3 fw-normal text-light" data-aos="fade-down-right" data-aos-duration="800">Have a
+                        question or need assistance? Reach Out to Our Admin
+                        Team</h1>
+                    <p class="fs-5 fw-light" data-aos="fade-up-right" data-aos-duration="800">Your inquiries are
+                        important to us, and we're here to help. Send us a
+                        message today!"</p>
                 </div>
 
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-12 d-flex align-items" data-aos="fade-down-right"
-                        data-aos-duration="800">
-                        <span class="material-symbols-outlined">task_alt</span>
-                        <p class="text-sm">Ask things you need and the product that matters to you</p>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12 d-flex align-items" data-aos="fade-down"
-                        data-aos-duration="800">
-                        <span class="material-symbols-outlined">task_alt</span>
-                        <p class="text-sm">Learn how FranciseKu could find the best product for you</p>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12 d-flex align-items" data-aos="fade-down-left"
-                        data-aos-duration="800">
-                        <span class="material-symbols-outlined">task_alt</span>
-                        <p class="text-sm">Get Top notch support from our team in every step of the application process
-                        </p>
-                    </div>
+                <div class="col-md-6" data-aos="fade-left" data-aos-duration="800">
+                    <form method="POST" action="">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" name="message" id="message" cols="30" rows="5"></textarea>
+                        </div>
+                        <div class="mb-3 mt-4 d-flex justify-content-end">
+                            <button type="submit" class="submitBtn fs-5"
+                                style="padding: .25rem 1rem; border-radius:5px;" data-aos="zoom-in"
+                                data-aos-duration="800">Send Message</button>
+                        </div>
+                    </form>
                 </div>
+                <div class="col-md-6"></div>
             </div>
         </div>
+
     </section>
 
+    @include('components.register_franchisor');
+    @include('modals.success-modal');
     @include('components.footer')
-
 </body>
 
 {{-- Toaster --}}
@@ -355,5 +377,6 @@
         }
     @endif
 </script>
+
 
 </html>

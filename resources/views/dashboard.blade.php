@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @section('main')
-    @include('modals.register-franchise-success')
-
     <div id="banner" class="container-fluid p-5 p-md-5 mb-5">
         <div class="row d-flex align-items-center justify-content-center mb-5">
             <div id="banner-left" class="col-lg-6 col-md-8 col-sm-12 p-2">
@@ -216,7 +214,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <form id="sendMessageForm" action="{{ route('send.email') }}" method="GET">
+                    <form id="sendMessageForm" action="{{ route('send.email') }}" method="POST">
                         @csrf
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>

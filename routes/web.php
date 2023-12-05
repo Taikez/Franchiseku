@@ -134,7 +134,7 @@ Route::middleware(['admin','auth'])->group(function(){
     });
 });
 
-Route::get('/sendmail', [MailController::class, 'sendEmail'])->name('send.email');
+Route::post('/send/email', [MailController::class, 'sendEmail'])->name('send.email');
 
 
 //route for franchisor

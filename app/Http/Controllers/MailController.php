@@ -11,10 +11,12 @@ class MailController extends Controller
     public function sendEmail(Request $request)
     {
         
-        $name = $request->input('name');
-        $email = $request->input('email');
-        $message = $request->input('message');
+        $data = request()->validate([
+            'name' => 'required|min:3',
+            'email' => 'required|min:3',
+            'message' => 'required|min:3',
+        ]);
 
-        Mail::to('juliannardita@gmail.com')->send(new ContactFormEmail($name, $email, $message));
+        Mail::to('juliannardita@gmail.com')->send(new ContactFormEmail($data));
     }
 }

@@ -8,10 +8,10 @@
 </head>
 
 <body>
-    <h1>Hi, Admin! Message from {{ $name }}</h1>
-    <p>{{ $email }}</p>
+    <h1>Hi, Admin! Message from {{ $data['name'] }}</h1>
+    <p>{{ $data['email'] }}</p>
     <br>
-    <p>{{ $message }}</p>
+    <p>{{ $data['message'] }}</p>
 </body>
 
 </html>

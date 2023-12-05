@@ -123,6 +123,7 @@
                                         <img id="showImage" style="width: 128px" class="rounded avatar-lg"
                                             src="{{ url('upload/no_image.jpg') }}" alt="Card image cap">
                                     </div>
+
                                 </div>
 
                                 {{-- Education Video --}}
@@ -138,6 +139,7 @@
                                     </div>
                                 </div>
 
+
                                 {{-- Progress Bar --}}
                                 <div class="progress">
                                     <div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
@@ -147,6 +149,9 @@
 
                                 <input type="submit" class="btn btn-info waves-effect waves-light" id="submitBtn"
                                     value="Insert Education Data" onclick="showLoading()">
+
+                            <input type="submit" class="btn btn-info waves-effect waves-light" id="submitBtn" value="Insert Education Data">
+
 
                             </form>
                         </div>

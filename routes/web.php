@@ -12,6 +12,8 @@ use App\Http\Controllers\EducationController;
 use App\Http\Controllers\FranchiseController;
 use App\Http\Controllers\FranchiseCategoryController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |-------------------------------------------------------------------------- 
@@ -28,6 +30,7 @@ Route::get('/aboutUs', function () {
     return view('aboutUs');
 })->name('aboutUs');
 
+
 Route::get('/admin/dashboard', function () {
     return view('admin.admin_index');
 })->middleware(['auth', 'verified','admin'])->name('adminDashboard');
@@ -35,6 +38,7 @@ Route::get('/admin/dashboard', function () {
 Route::controller(UserController::class)->group(function(){
     Route::get('/', [UserController::class, 'userDashboard'])->name('dashboard');
     Route::get('/dashboard', [UserController::class, 'userDashboard'])->name('dashboard');
+
 });    
 
 Route::middleware('auth')->group(function () {
@@ -104,6 +108,8 @@ Route::controller(FranchisorController::class)->group(function(){
 Route::controller(FranchiseController::class)->group(function(){
     Route::get('/admin/all/franchise','AllFranchise')->name('all.franchise');
     Route::get('/franchise','Franchise')->name('franchise');
+    Route::get('/franchise/detail/{id}','detail')->name('franchise.detail');
+    Route::get('/my/franchise','MyFranchise')->middleware('franchisor')->name('my.franchise');
     Route::get('/register/franchise','RegisterFranchise')->middleware('franchisor')->name('register.franchise');
     Route::post('/post/franchise','StoreFranchise')->middleware('franchisor')->name('store.franchise');
     Route::get('/dashboard/registerFranchise','RegisterFranchise')->middleware('franchisor')->name('dashboard.register.franchise');

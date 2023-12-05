@@ -24,7 +24,6 @@
              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
              <span class="navbar-toggler-icon"></span>
          </button>
-
          <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
              <!-- Add the "ml-auto" class to move the links to the right -->
              <ul class="navbar-nav ml-auto">
@@ -63,7 +62,6 @@
                          <li><a class="dropdown-item" href="#">Something else here</a></li>
                      </ul>
                  </li>
-
                  <li class="nav-item">
                      <a class="nav-link fs-5 text-start" href="#">Subscribe</a>
                  </li>
@@ -74,7 +72,6 @@
                              <a id="loginBtn" class="btn btn-success header-button border-0 p-2"
                                  href="{{ route('login') }}" type="submit" style="background-color: #3CBA79;">Login</a>
                          </li>
-
                          <li class="nav-item">
                              <a id="registerBtn" class="btn btn-info header-button border-0 p-2"
                                  style="background: #4F7097; color:#fafbfc" href="{{ route('register') }}"
@@ -119,3 +116,4 @@
          </div>
      </div>
  </nav>
+

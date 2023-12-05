@@ -1,37 +1,9 @@
-{{-- <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-profile-information-form')
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-password-form')
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.delete-user-form')
-                </div>
-            </div>
-        </div>
-    </div>
-</x-app-layout> --}}
-
 
 @extends('layouts.app')
 
 @section('main')
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
     <div class="container bg-white mx-auto p-4 m-4 rounded" data-aos="fade-down-right" data-aos-duration="800">
 
         <div class="row border-bottom p-2">
@@ -48,7 +20,7 @@
         <div class="row">
             <div class="col-md-4 p-3 px-4">
                 <div class="row">
-                    <p class="fw-medium fs-4">Change <br> Password </p>
+                    <p class="fw-medium fs-4">Change Password </p>
                 </div>
                 {{-- <div class="row text-secondary fs-5" style=""  >
                     <div class="col-md-8">
@@ -134,23 +106,7 @@
 
 
         <!-- Success Modal -->
-        <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="successModalLabel">Success</h5>
-                        {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button> --}}
-                    </div>
-                    <div class="modal-body">
-                        <!-- Your success message here -->
-                        <p>Your changes have been saved successfully.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+       @include('../modals/success-modal')
 
 
 
@@ -194,7 +150,7 @@
                 var reader = new FileReader();
                 reader.onload = function(e) {
                     $('#showImage').attr('src', e.target.result);
-                    console.log(e.target.result);
+                    // console.log(e.target.result);
                 }
 
                 reader.readAsDataURL(e.target.files['0']);

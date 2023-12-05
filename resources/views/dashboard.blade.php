@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('main')
+    @include('modals.success-modal')
+
     <div id="banner" class="container-fluid p-5 p-md-5 mb-5">
         <div class="row d-flex align-items-center justify-content-center mb-5">
             <div id="banner-left" class="col-lg-6 col-md-8 col-sm-12 p-2">
@@ -72,9 +74,11 @@
             </div>
 
             <div class="row mt-4">
+
                 @if ($franchiseCategories->count() == 0)
                     <div class="col-lg-3 pb-3" data-aos="fade" data-aos-duration="800">
                         <div class="alert alert-warning w-100">No franchise categories to be found!</div>
+
                     </div>
                 @else
                     <div class="col align-self-center">
@@ -241,6 +245,8 @@
         </div>
     </section>
     </body>
+
 @endsection
 
 </html>
+

@@ -216,24 +216,27 @@
                 </div>
 
                 <div class="col-md-6">
-                    <form method="POST" action="{{ route('send.email') }}">
+                    <form id="sendMessageForm" action="{{ route('send.email') }}" method="GET">
+                        @csrf
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name">
+                            <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
+                            <input type="email" class="form-control" id="email" name="email"
+                                aria-describedby="emailHelp" required>
                         </div>
                         <div class="mb-3">
                             <label for="message" class="form-label">Message</label>
-                            <textarea class="form-control" name="message" id="message" cols="30" rows="5"></textarea>
+                            <textarea class="form-control" name="message" id="message" cols="30" rows="5" required></textarea>
                         </div>
                         <div class="mb-3 mt-4 d-flex justify-content-end">
-                            <button type="submit" class="submitBtn fs-5"
-                                style="padding: .25rem 1rem; border-radius:5px;">Send Message</button>
+                            <input type="submit" value="Send Message" class="submitBtn fs-5"
+                                style="padding: .25rem 1rem; border-radius:5px;">
                         </div>
                     </form>
+
                 </div>
                 <div class="col-md-6"></div>
             </div>

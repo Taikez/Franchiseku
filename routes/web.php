@@ -11,6 +11,7 @@ use App\Http\Controllers\EducationCategoryController;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\FranchiseController;
 use App\Http\Controllers\FranchiseCategoryController;
+use App\Http\Controllers\MailController;
 
 /*
 |-------------------------------------------------------------------------- 
@@ -34,7 +35,6 @@ Route::get('/admin/dashboard', function () {
 Route::controller(UserController::class)->group(function(){
     Route::get('/', [UserController::class, 'userDashboard'])->name('dashboard');
     Route::get('/dashboard', [UserController::class, 'userDashboard'])->name('dashboard');
-    Route::post('/sendmail', [UserController::class, 'sendEmail'])->name('send.email');
 });    
 
 Route::middleware('auth')->group(function () {
@@ -133,6 +133,9 @@ Route::middleware(['admin','auth'])->group(function(){
         Route::get('/admin/reject/franchise/{id}','RejectFranchise')->name('reject.franchise');
     });
 });
+
+Route::get('/sendmail', [MailController::class, 'sendEmail'])->name('send.email');
+
 
 //route for franchisor
 // Route::middeware(['franchisor','auth'])->group(function(){

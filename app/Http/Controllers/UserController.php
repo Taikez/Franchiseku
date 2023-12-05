@@ -152,14 +152,5 @@ class UserController extends Controller
         return redirect()->route('login')->with('success', 'Your account has been deleted.');
     } //end method
     
-    public function sendEmail(Request $request)
-    {
-        $name = $request->input('name');
-        $email = $request->input('email');
-        $message = $request->input('message');
-
-        Mail::to('admin@xyz.com')->send(new ContactFormMail($name, $email, $message));
-
-        return redirect()->back()->with('message', 'Email sent successfully!');
-    }
+   
 }

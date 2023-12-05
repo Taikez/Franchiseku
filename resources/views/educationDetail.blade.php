@@ -6,22 +6,22 @@
         <div class="row">
             <div id="left-content" class="col-lg-7 col-md-7 col-sm-12 p-5">
                 <div id="content-title" class="text-center mb-5">
-                    <div data-aos="fade-down" data-aos-duration="800">
+                    <div data-aos="fade" data-aos-duration="800">
                         <h1 class="fw-bold mb-2" style="color: #015051">{{ $education->educationTitle }}</h1>
                     </div>
-                    <div data-aos="fade-up-left" data-aos-duration="800">
+                    <div data-aos="fade" data-aos-duration="800">
                         <h6 class="mb-4" style="color: #015051">Home / Education / Detail</h6>
                         <div class="mb-4" style="width: 25%; height: 3px; background-color: #D9D9D9; margin: auto;"></div>
                     </div>
                 </div>
-                <div id="content-text" class="px-5" data-aos="fade-right" data-aos-duration="800">
+                <div id="content-text" class="px-5">
                     <h5>{!! $education->educationShortDesc !!}</h5>
                     <p class="fw-lighter">{!! $education->educationDesc !!}</p>
                 </div>
             </div>
 
             <div id="right-content" class="col-lg-5 col-md-5 col-sm-12 py-5 px-3">
-                <div id="thumbnail-container" class="rounded" data-aos="fade-down-left" data-aos-duration="800">
+                <div id="thumbnail-container" class="rounded" data-aos="fade" data-aos-duration="800">
                     @if (auth()->user() &&
                             auth()->user()->hasPurchasedEducationContent($education->id))
                         <h1>User bought this content!</h1>
@@ -37,29 +37,29 @@
                     @endif
                 </div>
                 <div id="content-details">
-                    <h6 class="mt-3 fw-light" style="color: #01A7A3" data-aos="fade-left" data-aos-duration="800">by
+                    <h6 class="mt-3 fw-light" style="color: #01A7A3">by
                         {{ $education->educationAuthor }} |
                         {{ Carbon\Carbon::parse($education->created_at)->diffForHumans() }}
                     </h6>
-                    <h3 class="fw-bold mt-3" data-aos="fade-right" data-aos-duration="800">Rp
+                    <h3 class="fw-bold mt-3">Rp
                         {{ number_format($education->educationPrice, 2) }}</h3>
-                    <h6 class="fw-light mt-3" data-aos="fade-left" data-aos-duration="800">Duration:
+                    <h6 class="fw-light mt-3">Duration:
                         {{ $educationDuration }} minute(s)</h6>
-                    <p class="text-muted mt-3" data-aos="fade-right" data-aos-duration="800">1000 people bought this</p>
+                    <p class="text-muted mt-3">1000 people bought this</p>
                     <div class="text-center">
                         @include('layouts.flashMessage')
                         <div class="row">
                             @if (auth()->user() &&
                                     auth()->user()->hasPurchasedEducationContent($education->id))
                                 @include('modals.rateEducationContentModal')
-                                <div data-aos="fade-up-right" data-aos-duration="800">
+                                <div>
                                     <button type="button" id="rateEducationBtn"
                                         class="btn w-50 text-white rounded-pill mt-3 mb-2" data-bs-toggle="modal"
                                         data-bs-target="#ratingModal">Rate
                                         Content</button>
                                 </div>
                             @else
-                                <div data-aos="fade-up-left" data-aos-duration="800">
+                                <div>
                                     @include('modals.purchaseEducationContentModal')
                                     <button type="button" id="purchaseEducationBtn"
                                         class="btn w-50 text-white rounded-pill mt-3 mb-2" data-bs-toggle="modal"
@@ -68,7 +68,7 @@
                                 </div>
                             @endif
                         </div>
-                        <div data-aos="fade-up-left" data-aos-duration="800">
+                        <div>
                             <a href="{{ route('education.index') }}" id="browseMoreContent" class="text-center mt-4">Browse
                                 more
                                 content</a>

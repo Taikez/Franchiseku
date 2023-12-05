@@ -35,13 +35,13 @@
     @include('modals.update-password-success-modal')
 
     <div class="container bg-white mx-auto p-4 m-4 rounded">
-        
+
         <div class="row border-bottom p-2">
             <div class="col-md-12 d-flex align-items-center">
-                <span class="material-symbols-outlined fs-1 m-2 me-4" >person</span>
+                <span class="material-symbols-outlined fs-1 m-2 me-4">person</span>
 
                 <div class="ml-3">
-                    <h1 class="fs-3">{{ucwords($user->name)}} / General</h1>
+                    <h1 class="fs-3">{{ ucwords($user->name) }} / Change Password</h1>
                     <h2 class="fw-light fs-5 text-secondary">Manage your personal information</h2>
                 </div>
             </div>
@@ -57,14 +57,14 @@
                         <a href=""> >>General</a>
                     </div>
                 </div> --}}
-                <div class="row text-secondary fs-5 mt-3" style=""  >
+                <div class="row text-secondary fs-5 mt-3" style="">
                     <div class="col-md-8">
                         <ul class="update-profile-sidebar-menu">
                             <li>
-                                <a href="{{route('profile.edit')}}">General</a>
+                                <a href="{{ route('profile.edit') }}">General</a>
                             </li>
                             <li>
-                                <a href="{{route('change.password')}}">Password</a>
+                                <a href="{{ route('change.password') }}">Password</a>
                             </li>
                         </ul>
                     </div>
@@ -75,18 +75,19 @@
                         <a href="" class=" fs-5 text-danger">Delete Account</a>
                     </div>
                 </div>
-                
+
             </div>
 
-            
+
             <div class="col-md-8 py-4">
                 <form method="POST" action="{{ route('update.password') }}">
                     @csrf
-    
+
                     <!-- Old Password -->
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label for="old_password">{{ __('Old Password') }}</label>
-                        <input id="old_password" type="password" class="form-control @error('old_password') is-invalid @enderror" name="old_password" required>
+                        <input id="old_password" type="password"
+                            class="form-control @error('old_password') is-invalid @enderror" name="old_password" required>
                         @error('old_password')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -94,40 +95,42 @@
                         @enderror
 
                     </div>
-    
+
                     <!-- New Password -->
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label for="password">{{ __('New Password') }}</label>
-                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required>
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
+                            name="password" required>
                         @error('password')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
                     </div>
-    
+
                     <!-- Confirm New Password -->
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label for="password-confirm">{{ __('Confirm New Password') }}</label>
-                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation"
+                            required>
                     </div>
-    
+
                     <button type="submit" class="btn btn-primary mt-3">
                         {{ __('Change Password') }}
                     </button>
-                    
+
                 </form>
-                
-    
+
+
             </div>
         </div>
-       
+
     </div>
 
     {{-- success modal --}}
     <script>
-        $(document).ready(function () {
-            @if(session('success')) // Check if there is a "success" variable in your session data
+        $(document).ready(function() {
+            @if (session('success')) // Check if there is a "success" variable in your session data
                 $('#successModal').modal('show'); // Show the success modal
             @endif
         });
@@ -135,7 +138,7 @@
 
 
     {{-- appear success modal --}}
-    {{-- @if(session('password_change_success'))
+    {{-- @if (session('password_change_success'))
         <script>
             $(document).ready(function () {
                 $('#successModal').modal('show');
@@ -151,23 +154,20 @@
 
 
 
-    
+
 
 
     <script>
-
         $(document).ready(function() {
             $('#profileImage').change(function(e) {
                 var reader = new FileReader();
                 reader.onload = function(e) {
                     $('#showImage').attr('src', e.target.result);
                     console.log(e.target.result);
-                    }
-    
-                    reader.readAsDataURL(e.target.files['0']);
-                });          
+                }
+
+                reader.readAsDataURL(e.target.files['0']);
+            });
         });
-    
     </script>
 @endsection
-

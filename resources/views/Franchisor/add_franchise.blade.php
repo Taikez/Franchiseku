@@ -63,7 +63,7 @@
                          <div class="form-group mb-3">
                             <label for="example-text-input" class="col-sm-10 col-form-label">Franchise Logo</label>
                             <div class="col-sm-10">
-                                <input class="form-control" name="franchiseLogo" type="file" placeholder="Franchise Logo" id="image" >
+                                <input class="form-control" name="franchiseLogo" type="file" placeholder="Franchise Logo" accept=".png, .jpg, .jpeg" id="image" >
                                 @error('franchiseLogo')
                                    <span class="text-danger">{{$message}}</span>
                                @enderror 

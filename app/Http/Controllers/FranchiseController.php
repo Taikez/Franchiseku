@@ -6,6 +6,7 @@ use Auth;
 use Illuminate\Http\Request;
 use App\Models\Franchise;
 use App\Models\franchiseCategory;
+use App\Models\franchiseRating;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -179,5 +180,25 @@ class FranchiseController extends Controller
         $franchiseCategories = FranchiseCategory::all();
 
         return view('franchise.franchise', compact('allFranchise','franchiseCategories'));
+    }
+
+    public function FranchiseByCategory($categoryId){
+        $franchise = Franchise::where('franchiseCategoryId', $categoryId)->latest()->limit(4)->get();
+        $categories = franchiseCategory::all();
+        $latestFranchise = Franchise::latest()->limit(4)->get();
+
+        return view('franchise', compact('categories','latestFranchise','franchise'));
+    }
+
+     public function detail($id)
+    {
+        // GET EDUCATION CONTENT
+        $franchise = Franchise::findOrFail($id);
+        $otherFranchise = franchise::where('franchise_category_id', $franchise->franchise_category_id)->whereNot('id', $id)->limit(3)->get();
+
+        // GET RATINGS 
+        $ratings = franchiseRating::where(['franchiseId' => $id, 'rating' => 5])->limit(5)->get();
+
+        return view('franchise.franchiseDetail', compact('franchise', 'otherFranchise', 'ratings'));
     }
 }

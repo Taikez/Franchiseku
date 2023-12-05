@@ -19,8 +19,8 @@
             aria-labelledby="panelsStayOpen-headingOne">
             <div class="accordion-body">
                 @foreach ($franchiseCategories as $item)
-                    <div id="educationCategoryList" class="row d-flex align-items-center">
-                        <a href="{{ route('education.index', ['category' => $item->id] + request()->except('category')) }}"
+                    <div id="franchiseCategoryList" class="row d-flex align-items-center">
+                        <a href="{{ route('franchise', ['category' => $item->id] + request()->except('category')) }}"
                             class="w-100 bg-transparent border-0 text-start fs-6 p-3">{{ $item->franchiseCategory }}</a>
                     </div>
                 @endforeach

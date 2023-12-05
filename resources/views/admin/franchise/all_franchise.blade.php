@@ -37,7 +37,7 @@
                                 
                             </tr>
                             </thead>    
- 
+                           
                             <tbody>
                                 @php($i = 1)
                                 @foreach ($allFranchise  as $item)

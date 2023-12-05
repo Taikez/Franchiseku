@@ -29,6 +29,9 @@
 
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     @vite(['resources/css/app.css', 'resources/css/header.css', 'resources/css/footer.css', 'resources/js/app.js', 'resources/sass/app.scss'])
@@ -60,6 +63,7 @@
     <div class="min-h-screen bg-gray-100">
         @include('layouts.guest_header')
 
+
         @vite('resources/css/auth.css')
         <!-- Page Heading -->
         @if (isset($header))
@@ -73,11 +77,12 @@
         <!-- Page Content -->
         @yield('main') <!-- This is where the content will be injected -->
 
-
-
         @include('components.footer')
     </div>
+
 </body>
+
+
 
 </html>
 
@@ -85,9 +90,9 @@
     var baseUrl = "{{ asset('') }}";
 </script>
 
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+{{-- <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
     AOS.init();
-</script>
+</script> --}}
 
 {{-- <script src="bower_components/aos/dist/aos.js"></script> --}}

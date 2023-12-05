@@ -7,7 +7,7 @@
         </span>
         Reset Filter
     </a>
-    <div class="accordion-item mb-3 border-2 rounded" data-aos="fade-down-right" data-aos-duration="800">
+    <div class="accordion-item mb-3" data-aos="fade-down-right" data-aos-duration="800">
         <h2 class="accordion-header" id="panelsStayOpen-headingOne">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                 data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false"
@@ -27,7 +27,7 @@
             </div>
         </div>
     </div>
-    <div class="accordion-item border-top mb-3 border-2 rounded">
+    <div class="accordion-item mb-3">
         <h2 class="accordion-header" id="panelsStayOpen-headingTwo" data-aos="fade-right" data-aos-duration="800">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                 data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
@@ -60,7 +60,7 @@
             </div>
         </div>
     </div>
-    <div class="accordion-item border-top mb-3 border-2 rounded">
+    <div class="accordion-item mb-3">
         <h2 class="accordion-header" id="panelsStayOpen-headingThree" data-aos="fade-up-right" data-aos-duration="800">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                 data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"

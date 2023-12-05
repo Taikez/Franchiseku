@@ -45,7 +45,7 @@
                 </div>
             @else
                 <div class="col-lg-9 pb-3">
-                    <div class="row">
+                    <div class="row mb-3">
                         @foreach ($educations as $education)
                             <div class="col-lg-4 col-md-6 col-sm-9 mb-3" data-aos="fade-down-left" data-aos-duration="1000">
                                 <div class="fixed-height-box h-100 rounded border border-1 shadow-sm bg-white"
@@ -81,6 +81,12 @@
                                 </div>
                             </div>
                         @endforeach
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <a href="{{ route('education.all') }}"
+                            class="browse-all-content fs-5 link-underline link-underline-opacity-0 border border-3 p-3 mt-5">Browse
+                            All
+                            Content</a>
                     </div>
                 </div>
             @endif

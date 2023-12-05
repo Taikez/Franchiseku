@@ -35,7 +35,7 @@ class EducationController extends Controller
     public function storeVideo(Request $req){
  
         $video = $req->file('educationVideo');
-        $name_gen_vid = hexdec(uniqid()). '.' . $video->getClientOriginalExtension();
+        $name_gen_vid = hexdec(uniqid()) . '.' . $video->getClientOriginalExtension();
         //resize image
         
         //specify desired directory path
@@ -43,9 +43,12 @@ class EducationController extends Controller
         
         $save_url_vid = $directory . $name_gen_vid;
 
-        dd($directory,$name_gen_vid,'public');
+        dd($directory, $name_gen_vid, 'public');
+
         //store video
-        $video->storeAs($directory,$name_gen_vid,'public');
+        EducationContent::updateOrCreate([
+            'educationVideo' => $save_url_vid,
+        ]);
     }
 
 
@@ -107,9 +110,9 @@ class EducationController extends Controller
         Image::make($image)->resize(800,450)->save(public_path($directory . $name_gen_img));
 
         //store video
-        $video->storeAs($directory,$name_gen_vid,'public');
+        // $video->storeAs($directory,$name_gen_vid,'public');
+        $video->move(public_path($directory), $name_gen_vid);
         
-
         EducationContent::insert([
             'educationTitle' => $validatedData['educationTitle'],
             'educationCategory' => $education->educationCategory,
@@ -131,7 +134,7 @@ class EducationController extends Controller
         return redirect()->route('all.education')->with($notification);
     } // end method
 
-      public function index(Request $request)
+    public function index(Request $request)
     {
         $educationCategories = EducationCategory::all();
 
@@ -153,19 +156,50 @@ class EducationController extends Controller
         if($maxPrice !== null)
             $queryEducation->where('educationPrice', '<=', $maxPrice);
 
-        // if($rating !== null)
-        //     $queryEducation->where('categoryId', $categoryId);
+        if($rating !== null)
+            $queryEducation->where('rating', $rating);
 
         // FETCH FILTERED DATA
-        $educations = $queryEducation->get();
+        $educations = $queryEducation->limit(9)->get();
 
         return view('educationContent', compact('educationCategories', 'educations'));
+    }
+
+    public function userAllEducation(Request $request)
+    {
+        $educationCategories = EducationCategory::all();
+
+        // GET PARAMETER VALUES
+        $categoryId = $request->input('category');
+        $minPrice = $request->input('minPrice');
+        $maxPrice = $request->input('maxPrice');
+        $rating = $request->input('rating');
+
+        // FILTER DATA
+        $queryEducation = EducationContent::query();
+
+        if($categoryId !== null) 
+            $queryEducation->where('education_category_id', $categoryId);
+
+        if($minPrice !== null)
+            $queryEducation->where('educationPrice', '>=', $minPrice);
+
+        if($maxPrice !== null)
+            $queryEducation->where('educationPrice', '<=', $maxPrice);
+
+        if($rating !== null)
+            $queryEducation->where('rating', $rating);
+
+        // FETCH FILTERED DATA
+        $educations = $queryEducation->paginate(1);
+
+        return view('allEducationContent', compact('educationCategories', 'educations'));
     }
 
     public function search(Request $request)
     {
         $educationCategories = EducationCategory::all();
-        $educations = EducationContent::where('educationTitle', 'like', '%'. $request->searchValue . '%')->get();
+        $educations = EducationContent::where('educationTitle', 'like', '%'. $request->searchValue . '%')->paginate(9);
         
         return view('educationContent', compact('educationCategories', 'educations'));
     }

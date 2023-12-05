@@ -43,6 +43,7 @@ Route::get('/admin/dashboard', function () {
 })->middleware(['auth', 'verified','admin'])->name('adminDashboard');
 
 Route::controller(UserController::class)->group(function(){
+    
 });    
 
 Route::middleware('auth')->group(function () {
@@ -91,6 +92,7 @@ Route::controller(NewsController::class)->group(function(){
 
 Route::controller(EducationController::class)->group(function(){
     Route::get('/education', 'index')->name('education.index');
+    Route::get('/education/all', 'userAllEducation')->name('education.all');
     Route::post('/education/search', 'search')->name('education.search');
     Route::get('/education/detail/{id}','detail')->name('education.detail');
     Route::get('/education/ratingView', 'ratingView');
@@ -115,6 +117,7 @@ Route::controller(FranchisorController::class)->group(function(){
 Route::controller(FranchiseController::class)->group(function(){
     Route::get('/admin/all/franchise','AllFranchise')->name('all.franchise');
     Route::get('/franchise','Franchise')->name('franchise');
+    Route::get('/franchise/detail/{id}','detail')->name('franchise.detail');
     Route::get('/my/franchise','MyFranchise')->middleware('franchisor')->name('my.franchise');
     Route::get('/register/franchise','RegisterFranchise')->middleware('franchisor')->name('register.franchise');
     Route::post('/post/franchise','StoreFranchise')->middleware('franchisor')->name('store.franchise');

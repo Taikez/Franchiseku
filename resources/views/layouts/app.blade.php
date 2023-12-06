@@ -90,18 +90,11 @@
 
 </body>
 
-
-
 </html>
 
 <script>
     var baseUrl = "{{ asset('') }}";
-</script>
 
-{{-- <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-    AOS.init();
-    
     // loading spinner
     let fadeTarget = document.querySelector(".loading");
 
@@ -125,7 +118,30 @@
             }
         }, 100);
     }
+
+    // Send email
+    document.getElementById('sendMessageForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        let formData = new FormData(event.target);
+
+        fetch('{{ route('send.email') }}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Email sent successfully!');
+                    event.target.reset(); // Reset the form
+                } else {
+                    alert('Failed to send email. Please try again.');
+                }
+            })
+            .catch(error => {
+                alert('Failed to send email. Please try again.');
+            });
+    });
 </script>
-
-
-{{-- <script src="bower_components/aos/dist/aos.js"></script> --}}

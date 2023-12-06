@@ -51,17 +51,10 @@
                      </ul>
                  </li>
 
-                 <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle fs-5 text-start" href="#" role="button"
-                         data-bs-toggle="dropdown" aria-expanded="false">
-                         About
-                     </a>
-                     <ul class="dropdown-menu">
-                         <li><a class="dropdown-item" href="{{ route('aboutUs') }}">About Us</a></li>
-                         <li><a class="dropdown-item" href="#">Another action</a></li>
-                         <li><a class="dropdown-item" href="#">Something else here</a></li>
-                     </ul>
+                 <li class="nav-item">
+                     <a class="nav-link fs-5 text-start" href="{{ route('aboutUs') }}">About Us</a>
                  </li>
+
                  <li class="nav-item">
                      <a class="nav-link fs-5 text-start" href="#">Subscribe</a>
                  </li>
@@ -105,8 +98,7 @@
                              <div class="dropdown-divider"></div>
                              <a class="dropdown-item" href="{{ route('logout') }}"
                                  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                             <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                 style="display: none;">
+                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                  @csrf
                              </form>
                          </div>
@@ -116,4 +108,3 @@
          </div>
      </div>
  </nav>
-

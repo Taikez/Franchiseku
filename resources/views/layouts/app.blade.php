@@ -50,10 +50,9 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     {{-- AOS --}}
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
 
     {{-- google api --}}
     <script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -118,30 +117,4 @@
             }
         }, 100);
     }
-
-    // Send email
-    document.getElementById('sendMessageForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        let formData = new FormData(event.target);
-
-        fetch('{{ route('send.email') }}', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Email sent successfully!');
-                    event.target.reset(); // Reset the form
-                } else {
-                    alert('Failed to send email. Please try again.');
-                }
-            })
-            .catch(error => {
-                alert('Failed to send email. Please try again.');
-            });
-    });
 </script>

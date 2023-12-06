@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('main')
-    @include('modals.success-modal')
+    {{-- @include('modals.success-modal') --}}
     <div id="banner" class="container-fluid p-5 p-md-5 mb-5">
         <div class="row d-flex align-items-center justify-content-center mb-5">
             <div id="banner-left" class="col-lg-6 col-md-8 col-sm-12 p-2">
@@ -217,28 +217,39 @@
                 </div>
 
                 <div class="col-md-6">
-                    <form id="sendMessageForm" action="{{ route('send.email') }}" method="POST">
+                    @include('layouts.flashMessage')
+                    <form action="{{ route('send.email') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('POST')
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <input type="text" class="form-control" id="name" name="name"
+                                value="{{ old('name') }}">
+                            @error('name')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" name="email"
-                                aria-describedby="emailHelp" required>
+                                aria-describedby="emailHelp" value="{{ old('email') }}">
+                            @error('email')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="message" class="form-label">Message</label>
-                            <textarea class="form-control" name="message" id="message" cols="30" rows="5" required></textarea>
+                            <textarea class="form-control" name="message" id="message" cols="30" rows="5"
+                                value="{{ old('message') }}"></textarea>
+                            @error('message')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="mb-3 mt-4 d-flex justify-content-end">
                             <input type="submit" value="Send Message" class="submitBtn fs-5"
                                 style="padding: .25rem 1rem; border-radius:5px;">
                         </div>
                     </form>
-
                 </div>
                 <div class="col-md-6"></div>
             </div>

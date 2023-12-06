@@ -149,10 +149,6 @@
 
                                 <input type="submit" class="btn btn-info waves-effect waves-light" id="submitBtn"
                                     value="Insert Education Data" onclick="showLoading()">
-
-                            <input type="submit" class="btn btn-info waves-effect waves-light" id="submitBtn" value="Insert Education Data">
-
-
                             </form>
                         </div>
                     </div>
@@ -173,21 +169,6 @@
                 }
 
                 reader.readAsDataURL(e.target.files['0']);
-            });
-
-            $('#addEducationForm').ajaxForm({
-                beforeSend: function() {
-                    var percentage = '0';
-                },
-                uploadProgress: function(event, position, total, percentComplete) {
-                    var percentage = percentComplete;
-                    $('.progress .progress-bar').css("width", percentage + '%', function() {
-                        return $(this).attr("aria-valuenow", percentage) + "%";
-                    })
-                },
-                complete: function(xhr) {
-                    console.log('File has been uploaded');
-                }
             });
         });
     </script>

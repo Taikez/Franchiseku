@@ -74,18 +74,10 @@
             <div class="row mt-4">
                 <div class="col align-self-center">
                     <div class="buttonGroup d-grid gap-2 d-md-block">
-<<<<<<< HEAD
-                        <button class="btn btn-primary border active" data-aos="fade-up-right" data-aos-duration="800">Food
-                            Franchise</button>
-                        <button class="btn btn-light border" data-aos="fade-up" data-aos-duration="800">Cosmetics</button>
-                        <button class="btn btn-light border" data-aos="fade-up-left"
-                            data-aos-duration="800">Supplements</button>
-=======
                         @foreach ($franchiseCategory as $item)
                             <button class="btn btn-light border" data-aos="fade-up"
                                 data-aos-duration="800">{{$item->franchiseCategory}}</button>
                         @endforeach
->>>>>>> 649ab4fd7e79ee995affebf007964e261185021e
                     </div>
                 </div>
             </div>
@@ -282,107 +274,4 @@
         </div>
 
     </section>
-<<<<<<< HEAD
-    </body>
 @endsection
-=======
-
-    {{-- @include('components.register_franchisor'); --}}
-    @include('modals.success-modal');
-    @include('components.footer')
-</body>
-
->>>>>>> 649ab4fd7e79ee995affebf007964e261185021e
-{{-- Toaster --}}
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-    AOS.init();
-</script>
-<script>
-    @if (Session::has('message'))
-        var type = "{{ Session::get('alert-type', 'info') }}"
-        switch (type) {
-            case 'info':
-                toastr.info(" {{ Session::get('message') }} ");
-                break;
-
-            case 'success':
-                toastr.success(" {{ Session::get('message') }} ");
-                break;
-
-            case 'warning':
-                toastr.warning(" {{ Session::get('message') }} ");
-                break;
-
-            case 'error':
-                toastr.error(" {{ Session::get('message') }} ");
-                break;
-        }
-    @endif
-</script>
-{{-- Kalo user, muncul register franchisor || kalo franchisor muncul register franchise --}}
-
-{{-- 
-        @if (auth()->check())
-          @if (auth()->user()->role == 'Franchisor')
-            <div id="registerFranchise">
-                @include('components.register_franchise')
-                @include('modals.register-franchise-success')
-            </div>
-        @elseif(auth()->user()->role == 'User')
-            <div id="registerFranchisor">
-                @include('components.register_franchisor')
-                @include('modals.register-franchisor-success')
-            </div>
-            @endif
-        @endif --}}
-</body>
-
-{{-- Call Modal --}}
-@if (isset($successData))
-    <script>
-        // Trigger the success modal
-        $(document).ready(function() {
-            $("{!! $successData['modal'] !!}").modal('show');
-        });
-    </script>
-@endif
-
-<<<<<<< HEAD
-{{-- auto scroll into register franchise (franchisor) --}}
-@if (isset($scrollToRegisterFranchise) && $scrollToRegisterFranchise)
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const registerFranchiseSection = document.getElementById("registerFranchise");
-            if (registerFranchiseSection) {
-                registerFranchiseSection.scrollIntoView({
-                    behavior: "smooth"
-=======
-    {{-- Call Modal   --}}
-    @if(isset($successData))
-        <script>
-            // Trigger the success modal
-            $(document).ready(function(){
-                $("{!! $successData['modal'] !!}").modal('show');
-            });
-        </script>
-    @endif
-
-         {{-- auto scroll into register franchise (franchisor)--}}
-        @if(isset($scrollToRegisterFranchise) && $scrollToRegisterFranchise)
-            <script>
-                document.addEventListener("DOMContentLoaded", function() {
-                    const registerFranchiseSection = document.getElementById("registerFranchise");
-                    if (registerFranchiseSection) {
-                        registerFranchiseSection.scrollIntoView({ behavior: "smooth" });
-                    }
->>>>>>> 649ab4fd7e79ee995affebf007964e261185021e
-                });
-            }
-        });
-    </script>
-@endif
-
-
-</html>

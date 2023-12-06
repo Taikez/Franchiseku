@@ -29,7 +29,14 @@
          <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
              <ul class="navbar-nav ml-auto">
                  <!-- Add the "ml-auto" class to move the links to the right -->
-                 <li class="nav-item dropdown">
+                 
+                 {{-- Overlay --}}
+                 <div class="overlay d-flex d-lg-none text-center"></div>
+
+                 <div class="order-lg-2 d-lg-flex w-50 pb-3 pb-lg-0 sidebar" id="navbarNav">
+                     <ul class="navbar-nav mr-lg-auto mb-2 mb-lg-0 text-center">
+                         <!-- Add the "ml-auto" class to move the links to the right -->
+                         <li class="nav-item dropdown">
                      <a class="nav-link dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown"
                          aria-expanded="false">
                          Features
@@ -52,29 +59,6 @@
                          @endguest
                      </ul>
                  </li>
-                 {{-- Overlay --}}
-                 <div class="overlay d-flex d-lg-none text-center"></div>
-
-                 <div class="order-lg-2 d-lg-flex w-50 pb-3 pb-lg-0 sidebar" id="navbarNav">
-                     <ul class="navbar-nav mr-lg-auto mb-2 mb-lg-0 text-center">
-                         <!-- Add the "ml-auto" class to move the links to the right -->
-                         <li class="nav-item dropdown">
-                             <a class="nav-link dropdown-toggle fs-5 px-3 px-lg-2" href="#" role="button"
-                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                 Features
-                             </a>
-                             <ul class="dropdown-menu">
-                                 <li><a class="dropdown-item" href="{{ route('news') }}">News</a></li>
-                                 <li><a class="dropdown-item" href="{{ route('education.index') }}">Education</a></li>
-                                 @guest
-                                 @else
-                                     @if (Auth::user()->role === 'Admin')
-                                         <li><a class="dropdown-item" href="{{ route('adminDashboard') }}">Admin Page</a>
-                                         </li>
-                                     @endif
-                                 @endguest
-                             </ul>
-                         </li>
 
                          <li class="nav-item dropdown">
                              <a class="nav-link dropdown-toggle fs-5 px-3 px-lg-2" href="#" role="button"

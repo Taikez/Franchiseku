@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use Illuminate\Http\Request;
 use App\Models\Franchise;
-use App\Models\franchiseCategory;
+use App\Models\FranchiseCategory;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -29,7 +29,7 @@ class FranchiseController extends Controller
 
     public function RegisterFranchise(){
         $user = Auth::user();
-        $allFranchiseCategory = franchiseCategory::orderBy('franchiseCategory','asc')->get();
+        $allFranchiseCategory = FranchiseCategory::orderBy('franchiseCategory','asc')->get();
         return view("franchisor.add_franchise", compact('user','allFranchiseCategory'));
     }
 

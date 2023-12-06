@@ -120,9 +120,6 @@ a {
     align-items: flex-start;
 }
 
-.left-banner div {
-}
-
 .contact-us {
     /* background-color: var(--dark); */
     width: 100%;
@@ -278,11 +275,6 @@ a {
 }
 
 /* update profile page */
-
-.update-profile-sidebar-menu {
-    /* background-color: red !important; */
-}
-
 .update-profile-sidebar-menu li {
     transition: 200ms;
     margin-bottom: 0.5rem;
@@ -335,50 +327,103 @@ a {
     }
 }
 
-.sidebar,
-.overlay {
+/* spinner bro */
+.lds-ring {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+    top: 50%;
+}
+.lds-ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border: 8px solid #000;
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: #fff transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+    animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.spinner-overlay {
+    z-index: 999999;
     position: fixed;
     top: 0;
     bottom: 0;
-}
-
-.sidebar {
-    left: -100%;
-    max-width: 300px;
-    background-color: #f8f9fa;
-    transition: all ease 0.5s;
-}
-
-.overlay {
     left: 0;
     right: 0;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    visibility: hidden;
+    background-color: rgba(0, 0, 0, 0.7);
+    text-align: center;
 }
 
-.main-navigation.active .sidebar {
-    left: 0;
-}
-
-.main-navigation.active .overlay {
-    visibility: visible;
-}
-
-@media (min-width: 992px) {
-    .sidebar {
-        position: relative;
-        top: auto;
-        bottom: auto;
-        left: auto;
-        flex-direction: row;
-        max-width: 100%;
-        transition: none;
-        overflow-y: visible;
+/* sidebar mobile bro */
+@media (max-width: 992px) {
+    .navbar-collapse {
+        position: fixed;
+        top: 50px; /* adjust to height of navbar */
+        left: 0;
+        padding-top: 2rem;
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-bottom: 15px;
+        width: 50%;
+        height: 100%;
+        background-color: #F8F9FA;
     }
 
-    .navbar-nav {
-        background-color: transparent;
+    .navbar-collapse.collapsing {
+        left: -75%;
+        transition: height 0s ease;
+    }
+
+    .navbar-collapse.show {
+        left: 0;
+        transition: left 300ms ease-in-out;
+    }
+
+    .navbar-toggler.collapsed ~ .navbar-collapse {
+        transition: left 500ms ease-in-out;
+    }
+
+    #loginRegisterBtn{
+        flex-direction: column;
+        align-content: flex-start;
+        width: 100%;   
+    }
+
+    #loginBtn{
+        margin-bottom: 1rem;
+    }
+
+    .nav-item{
+        width: 100%;
+    }
+
+    .dropdown-menu{
+        border: 0px;
+    }
+
+    #profilePicture{
+        margin-right: 1rem;
     }
 }

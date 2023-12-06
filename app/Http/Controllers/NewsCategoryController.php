@@ -35,6 +35,7 @@ class NewsCategoryController extends Controller
         $notification = array(
             'message' => 'News Category Added Successfully!',
             'alert-type' => 'success',
+            'showLoadingSpinner' => true,
         );
 
         return redirect()->route('all.news.category')->with($notification);
@@ -51,6 +52,7 @@ class NewsCategoryController extends Controller
         $notification = array(
             'message' => $categoryName.' Deleted Successfully!',
             'alert-type' => 'success',
+            'showLoadingSpinner' => true,
         );
 
         return redirect()->back()->with($notification);

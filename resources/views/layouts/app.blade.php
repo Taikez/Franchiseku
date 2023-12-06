@@ -29,6 +29,9 @@
 
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     @vite(['resources/css/app.css', 'resources/css/header.css', 'resources/css/footer.css', 'resources/js/app.js', 'resources/sass/app.scss'])
@@ -50,11 +53,24 @@
 
     {{-- AOS --}}
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+
+    {{-- google api --}}
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 
-<body class="font-sans antialiased">
+<body class="font-sans antialiased" onload="hideLoading();">
+    <div class="loading spinner-overlay">
+        <div class="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
     <div class="min-h-screen bg-gray-100">
         @include('layouts.guest_header')
+
 
         @vite('resources/css/auth.css')
         <!-- Page Heading -->
@@ -72,7 +88,10 @@
 
         @include('components.footer')
     </div>
+
 </body>
+
+
 
 </html>
 
@@ -80,9 +99,34 @@
     var baseUrl = "{{ asset('') }}";
 </script>
 
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+{{-- <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
     AOS.init();
+    
+    // loading spinner
+    let fadeTarget = document.querySelector(".loading");
+
+    function showLoading() {
+        console.log("show loading");
+        fadeTarget.style.display = "block";
+    }
+
+    function hideLoading() {
+        fadeTarget.style.display = "none";
+        let fadeEffect = setInterval(() => {
+            if (!fadeTarget.style.opacity) {
+                fadeTarget.style.opacity = 1;
+            }
+
+            if (fadeTarget.style.opacity > 0) {
+                fadeTarget.style.opacity -= 0.1;
+            } else {
+                clearInterval(fadeEffect);
+                fadeTarget.style.display = "none";
+            }
+        }, 100);
+    }
 </script>
+
 
 {{-- <script src="bower_components/aos/dist/aos.js"></script> --}}

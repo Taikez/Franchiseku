@@ -37,7 +37,7 @@
                                 
                             </tr>
                             </thead>    
-
+                           
                             <tbody>
                                 @php($i = 1)
                                 @foreach ($allFranchise  as $item)
@@ -46,18 +46,17 @@
                                     <td>{{$item->franchiseCategory}}</td>
                                     <td style="width: 10rem">{{$item->franchiseName}}</td>
                                     <td>{{$item->franchiseLocation}}</td>
-                                    <td>{{$item->franchisePrice}}</td>
+                                    <td>{{ number_format($item->franchisePrice, 0, '.', ',') }}</td>
 
                                     @if ($item->status == 'Approved')
                                         <td style="background-color:aquamarine;">{{$item->status}}</td>
                                     @elseif($item->status == 'Rejected') 
-                                        <td class="background-color: lightcoral; color:black;">{{$item->status}}</td>
+                                        <td style="background-color: lightcoral; color:black;">{{$item->status}}</td>
                                         @else
                                         <td>{{$item->status}}</td>
                                     @endif
 
                                     <td><a href="{{asset($item->franchiseReport)}}" download="{{$item->franchiseName}}-{{$item->franchiseReport}}">Download</a></td>
-                                   
                                 </tr>
                                 @endforeach
                             </tbody>

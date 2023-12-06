@@ -21,11 +21,12 @@ class UserController extends Controller
     public function userDashboard(){
          // Retrieve flashed data from the session
 
-        $franchiseCategory = FranchiseCategory::latest()->take(3)->get();
+        $franchiseCategories = FranchiseCategory::latest()->take(3)->get();
+        $franchises = Franchise::latest()->take(3)->get();
         $successData = session('success_data');
 
         // Pass the data to the view or use it as needed
-        return view('dashboard', compact('franchiseCategory'))->with('successData', $successData);
+        return view('dashboard', compact('franchiseCategories', 'franchises'))->with('successData', $successData);
     }
 
       // Display the profile update form
@@ -38,10 +39,10 @@ class UserController extends Controller
       public function update(Request $req){
         $userId = $req->id;
 
-        
+        dd($req->profileImage);
         //if theres any image
         if($req->file('profileImage')){
-            // dd('Yes image');
+            dd('Yes image');
             $user = User::findOrFail($userId);
 
             if($user->profileImage != null || $user->profileImage != ""){
@@ -80,7 +81,7 @@ class UserController extends Controller
             ]); 
             
         }else{
-            // dd('no image');
+            dd('no image');
             User::findOrFail($userId)->update([
                 'name' => $req->name,
                 'email' => $req->email,
@@ -90,7 +91,16 @@ class UserController extends Controller
 
         }
 
-        return redirect()->route('profile.edit')->with('success', 'Profile updated successfully');
+        $response = [
+            'message' => 'Profile update successfully, please wait for approval',
+            'modal' => '#successModal', // Modal ID to trigger
+            ];
+
+        // Flash the data to the session
+        session()->flash('success_data', $response);        
+    
+        return  redirect()->route('profile.edit')->with('successData', $response);
+
 
         // $notification = array(
         //     'message' => 'Profile Updated Successfully',
@@ -151,4 +161,5 @@ class UserController extends Controller
         return redirect()->route('login')->with('success', 'Your account has been deleted.');
     } //end method
     
+   
 }

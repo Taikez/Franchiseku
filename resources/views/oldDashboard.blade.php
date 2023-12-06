@@ -1,72 +1,7 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('layouts.app')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>FranchiseKu</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&family=Roboto:wght@100;300;500;700;900&display=swap"
-        rel="stylesheet">
-
-    <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-
-    {{-- Toaster --}}
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
-
-    {{-- icon --}}
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-
-    <!-- Styles -->
-    <!-- Bootstrap Css -->
-    {{-- <link href="{{asset('backend/assets/css/bootstrap.min.css')}}" id="bootstrap-style" rel="stylesheet"  /> --}}
-    {{-- AOS --}}
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <!-- Scripts -->
-    <script src="{{ asset('backend/assets/libs/jquery/jquery.min.js') }}"></script>
-    {{-- <script src="{{asset('backend/assets/libs/bootstrap/js/bootstrap.bundle.min.js')}}"></script> --}}
-
-    @vite(['resources/css/header.css', 'resources/css/footer.css'])
-    @vite(['resources/css/app.css', 'resources/sass/app.scss', 'resources/js/app.js'])
-</head>
-
-<body class="antialiased border-0">
-    {{-- login validation --}}
-    @if (Route::has('login'))
-        {{-- <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
-                    @auth
-                        <a href="{{ url('/dashboard') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</a>
-                        @include('layouts.guest_header')
-                    @else
-                        <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
-                        @endif
-                    @endauth
-                </div> --}}
-        <div class="">
-            @if (auth()->check())
-                @if (auth()->user()->role == 'Franchisor')
-                @endif
-                @include('layouts.guest_header')
-            @else
-                @include('layouts.guest_header')
-            @endif
-        </div>
-
-    @endif
-
-    <div id="banner" class="container-fluid p-5 mb-5">
+@section('main')
+    <div id="banner" class="container-fluid p-5 p-md-5 mb-5">
         <div class="row d-flex align-items-center justify-content-center mb-5">
             <div id="banner-left" class="col-lg-6 col-md-8 col-sm-12 p-2">
                 <div class="float-right">
@@ -85,8 +20,7 @@
             <div id="banner-right" class="col-lg-6 col-md-8 col-sm-12 text-center p-5" data-aos="fade-down-left"
                 data-aos-duration="800">
                 <div class="float-left">
-                    <img class="img-fluid" src="{{ asset('frontendImg/bannerImg.png') }}" alt="Banner Asset"
-                        width="600">
+                    <img class="img-fluid" src="{{ asset('frontendImg/bannerImg.png') }}" alt="Banner Asset" width="600">
                 </div>
             </div>
         </div>
@@ -113,12 +47,12 @@
                                     {{ Carbon\Carbon::parse($latestNews->created_at)->diffForHumans() }} </small></p>
                             <p class="card-text">By: {{ $latestNews->newsAuthor }}</p>
                             <a href="#">See More >></a>
+
                         </div>
                     </div>
                     <div class="col-md-4 d-flex align-items-center p-4">
                         <a href="{{ route('news.detail', $latestNews->id) }}">
-                            <img src="{{ asset($latestNews->newsImage) }}" class=" w-100 img-fluid rounded"
-                                alt="...">
+                            <img src="{{ asset($latestNews->newsImage) }}" class=" w-100 img-fluid rounded" alt="...">
                         </a>
                     </div>
                 </div>
@@ -138,16 +72,20 @@
             </div>
 
             <div class="row mt-4">
-                <div class="col align-self-center">
-                    <div class="buttonGroup d-grid gap-2 d-md-block">
-                        <button class="btn btn-primary border active" data-aos="fade-up-right"
-                            data-aos-duration="800">Food Franchise</button>
-                        <button class="btn btn-light border" data-aos="fade-up"
-                            data-aos-duration="800">Cosmetics</button>
-                        <button class="btn btn-light border" data-aos="fade-up-left"
-                            data-aos-duration="800">Supplements</button>
+                @if ($franchiseCategories->count() == 0)
+                    <div class="col-lg-3 pb-3" data-aos="fade-down-right" data-aos-duration="800">
+                        <div class="alert alert-warning w-100">No franchise categories to be found!</div>
                     </div>
-                </div>
+                @else
+                    <div class="col align-self-center">
+                        <div class="buttonGroup d-grid gap-2 d-md-block">
+                            @foreach ($franchiseCategories as $franchiseCategory)
+                                <button class="btn btn-light border" data-aos="fade-up"
+                                    data-aos-duration="800">{{ $franchiseCategory->franchiseCategory }}</button>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
             </div>
 
             <div class="row mt-4 mb-4">
@@ -162,62 +100,52 @@
                         offer, user could also search franchise investment according to their preference and desire</p>
                 </div>
             </div>
-
-            <div class="row mb-4">
-                <div class="col-md-4 mb-3" data-aos="fade-up-right" data-aos-duration="800">
-                    <div class="card border-0 shadow-sm bg-light p-2">
-                        <a href="#">
-                            <img src="{{ asset('upload/franchise/cafe1.jpeg') }}" class="card-img-top rounded"
-                                alt="...">
-                        </a>
-                        <div class="card-body">
-                            <p class="card-text">Some quick example text to build on the card title and make up the
-                                bulk
-                                of the card's content.</p>
-                        </div>
-                    </div>
+            @if ($franchises->count() == 0)
+                <div class="col-lg-12 pb-3" data-aos="fade-down-right" data-aos-duration="800">
+                    <div class="alert alert-warning w-100">No franchises to be found!</div>
                 </div>
-                <div class="col-md-4 mb-3" data-aos="fade-up" data-aos-duration="800">
-                    <div class="card border-0 bg-light p-2 shadow-sm">
-                        <a href="#">
-                            <img src="{{ asset('upload/franchise/cafe1.jpeg') }}" class="card-img-top rounded"
-                                alt="...">
-                        </a>
-                        <div class="card-body">
-                            <p class="card-text">Some quick example text to build on the card title and make up the
-                                bulk
-                                of the card's content.</p>
+            @else
+                <div class="row mb-4">
+                    @foreach ($franchises as $franchise)
+                        <div class="col-lg-4 col-md-6 col-sm-9 mb-3" data-aos="fade-down-left" data-aos-duration="1000">
+                            <div class="fixed-height-box h-100 rounded border border-1 shadow-sm bg-white"
+                                style="overflow: hidden">
+                                <div class="container-fluid w-100 m-0 p-0" style="overflow: hidden; height: 15rem">
+                                    <img src="{{ asset($franchise->franchiseLogo) }}" alt="Education Content Banner"
+                                        class="img-fluid w-100" style="object-fit: cover; height: 100%; width: 100%;">
+                                </div>
+                                <div class="p-3">
+                                    <h3>{{ $franchise->franchiseName }}</h3>
+                                    <p class="mb-2 text-muted">By {{ $franchise->franchisePIC }}</p>
+                                    <span class="badge bg-info mb-3">
+                                        {{ $franchise->franchiseCategory }}
+                                    </span>
+                                    <p class="mb-2">IDR {{ number_format($franchise->franchisePrice, 2) }}</p>
+                                    <hr>
+                                    <a href="{{ route('education.detail', $franchise->id) }}"
+                                        class="d-flex justify-content-between">
+                                        <div>
+                                            Read More
+                                        </div>
+                                        <div>
+                                            <span class="material-symbols-rounded">
+                                                north_east
+                                            </span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    @endforeach
                 </div>
-                <div class="col-md-4 mb-3" data-aos="fade-up-left" data-aos-duration="800">
-                    <div class="card border-0 bg-light p-2 shadow-sm">
-                        <a href="#">
-                            <img src="{{ asset('upload/franchise/cafe1.jpeg') }}" class="card-img-top rounded"
-                                alt="...">
-                        </a>
-                        <div class="card-body">
-                            <p class="card-text">Some quick example text to build on the card title and make up the
-                                bulk of the card's content.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-4 text-center">
-                <a href="text-secondary" data-aos="fade-up" data-aos-duration="800">
-                    <p>click on the franchises above to see more details >> </p>
-                </a>
-            </div>
-
+            @endif
         </div>
     </section>
 
     <section id="home-subscription" class="home-subscription">
         <div class="container-fluid bg-white p-2 d-flex align-items-center" style="min-height: 100vh;">
             <div class="row ">
-                <div class="col-md-5 d-flex align-items-center p-4 mb-4" data-aos="flip-left"
-                    data-aos-duration="800">
+                <div class="col-md-5 d-flex align-items-center p-4 mb-4" data-aos="flip-left" data-aos-duration="800">
                     <img class="home-subscription-img img-fluid" alt=""
                         src="{{ asset('upload/home-asset/home-subscription-img.png') }}">
                 </div>
@@ -254,8 +182,8 @@
                     </div>
                     <div class="row mb-4" data-aos="fade-up-left" data-aos-duration="800">
                         <div class="col-md-2 col-sm-2 p-4">
-                            <img src="{{ asset('upload/home-asset/feedback-bg.png') }}"
-                                class="img-fluid mx-auto d-block" alt="asd">
+                            <img src="{{ asset('upload/home-asset/feedback-bg.png') }}" class="img-fluid mx-auto d-block"
+                                alt="asd">
                         </div>
                         <div class="col-md-8">
                             <p class="fs-5">Easy Information Transparency</p>
@@ -264,7 +192,7 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <a href="" data-aos="zoom-in-down" data-aos-duration="800">
+                            <a href="{{ route('education.index') }}" data-aos="zoom-in-down" data-aos-duration="800">
                                 <button type="button" class="submitBtn" style="background-color: #0070F0">Start
                                     Now</button>
                             </a>
@@ -343,10 +271,11 @@
         </div>
 
     </section>
+    </body>
+@endsection
 
-    @include('components.register_franchisor');
-    @include('modals.success-modal');
-    @include('components.footer')
+
+@include('modals.success-modal');
 </body>
 
 {{-- Toaster --}}

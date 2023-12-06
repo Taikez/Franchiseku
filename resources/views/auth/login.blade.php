@@ -65,6 +65,8 @@
                                     <label for="remember_me" class="form-check-label">{{ __('Remember me') }}</label>
                                 </div>
 
+
+
                                 <div class="mb-3 text-start">
                                     @if (Route::has('password.request'))
                                         <a class="text-sm text-success fw-bold text-decoration-none"

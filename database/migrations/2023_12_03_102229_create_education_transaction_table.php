@@ -11,16 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('franchise_rating', function (Blueprint $table) {
+        Schema::create('education_transaction', function (Blueprint $table) {
             $table->id();
+            $table->string('paymentType')->nullable();
+            $table->double('totalPrice')->nullable();
+            $table->string('status');
             $table->unsignedBigInteger('userId');
-            $table->unsignedBigInteger('franchiseId');
-            $table->unsignedTinyInteger('rating');
-            $table->string('comment');
+            $table->foreign('userId')->references('id')->on('users');
             $table->timestamps();
-
-             $table->foreign('userId')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('franchiseId')->references('id')->on('franchises')->onDelete('cascade');
         });
     }
 
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('franchise_rating');
+        Schema::dropIfExists('education_transaction');
     }
 };

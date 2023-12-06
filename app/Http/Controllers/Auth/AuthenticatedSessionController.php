@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -51,5 +52,19 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    public function loginWithSocialite($provider)
+    {
+        return Socialite::driver($provider)->redirect();
+    }
+
+    public function handleSocialiteCallback($provider)
+    {
+        $user = Socialite::driver($provider)->user();
+
+        // Your logic to handle the user data (create or log in the user)
+
+        return redirect('/dashboard'); // Redirect to the dashboard or any desired route
     }
 }

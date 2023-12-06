@@ -32,6 +32,7 @@ class EducationCategoryController extends Controller
         $notification = array(
             'message' => 'Education Category Added Successfully!',
             'alert-type' => 'success',
+            'showLoadingSpinner' => true,
         );
 
         return redirect()->route('all.education.category')->with($notification);
@@ -52,6 +53,7 @@ class EducationCategoryController extends Controller
         $notification = array(
             'message' => $categoryName.' Deleted Successfully!',
             'alert-type' => 'success',
+            'showLoadingSpinner' => true,
         );
 
         return redirect()->back()->with($notification);

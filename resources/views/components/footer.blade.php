@@ -1,20 +1,20 @@
 <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
 
-<div id="footer" class="container-fluid p-4 pt-5 bg-white">
+<div id="footer" class="container-fluid p-4 pt-5 bg-white" data-aos="fade" data-aos-duration="800">
 
     <div style="width: 90%; margin:auto;" class="align-items-center justify-center">
 
         <div id="logo" class="row">
-            <div class="col-md-2 col-sm-12" data-aos="fade-down-right" data-aos-duration="800">
+            <div class="col-md-2 col-sm-12">
                 <img class="img-fluid mb-4" src="{{ asset('homeImages/logo.png') }}" alt="Logo">
             </div>
-            <p class="fs-4 fw-bold mb-5" data-aos="fade-up-left" data-aos-duration="800">Reach us</p>
+            <p class="fs-4 fw-bold mb-5">Reach us</p>
         </div>
 
         <div id="footer-content" class="row">
             <div class="col-lg-6 col-md-12 col-sm-12 mb-5">
-                <div data-aos="fade-left" data-aos-duration="800">
+                <div>
                     <div id="support" class="row d-flex align-items-center mb-3">
                         <div class="col-lg-1 col-md-1 col-sm-12">
                             <i class="material-symbols-rounded" style="color:#015051;">mail</i>
@@ -45,19 +45,16 @@
                 <div id="social-media" class="row d-flex align-items-center mb-3">
                     <div class="col-lg-6 col-md-6 col-sm-12">
                         <a href="www.facebook.com"><img class="social-media facebook img-fluid me-4"
-                                src="{{ asset('homeImages/facebook.png') }}" alt="Facebook" data-aos="fade-up-right"
-                                data-aos-duration="800"></a>
+                                src="{{ asset('homeImages/facebook.png') }}" alt="Facebook"></a>
                         <a href="www.twitter.com"><img class="social-media twitter img-fluid me-4"
-                                src="{{ asset('homeImages/twitter.png') }}" alt="Twitter" data-aos="zoom-in-up"
-                                data-aos-duration="800"></a>
+                                src="{{ asset('homeImages/twitter.png') }}" alt="Twitter"></a>
                         <a href="www.instagram.com"><img class="social-media instagram img-fluid me-4"
-                                src="{{ asset('homeImages/instagram.png') }}" alt="Instagram" data-aos="fade-up-left"
-                                data-aos-duration="800"></a>
+                                src="{{ asset('homeImages/instagram.png') }}" alt="Instagram"></a>
                     </div>
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-6 col-sm-12" data-aos="fade-down-right" data-aos-duration="800">
+            <div class="col-lg-3 col-md-6 col-sm-12">
                 <p><a href="#" class="footer-link link-offset-2 link-underline link-underline-opacity-0">Franchise
                         List</a></p>
                 <p><a href="#"
@@ -68,7 +65,7 @@
                         class="footer-link link-offset-2 link-underline link-underline-opacity-0">Wishlist</a></p>
             </div>
 
-            <div class="col-lg-3 col-md-6 col-sm-12" data-aos="fade-down-left" data-aos-duration="800">
+            <div class="col-lg-3 col-md-6 col-sm-12">
                 <p><a href="#" class="footer-link link-offset-2 link-underline link-underline-opacity-0">About
                         FranchiseKu</a></p>
                 <p><a href="#" class="footer-link link-offset-2 link-underline link-underline-opacity-0">Help
@@ -77,7 +74,7 @@
                         Forum</a></p>
             </div>
 
-            <div data-aos="fade-right" data-aos-duration="800">
+            <div>
                 <hr class="hr">
 
                 <p>FranchiseKu 2023. All rights reserved</p>

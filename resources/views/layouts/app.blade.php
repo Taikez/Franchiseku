@@ -99,9 +99,7 @@
     var baseUrl = "{{ asset('') }}";
 </script>
 
-{{-- <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-    AOS.init();
     
     // loading spinner
     let fadeTarget = document.querySelector(".loading");
@@ -129,4 +127,3 @@
 </script>
 
 
-{{-- <script src="bower_components/aos/dist/aos.js"></script> --}}

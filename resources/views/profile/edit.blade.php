@@ -106,10 +106,6 @@
 
 
         <!-- Success Modal -->
-       @include('../modals/success-modal')
-
-
-
     </div>
 
     {{-- success modal --}}

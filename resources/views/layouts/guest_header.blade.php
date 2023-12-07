@@ -27,17 +27,9 @@
          <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
              <!-- Add the "ml-auto" class to move the links to the right -->
              <ul class="navbar-nav ml-auto">
-                 <!-- Add the "ml-auto" class to move the links to the right -->
-                 
-                 {{-- Overlay --}}
-                 <div class="overlay d-flex d-lg-none text-center"></div>
-
-                 <div class="order-lg-2 d-lg-flex w-50 pb-3 pb-lg-0 sidebar" id="navbarNav">
-                     <ul class="navbar-nav mr-lg-auto mb-2 mb-lg-0 text-center">
-                         <!-- Add the "ml-auto" class to move the links to the right -->
-                         <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown"
-                         aria-expanded="false">
+                 <li class="nav-item dropdown">
+                     <a class="nav-link dropdown-toggle fs-5 text-start" href="#" id="navbarFeatures"
+                         role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                          Features
                      </a>
                      <ul class="dropdown-menu" aria-labelledby="navbarFeatures">
@@ -124,4 +116,3 @@
          </div>
      </div>
  </nav>
-

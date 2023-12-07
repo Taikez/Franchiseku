@@ -30,7 +30,7 @@ class FranchiseController extends Controller
 
     public function RegisterFranchise(){
         $user = Auth::user();
-        $allFranchiseCategory = franchiseCategory::orderBy('franchiseCategory','asc')->get();
+        $allFranchiseCategory = FranchiseCategory::orderBy('franchiseCategory','asc')->get();
         return view("franchisor.add_franchise", compact('user','allFranchiseCategory'));
     }
 

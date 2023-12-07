@@ -13,6 +13,6 @@ class Franchise extends Model
     
     public function category()
     {
-        return $this->belongsTo(FranchiseCategory::class, 'franchiseCategoryId');
+        return $this->belongsTo(FranchiseCategory::class, 'franchise_category_id', 'id');
     }
 }

@@ -8,10 +8,12 @@
 </head>
 
 <body>
-    <h1>Hi, Admin! Message from {{ $data['fromName'] }}</h1>
-    <p>{{ $data['fromEmail'] }}</p>
+    <h1>Hi, {{ $data['fromName'] }}! Thanks for your email!</h1>
     <br>
-    <p>{{ $data['message'] }}</p>
+    <p>We will reach back to you as soon as possible!</p>
+    <br>
+    <p><b>Lots of Love,</b></p>
+    <p><b>FranchiseKu Team</b></p>
 </body>
 
 </html>

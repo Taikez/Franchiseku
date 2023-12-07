@@ -129,7 +129,6 @@ class EducationController extends Controller
         $notification = array(
             'message' => 'Education Added Successfully',
             'alert-type' => 'success',
-            'showLoadingSpinner' => true,
         ); 
 
         return redirect()->route('all.education')->with($notification);
@@ -210,7 +209,7 @@ class EducationController extends Controller
         // GET EDUCATION CONTENT
         $education = EducationContent::findOrFail($id);
         $videoPublicPath = EducationContent::where('id', $id)->pluck('educationVideo');
-        $otherEducations = EducationContent::where('education_category_id', $education->education_category_id)->whereNot('id', $id)->limit(3)->get();
+        $otherEducations = EducationContent::where('education_category_id', $education->education_category_id)->whereNot('id', $id)->limit(4)->get();
         $countingStars = $education->educationRating;
 
         // GET VIDEO DURATION

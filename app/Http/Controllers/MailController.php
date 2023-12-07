@@ -11,12 +11,43 @@ class MailController extends Controller
     public function sendEmail(Request $request)
     {
         
-        $data = request()->validate([
+        $request->validate([
             'name' => 'required|min:3',
-            'email' => 'required|min:3',
+            'email' => 'required|email',
             'message' => 'required|min:3',
         ]);
+        
+        if($this->isConnectedWithInternet())
+        {
+            $data = [
+                'recipient' => 'adm.franchiseku@gmail.com',
+                'fromName' => $request->name,
+                'fromEmail' => $request->email,
+                'message' => $request->message
+            ];
 
-        Mail::to('juliannardita@gmail.com')->send(new ContactFormEmail($data));
+            Mail::to('adm.franchiseku@gmail.com')->send(new ContactFormEmail($data));
+            $message = "Email sent successfully!";
+            return redirect()->back()->with('success', $message);
+        }
+
+        else
+        {
+            $message = "You are not connected to the internet!";
+            return redirect()->back()->with('error', $message);
+        }
+    }
+
+    public function isConnectedWithInternet($site = "https://www.google.com")
+    {
+        if(@fopen($site, "r"))
+        {
+            return true;
+        }
+
+        else
+        {
+            return false;
+        }
     }
 }

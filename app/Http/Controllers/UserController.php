@@ -39,7 +39,7 @@ class UserController extends Controller
       public function update(Request $req){
         $userId = $req->id;
 
-        dd($req->profileImage);
+        dd($req->files);
         //if theres any image
         if($req->file('profileImage')){
             dd('Yes image');

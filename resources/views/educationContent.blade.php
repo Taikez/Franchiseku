@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="row">
-            <div id="education-vertical-menu" class="col-lg-3 col-md-3 col-sm-3">
+            <div id="education-vertical-menu" class="col-lg-3 col-md-3 col-sm-3 mb-3">
                 @include('components.education-sidebar')
             </div>
             @if ($educations->count() == 0)

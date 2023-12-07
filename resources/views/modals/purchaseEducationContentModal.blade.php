@@ -2,17 +2,13 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="purchaseModalLabel">Rate Our Content</h5>
+                <h5 class="modal-title" id="purchaseModalLabel"><b>Purchase Content</b></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body d-flex align-items-center justify-content-center">
                 <form action="{{ route('education.purchase', $education->id) }}" method="POST">
                     @csrf
                     <div class="container-fluid">
-                        <div class="row">
-                            <h4 class="text-center">{{ $education->educationTitle }}</h4>
-                        </div>
-
                         <!-- Tab List -->
                         <ul role="tablist" class="nav bg-light nav-pills rounded-pill nav-fill mb-3">
                             <li class="nav-item">
@@ -38,30 +34,22 @@
                         <!-- Credit Card -->
                         <div class="tab-content">
                             <div id="nav-tab-card" class="tab-pane fade show active">
-                                <p class="alert alert-success">Some text success or error</p>
                                 <form role="form">
-                                    <div class="form-group">
+                                    <div class="form-group text-start mb-3">
                                         <label for="username">Full name (on the card)</label>
-                                        <input type="text" name="username" placeholder="Jassa" required
+                                        <input type="text" name="username" placeholder="Budi Dermawan" required
                                             class="form-control">
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group text-start mb-3">
                                         <label for="cardNumber">Card number</label>
                                         <div class="input-group">
                                             <input type="text" name="cardNumber" placeholder="Your card number"
                                                 class="form-control" required>
-                                            <div class="input-group-append">
-                                                <span class="input-group-text text-muted">
-                                                    <i class="fa fa-cc-visa mx-1"></i>
-                                                    <i class="fa fa-cc-amex mx-1"></i>
-                                                    <i class="fa fa-cc-mastercard mx-1"></i>
-                                                </span>
-                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-8">
-                                            <div class="form-group">
+                                            <div class="form-group text-start mb-3">
                                                 <label><span class="hidden-xs">Expiration</span></label>
                                                 <div class="input-group">
                                                     <input type="number" placeholder="MM" name=""
@@ -80,9 +68,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <button type="button"
-                                        class="subscribe btn btn-primary btn-block rounded-pill shadow-sm"> Confirm
-                                    </button>
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <button type="submit"
+                                                class="btn btn-primary rounded rounded-pill w-100"><b>Pay</b>
+                                                {{ number_format($education->educationPrice, 2) }} IDR</button>
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
 
@@ -100,10 +92,9 @@
 
                             <!-- Bank Transfer -->
                             <div id="nav-tab-bank" class="tab-pane fade">
-                                <h6>Bank account details</h6>
                                 <dl>
                                     <dt>Bank</dt>
-                                    <dd> THE WORLD BANK</dd>
+                                    <dd> Bank Central Asia</dd>
                                 </dl>
                                 <dl>
                                     <dt>Account number</dt>
@@ -116,13 +107,6 @@
                                 <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
                                     eiusmod tempor incididunt ut labore et dolore magna aliqua.
                                 </p>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-12 text-center">
-                                <button type="submit" id="rateEducationBtn"
-                                    class="btn rounded rounded-pill w-100 text-white">Submit</button>
                             </div>
                         </div>
                     </div>

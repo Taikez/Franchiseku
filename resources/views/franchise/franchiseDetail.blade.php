@@ -137,7 +137,7 @@
                                 </div>
                                 <div class="p-3">
                                     <h3>{{ $item->educationTitle }}</h3>
-                                    <p class="mb-2 text-muted">By {{ $item->educationAuthor }}</p>
+                                    <p class="mb-2 text-muted">By {{$item->educationAuthor}}</p>
                                     <span class="badge bg-info mb-3">
                                         {{ $item->category->educationCategory }}
                                     </span>

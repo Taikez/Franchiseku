@@ -244,9 +244,6 @@
             </div>
         </div>
     </section>
-    </body>
-
 @endsection
 
-</html>
 

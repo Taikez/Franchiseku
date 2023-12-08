@@ -41,8 +41,7 @@
                              @if (Auth::user()->role === 'Admin')
                                  <li><a class="dropdown-item" href="{{ route('adminDashboard') }}">Admin Page</a></li>
                              @elseif(Auth::user()->role === 'Franchisor')
-                                 <li><a class="dropdown-item" href="{{ route('register.franchise') }}">Add Franchise</a>
-                                 </li>
+                                 
                              @elseif(Auth::user()->role === 'User')
                                  <li><a class="dropdown-item" href="{{ route('register.franchisor') }}">Become Our
                                          Franchisor</a></li>
@@ -50,6 +49,23 @@
                          @endguest
                      </ul>
                  </li>
+
+                 @guest
+                 @else
+                     @if (Auth::user()->role === 'Franchisor')
+                         <li class="nav-item dropdown">
+                             <a class="nav-link dropdown-toggle fs-5 text-start" href="{{route('franchise')}}" id="navbarFranchise"
+                                 role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                                 aria-expanded="false">
+                                 Franchise
+                             </a>
+                             <ul class="dropdown-menu" aria-labelledby="navbarFranchise">
+                                 <li><a class="dropdown-item" href="{{ route('news') }}">Add Franchise</a></li>
+                                 <li><a class="dropdown-item" href="{{ route('education.index') }}">My Franchise</a></li>
+                             </ul>
+                         </li>
+                     @endif
+                 @endguest
 
                  <li class="nav-item">
                      <a class="nav-link fs-5 text-start" href="{{ route('aboutUs') }}">About Us</a>
@@ -98,7 +114,8 @@
                              <div class="dropdown-divider"></div>
                              <a class="dropdown-item" href="{{ route('logout') }}"
                                  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                             <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                 style="display: none;">
                                  @csrf
                              </form>
                          </div>

@@ -140,7 +140,7 @@
                     </div>
                 @else
                     @foreach ($otherEducations as $otherEducation)
-                        <div class="col-lg-4 col-md-6 col-sm-9 mb-3" data-aos="fade-up" data-aos-duration="800">
+                        <div class="col-lg-3 col-md-6 col-sm-12 mb-3" data-aos="fade-up" data-aos-duration="800">
                             <div class="fixed-height-box h-100 rounded border border-1 shadow-sm bg-white"
                                 style="overflow: hidden">
                                 <div class="container-fluid w-100 m-0 p-0" style="overflow: hidden; height: 15rem">
@@ -155,10 +155,8 @@
                                         {{ $otherEducation->category->educationCategory }}
                                     </span>
                                     <p class="mb-2">IDR {{ number_format($otherEducation->educationPrice, 2) }}</p>
-                                    <p class="mb-2 text-muted" style="font-size: 12px;">\
-
-                                        {{ $otherEducation->educationShortDesc }}
-                                    </p>
+                                    <p class="mb-2 text-muted" style="font-size: 12px;">
+                                        {{ $otherEducation->educationShortDesc }}</p>
                                     <hr>
                                     <a href="{{ route('education.detail', $otherEducation->id) }}"
                                         class="d-flex justify-content-between">

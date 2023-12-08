@@ -153,21 +153,13 @@ a {
     line-height: 2rem; /* 177.778% */
 }
 
-.home-top-franchise button {
+#franchise-category-btn {
     border-radius: 1.875rem;
     padding: 0.75rem 5rem;
-    border: 1px solid var(--strock-01, #b7bfc7);
-    background: var(--white-secondary, #fafbfc);
 }
 
-.home-top-franchise span {
-    color: var(--black, #17181a);
-    font-feature-settings: "clig" off, "liga" off;
-    font-family: Poppins;
-    font-size: 1.5rem;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
+#franchise-category-btn a:hover {
+    background-color: rgba(255, 255, 255, 0.95);
 }
 
 .section-label {

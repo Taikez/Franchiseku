@@ -56,8 +56,6 @@ class FranchiseController extends Controller
             'franchiseLocation.max' => 'Franchise location should not exceed 255 characters.',
             
             'franchiseCategory.required' => 'Franchise category is required.',
-            'franchiseCategory.string' => 'Franchise category must be a string.',
-            'franchiseCategory.max' => 'Franchise category should not exceed 20 characters.',
             
             'franchisePrice.required' => 'Franchise price is required.',
             'franchisePrice.integer' => 'Franchise price must be an integer.',
@@ -151,7 +149,6 @@ class FranchiseController extends Controller
         $notification = array(
             'message' => $franchise->franchiseName.' Approved!',
             'alert-type' => 'success',
-            'showLoadingSpinner' => true,
         );
         return redirect()->back()->with($notification);
     }
@@ -176,7 +173,6 @@ class FranchiseController extends Controller
         $notification = array(
             'message' => $franchise->franchiseName.' Rejected!',
             'alert-type' => 'success',
-            'showLoadingSpinner' => true,
         );
         return redirect()->back()->with($notification);
     }
@@ -197,7 +193,7 @@ class FranchiseController extends Controller
         return view('franchise', compact('categories','latestFranchise','franchise'));
     }
 
-     public function detail($id)
+    public function detail($id)
     {
         // GET EDUCATION CONTENT
         $franchise = Franchise::findOrFail($id);

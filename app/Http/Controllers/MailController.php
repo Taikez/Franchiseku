@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Mail;
-use App\Mail\ContactFormEmail;
+use App\Mail\SendMail;
 
 class MailController extends Controller
 {
@@ -26,7 +26,20 @@ class MailController extends Controller
                 'message' => $request->message
             ];
 
-            Mail::to('adm.franchiseku@gmail.com')->send(new ContactFormEmail($data));
+            // send message to admin
+            Mail::send('emails.send-message-to-admin', ['data' => $data], function($message) use ($data) {
+                $message->to($data['recipient'])
+                    ->from($data['fromEmail'], $data['fromName'])
+                    ->subject('User Requests / Questions');
+            });
+
+            // send message to user
+            Mail::send('emails.send-reply-to-user', ['data' => $data], function($message) use ($data) {
+                $message->to($data['fromEmail'])
+                    ->from('adm.franchiseku@gmail.com', 'FranchiseKu Admin')
+                    ->subject('We have received your email!');
+            });
+            
             $message = "Email sent successfully!";
             return redirect()->back()->with('success', $message);
         }

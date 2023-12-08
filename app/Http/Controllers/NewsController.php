@@ -69,7 +69,6 @@ class NewsController extends Controller
             $notification = array(
                 'message' => 'News Added Successfully',
                 'alert-type' => 'success',
-                'showLoadingSpinner' => true,
             ); 
     
             return redirect()->route('all.news')->with($notification);

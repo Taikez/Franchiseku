@@ -60,11 +60,12 @@
                                 </div>
                             @else
                                 <div>
-                                    @include('modals.purchaseEducationContentModal')
-                                    <button type="button" id="purchaseEducationBtn"
-                                        class="btn w-50 text-white rounded-pill mt-3 mb-2" data-bs-toggle="modal"
+                                    {{-- @include('modals.purchaseEducationContentModal') --}}
+                                    {{-- <button type="button" id="purchaseEducationBtn"
+                                        class="btn w-50 text-white rounded-pill mt-3 mb-2" id="pay-button" data-bs-toggle="modal"
                                         data-bs-target="#purchaseModal">Purchase
-                                        Content</button>
+                                        Content</button> --}}
+                                     <button id="pay-button" class="btn w-50 text-white btn-primary rounded-pill mt-3 mb-2">Pay!</button>
                                 </div>
                             @endif
                         </div>
@@ -140,7 +141,7 @@
                     </div>
                 @else
                     @foreach ($otherEducations as $otherEducation)
-                        <div class="col-lg-4 col-md-6 col-sm-9 mb-3" data-aos="fade-up" data-aos-duration="800">
+                        <div class="col-lg-3 col-md-6 col-sm-12 mb-3" data-aos="fade-up" data-aos-duration="800">
                             <div class="fixed-height-box h-100 rounded border border-1 shadow-sm bg-white"
                                 style="overflow: hidden">
                                 <div class="container-fluid w-100 m-0 p-0" style="overflow: hidden; height: 15rem">
@@ -155,10 +156,8 @@
                                         {{ $otherEducation->category->educationCategory }}
                                     </span>
                                     <p class="mb-2">IDR {{ number_format($otherEducation->educationPrice, 2) }}</p>
-                                    <p class="mb-2 text-muted" style="font-size: 12px;">\
-
-                                        {{ $otherEducation->educationShortDesc }}
-                                    </p>
+                                    <p class="mb-2 text-muted" style="font-size: 12px;">
+                                        {{ $otherEducation->educationShortDesc }}</p>
                                     <hr>
                                     <a href="{{ route('education.detail', $otherEducation->id) }}"
                                         class="d-flex justify-content-between">
@@ -179,4 +178,15 @@
             </div>
         </div>
     </div>
+
+
+    <script type="text/javascript">
+      // For example trigger on button clicked, or any time you need
+      var payButton = document.getElementById('pay-button');
+      payButton.addEventListener('click', function () {
+        // Trigger snap popup. @TODO: Replace TRANSACTION_TOKEN_HERE with your transaction token
+        window.snap.pay('{{$snapToken}}');
+        // customer will be redirected after completing payment pop-up
+      });
+    </script>
 @endsection

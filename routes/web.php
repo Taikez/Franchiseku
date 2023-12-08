@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\EducationCategoryController;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\FranchiseController;
+use App\Http\Controllers\EducationTransactionController;
 use App\Http\Controllers\FranchiseCategoryController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -29,6 +30,10 @@ use Laravel\Socialite\Facades\Socialite;
 Route::get('/aboutUs', function () {
     return view('aboutUs');
 })->name('aboutUs');
+
+Route::controller(EducationTransactionController::class)->group(function(){
+    Route::get('/testMidtrans', 'index')->name('testMidtrans');
+});
 
 
 Route::get('/admin/dashboard', function () {
@@ -140,7 +145,9 @@ Route::middleware(['admin','auth'])->group(function(){
     });
 });
 
-Route::post('/send/email', [MailController::class, 'sendEmail'])->name('send.email');
+Route::controller(MailController::class)->group(function(){
+    Route::post('/sendmail', 'sendEmail')->name('send.email');
+});
 
 
 //route for franchisor

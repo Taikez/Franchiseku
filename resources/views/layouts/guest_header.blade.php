@@ -41,8 +41,7 @@
                              @if (Auth::user()->role === 'Admin')
                                  <li><a class="dropdown-item" href="{{ route('adminDashboard') }}">Admin Page</a></li>
                              @elseif(Auth::user()->role === 'Franchisor')
-                                 <li><a class="dropdown-item" href="{{ route('register.franchise') }}">Add Franchise</a>
-                                 </li>
+                                 
                              @elseif(Auth::user()->role === 'User')
                                  <li><a class="dropdown-item" href="{{ route('register.franchisor') }}">Become Our
                                          Franchisor</a></li>
@@ -51,17 +50,27 @@
                      </ul>
                  </li>
 
-                 <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle fs-5 text-start" href="#" role="button"
-                         data-bs-toggle="dropdown" aria-expanded="false">
-                         About
-                     </a>
-                     <ul class="dropdown-menu">
-                         <li><a class="dropdown-item" href="{{ route('aboutUs') }}">About Us</a></li>
-                         <li><a class="dropdown-item" href="#">Another action</a></li>
-                         <li><a class="dropdown-item" href="#">Something else here</a></li>
-                     </ul>
+                 @guest
+                 @else
+                     @if (Auth::user()->role === 'Franchisor')
+                         <li class="nav-item dropdown">
+                             <a class="nav-link dropdown-toggle fs-5 text-start" href="{{route('franchise')}}" id="navbarFranchise"
+                                 role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                                 aria-expanded="false">
+                                 Franchise
+                             </a>
+                             <ul class="dropdown-menu" aria-labelledby="navbarFranchise">
+                                 <li><a class="dropdown-item" href="{{ route('news') }}">Add Franchise</a></li>
+                                 <li><a class="dropdown-item" href="{{ route('education.index') }}">My Franchise</a></li>
+                             </ul>
+                         </li>
+                     @endif
+                 @endguest
+
+                 <li class="nav-item">
+                     <a class="nav-link fs-5 text-start" href="{{ route('aboutUs') }}">About Us</a>
                  </li>
+
                  <li class="nav-item">
                      <a class="nav-link fs-5 text-start" href="#">Subscribe</a>
                  </li>
@@ -116,4 +125,3 @@
          </div>
      </div>
  </nav>
-

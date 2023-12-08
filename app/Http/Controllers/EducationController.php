@@ -129,7 +129,6 @@ class EducationController extends Controller
         $notification = array(
             'message' => 'Education Added Successfully',
             'alert-type' => 'success',
-            'showLoadingSpinner' => true,
         ); 
 
         return redirect()->route('all.education')->with($notification);
@@ -189,7 +188,7 @@ class EducationController extends Controller
             $queryEducation->where('educationPrice', '<=', $maxPrice);
 
         if($rating !== null)
-            $queryEducation->where('rating', $rating);
+            $queryEducation->where('educationRating', $rating);
 
         // FETCH FILTERED DATA
         $educations = $queryEducation->paginate(9);
@@ -207,10 +206,11 @@ class EducationController extends Controller
 
     public function detail($id)
     {
+       
         // GET EDUCATION CONTENT
         $education = EducationContent::findOrFail($id);
         $videoPublicPath = EducationContent::where('id', $id)->pluck('educationVideo');
-        $otherEducations = EducationContent::where('education_category_id', $education->education_category_id)->whereNot('id', $id)->limit(3)->get();
+        $otherEducations = EducationContent::where('education_category_id', $education->education_category_id)->whereNot('id', $id)->limit(4)->get();
         $countingStars = $education->educationRating;
 
         // GET VIDEO DURATION
@@ -221,7 +221,44 @@ class EducationController extends Controller
         // GET RATINGS 
         $ratings = EducationContentRating::where(['educationContentId' => $id, 'rating' => 5])->limit(5)->get();
 
-        return view('educationDetail', compact('education','educationDuration', 'otherEducations', 'countingStars', 'ratings'));
+        //GET USER
+        $user = Auth::user();
+
+        //GET SNAP TOKEN
+        // Set your Merchant Server Key
+        \Midtrans\Config::$serverKey = 'SB-Mid-server-bUxavK_9SP0WSQ2Vk3Tzq3GS';
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = false;
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = true;
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = true;
+
+        $params = [
+            'transaction_details' => [
+                'order_id' => rand(),
+                'gross_amount' => $education->educationPrice,
+            ],
+            'customer_details' => [
+                'first_name' => $user->name,
+                'last_name' => '',
+                'email' => $user->email,
+                'phone' => $user->phoneNumber,
+            ],
+            'item_details' => [
+                [
+                    'id' => 'a1',
+                    'price' => $education->educationPrice,
+                    'quantity' => 1,
+                    'name' => $education->educationTitle
+                ]
+            ],
+        ];
+
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
+
+
+        return view('educationDetail', compact('education','educationDuration', 'otherEducations', 'countingStars', 'ratings','snapToken'));
     }
 
     public function rateEducation(Request $request, $educationContentId)

@@ -24,6 +24,12 @@ return new class extends Migration
             $table->string('franchiseReport')->nullable();
             $table->string('status');
             $table->timestamps();
+
+            // Define the foreign key constraint with a different name for the column
+            $table->unsignedBigInteger('franchise_category_id'); // You can choose any name you prefer
+        
+            // Define the foreign key relationship
+            $table->foreign('franchise_category_id')->references('id')->on('franchise_categories');
         });
     }
 

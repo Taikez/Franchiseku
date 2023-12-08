@@ -1,8 +1,11 @@
 @extends('layouts.app')
 
-@section('main')
-    @include('modals.success-modal')
+@section('title')
+    Dashboard | FranchiseKu
+@endsection
 
+@section('main')
+    {{-- @include('modals.success-modal') --}}
     <div id="banner" class="container-fluid p-5 p-md-5 mb-5">
         <div class="row d-flex align-items-center justify-content-center mb-5">
             <div id="banner-left" class="col-lg-6 col-md-8 col-sm-12 p-2">
@@ -76,7 +79,7 @@
             <div class="row mt-4">
 
                 @if ($franchiseCategories->count() == 0)
-                    <div class="col-lg-3 pb-3" data-aos="fade" data-aos-duration="800">
+                    <div class="col-3 pb-3" data-aos="fade" data-aos-duration="800">
                         <div class="alert alert-warning w-100">No franchise categories to be found!</div>
 
                     </div>
@@ -84,8 +87,9 @@
                     <div class="col align-self-center">
                         <div class="buttonGroup d-grid gap-2 d-md-block">
                             @foreach ($franchiseCategories as $franchiseCategory)
-                                <button class="btn btn-light border" data-aos="fade-right"
-                                    data-aos-duration="800">{{ $franchiseCategory->franchiseCategory }}</button>
+                                <a href="{{ route('dashboard', ['category' => $franchiseCategory->id] + request()->except('category')) }}"
+                                    id="franchise-category-btn" class="btn btn-light border" data-aos="fade-right"
+                                    data-aos-duration="800">{{ $franchiseCategory->franchiseCategory }}</a>
                             @endforeach
                         </div>
                     </div>
@@ -94,14 +98,14 @@
 
             <div class="row mt-4 mb-4">
                 <div class="col top-franchise-text align-self-end">
-                    <p class="mb-4"><span> Fortunes come to people
-                            that takes the chance and effort to get the
-                            opportunity. FranchiseKu offers platform that enables user to connect with franchises they
-                            desire and help users to know and improve their financial literacy </span></p>
-                    <p>To quickly start, user can click on several top
-                        franchises below to see some of our top
-                        recommendations or go to our franchise list page to see the whole selections FranchiseKu has to
-                        offer, user could also search franchise investment according to their preference and desire</p>
+                    <h4 class="mb-4">Fortunes come to people
+                        that takes the chance and effort to get the
+                        opportunity. FranchiseKu offers platform that enables user to connect with franchises they
+                        desire and help users to know and improve their financial literacy</h5>
+                        <p>To quickly start, user can click on several top
+                            franchises below to see some of our top
+                            recommendations or go to our franchise list page to see the whole selections FranchiseKu has to
+                            offer, user could also search franchise investment according to their preference and desire</p>
                 </div>
             </div>
             @if ($franchises->count() == 0)
@@ -111,22 +115,22 @@
             @else
                 <div class="row mb-4">
                     @foreach ($franchises as $franchise)
-                        <div class="col-lg-4 col-md-6 col-sm-9 mb-3" data-aos="fade-down-left" data-aos-duration="1000">
+                        <div class="col-lg-3 col-md-6 col-sm-9 mb-3" data-aos="fade" data-aos-duration="1000">
                             <div class="fixed-height-box h-100 rounded border border-1 shadow-sm bg-white"
                                 style="overflow: hidden">
                                 <div class="container-fluid w-100 m-0 p-0" style="overflow: hidden; height: 15rem">
-                                    <img src="{{ asset($franchise->franchiseLogo) }}" alt="Education Content Banner"
+                                    <img src="{{ asset($franchise->franchiseLogo) }}" alt="Franchise Logo"
                                         class="img-fluid w-100" style="object-fit: cover; height: 100%; width: 100%;">
                                 </div>
                                 <div class="p-3">
                                     <h3>{{ $franchise->franchiseName }}</h3>
-                                    <p class="mb-2 text-muted">By {{ $franchise->franchisePIC }}</p>
+                                    <p class="mb-2 text-muted">By {{ $franchise->franchisePICName }}</p>
                                     <span class="badge bg-info mb-3">
                                         {{ $franchise->franchiseCategory }}
                                     </span>
                                     <p class="mb-2">IDR {{ number_format($franchise->franchisePrice, 2) }}</p>
                                     <hr>
-                                    <a href="{{ route('education.detail', $franchise->id) }}"
+                                    <a href="{{ route('franchise.detail', $franchise->id) }}"
                                         class="d-flex justify-content-between">
                                         <div>
                                             Read More
@@ -204,7 +208,7 @@
         </div>
     </section>
 
-    <section id="contact-us" class="contact-us" style="min-height: 60vh" data-aos="fade-down-right"
+    <section id="contact-us" class="contact-us" style="min-height: 60vh" data-aos="fade-up-left"
         data-aos-duration="800">
         <div class="container mt-5 mb-5 p-4 rounded contact-us-div">
             <div class="row d-flex align-items-center">
@@ -218,32 +222,42 @@
                 </div>
 
                 <div class="col-md-6">
-                    <form id="sendMessageForm" action="{{ route('send.email') }}" method="POST">
+                    @include('layouts.flashMessage')
+                    <form action="{{ route('send.email') }}" method="POST" enctype="multipart/form-data">
                         @csrf
+                        @method('POST')
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <input type="text" class="form-control" id="name" name="name"
+                                value="{{ old('name') }}">
+                            @error('name')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" name="email"
-                                aria-describedby="emailHelp" required>
+                                aria-describedby="emailHelp" value="{{ old('email') }}">
+                            @error('email')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="message" class="form-label">Message</label>
-                            <textarea class="form-control" name="message" id="message" cols="30" rows="5" required></textarea>
+                            <textarea class="form-control" name="message" id="message" cols="30" rows="5"
+                                value="{{ old('message') }}"></textarea>
+                            @error('message')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="mb-3 mt-4 d-flex justify-content-end">
                             <input type="submit" value="Send Message" class="submitBtn fs-5"
                                 style="padding: .25rem 1rem; border-radius:5px;">
                         </div>
                     </form>
-
                 </div>
                 <div class="col-md-6"></div>
             </div>
         </div>
     </section>
 @endsection
-
-

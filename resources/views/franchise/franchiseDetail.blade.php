@@ -29,7 +29,8 @@
                 </div>
                 <div class="d-grid gap-2 franchise-button">
                     <a href="#" class="btn sendProposalBtn" type="button">Send Proposal</a>
-                    <a href="{{asset($franchise->franchiseReport)}}" class="btn downloadReportBtn" type="button" download="{{$franchise->franchiseName}} - Report">Download Franchise Report</a>
+                    <a href="{{ asset($franchise->franchiseReport) }}" class="btn downloadReportBtn" type="button"
+                        download="{{ $franchise->franchiseName }} - Report">Download Franchise Report</a>
                 </div>
             </div>
         </div>
@@ -47,37 +48,49 @@
             <div class="tab-content mt-2">
                 <div class="tab-pane fade show active" id="description">
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore
-                        et
-                        dolore magna aliqua.
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit tempore culpa quae distinctio
+                        excepturi recusandae amet, quaerat vitae explicabo dignissimos? Rem officiis a in cupiditate quos,
+                        quis ullam eveniet molestiae enim. Odio doloribus repudiandae laudantium iusto vero quae
+                        necessitatibus autem voluptatum facere hic dolore asperiores debitis accusantium rerum aspernatur
+                        fugit ex, officiis amet. Quidem ex vel omnis provident ipsum nesciunt quam cumque laudantium quaerat
+                        totam, rem ratione quo veritatis quasi labore voluptas debitis blanditiis officia consectetur ad,
+                        error deleniti officiis! Aspernatur eum perferendis laboriosam, temporibus nostrum, doloremque,
+                        molestiae est impedit officiis quas numquam. Expedita ex reprehenderit praesentium maiores quae rem
+                        ad quas incidunt assumenda, nulla delectus cum nisi corporis alias aperiam dolorem neque sapiente
+                        nam necessitatibus explicabo. Rerum officiis error harum tempore fuga inventore nisi, qui atque eius
+                        itaque quisquam culpa, nihil laboriosam possimus commodi? Sint quas perspiciatis minima doloribus
+                        debitis ab officiis, cumque obcaecati eius odit modi sunt quos iure omnis amet praesentium illo
+                        magnam ea voluptas nesciunt assumenda distinctio natus exercitationem ex. Asperiores nesciunt quam
+                        nemo nostrum deserunt debitis magnam sunt omnis a magni, praesentium itaque eos ipsa neque modi
+                        eveniet in? Tempora voluptas amet, harum, enim dolor voluptatibus itaque obcaecati, odio nisi
+                        quibusdam libero incidunt fugit quod iste eos vero cum nihil. Mollitia ad et quidem distinctio,
+                        tempora fuga culpa sint, ullam maxime veritatis voluptates illum ipsa. Vel, aliquid amet deserunt
+                        quas, fugit illo unde incidunt expedita iusto a numquam inventore vitae, voluptatem libero id
+                        debitis reiciendis autem voluptas mollitia necessitatibus dolores illum. Nemo pariatur eum
+                        reprehenderit voluptatibus odit, quos doloremque quibusdam, esse quis alias expedita! Expedita quo
+                        iste nihil corrupti esse odio quasi architecto voluptas? Obcaecati, non fugiat culpa earum,
+                        accusamus, delectus autem asperiores recusandae assumenda provident adipisci veniam labore
+                        doloremque sequi soluta quisquam cumque ipsam. Eaque quo vero veritatis voluptatem qui fuga illum
+                        itaque optio!
                     </p>
                 </div>
                 <div class="tab-pane fade" id="detail">
-                    <p>
-                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Omnis, quos praesentium! Incidunt optio
-                        cupiditate laudantium sequi accusantium minus, neque at voluptates perspiciatis doloribus dolores?
-                        Fuga nisi illo excepturi voluptatem itaque quam molestias vel laboriosam esse, quae facilis labore,
-                        aperiam alias, ducimus officiis! Veritatis laudantium deserunt harum reiciendis quis soluta iusto
-                        vero, minus inventore nisi id, culpa itaque. Facere delectus sed ipsam. Accusantium libero deserunt
-                        sunt quis dolorem officia suscipit iure dolorum nisi commodi, placeat provident veniam dignissimos
-                        dolore asperiores, a corrupti inventore perspiciatis earum debitis eligendi perferendis. Recusandae
-                        accusamus dignissimos provident nulla? Ipsum odit repudiandae nulla quam, laboriosam fugiat vitae
-                        sed alias pariatur dolorem laborum iure rerum. Cumque repellat nam odio explicabo cum, reprehenderit
-                        voluptate laborum! Laboriosam quae exercitationem cum atque omnis mollitia magnam debitis,
-                        consequatur, dolores odit consequuntur! Soluta tempora repudiandae ab ex, quia aperiam praesentium
-                        maxime pariatur necessitatibus qui molestiae error suscipit iure dolore! Inventore dolore, unde ipsa
-                        vero possimus quam laudantium reprehenderit libero ratione blanditiis id! Ut cupiditate hic
-                        dignissimos nobis odio temporibus sit, non inventore commodi nostrum voluptas molestias quas placeat
-                        magnam iste possimus aspernatur explicabo, sapiente dolorem cumque magni. Animi atque, fugit quis,
-                        odit quo quia eos asperiores doloremque corrupti sunt, repellendus magnam ea odio.
-                    </p>
+                    <ul class="list-group">
+                        <li class="list-group-item"><b>Franchise Name : </b>{{$franchise->franchiseName}} </li>
+                        <li class="list-group-item"><b>Franchise Location : </b>{{$franchise->franchiseLocation}} </li>
+                        <li class="list-group-item"><b>Franchise Category : </b>{{$franchise->franchiseCategory}} </li>
+                        <li class="list-group-item"><b>Franchise Price : </b>{{$franchise->franchisePrice}} </li>
+                      
+                        <li class="list-group-item"><b>Franchisor Name : </b>{{$franchisor->name}} </li>
+                        <li class="list-group-item"><b>Franchisor Email : </b>{{$franchisor->email}} </li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="other-contents" class="row p-5 mt-4">
-        <h3 class="text-center fw-bold mb-5" >You might also like</h3>
+        <h3 class="text-center fw-bold mb-5">You might also like</h3>
         <div class="row">
             @if ($otherFranchise->count() == 0)
                 <div class="col-lg-12 pb-3" data-aos="fade" data-aos-duration="800">

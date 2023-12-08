@@ -36,7 +36,7 @@
                             <label for="franchiseCategory">Franchise Category</label>
                             <select class="form-control @error('franchiseCategory') is-invalid @enderror" id="franchiseCategory" name="franchiseCategory">
                                 @foreach ($allFranchiseCategory as $item)                                
-                                    <option value="{{ $item->franchiseCategory }}"{{ old('franchiseCategory') == $item->franchiseCategory ? 'selected' : '' }}>{{ $item->franchiseCategory }}</option>
+                                    <option value="{{ $item->id }}"{{ old('franchiseCategory') == $item->franchiseCategory ? 'selected' : '' }}>{{ $item->franchiseCategory }}</option>
                                 @endforeach
                             </select>
                             @error('franchiseCategory')

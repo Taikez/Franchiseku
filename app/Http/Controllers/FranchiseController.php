@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use App\Models\User;
 
 
 class FranchiseController extends Controller
@@ -104,15 +105,19 @@ class FranchiseController extends Controller
         //store image
         Image::make($franchiseLogo)->resize(800,450)->save(public_path($directory . $name_gen_logo));
 
+        //get franchise category name
+        $franchiseCategory = FranchiseCategory::findOrFail($validatedData['franchiseCategory'])->franchiseCategory;
+
         Franchise::insert([
             'franchiseName' => $validatedData['franchiseName'],
             'franchiseLocation' => $validatedData['franchiseLocation'],
-            'franchiseCategory' => $validatedData['franchiseCategory'],
+            'franchiseCategory' => $franchiseCategory,
             'franchisePrice' => $validatedData['franchisePrice'], 
             'franchiseReport' => $saveReportUrl,
             'franchisePIC' => $userId,
             'franchisePICName' => $username,
             'franchiseLogo' => $saveLogoUrl,
+            'franchise_category_id' => $validatedData['franchiseCategory'],
             'status' => 'Request',
             'created_at' => Carbon::now(),
         ]);
@@ -196,11 +201,12 @@ class FranchiseController extends Controller
     {
         // GET EDUCATION CONTENT
         $franchise = Franchise::findOrFail($id);
-        $otherFranchise = franchise::where('franchise_category_id', $franchise->franchise_category_id)->whereNot('id', $id)->limit(3)->get();
+        $franchisor = User::where('id', $franchise->franchisePIC)->first();
+        $otherFranchise = Franchise::where('franchise_category_id', $franchise->franchise_category_id)->whereNot('id', $id)->limit(3)->get();
 
         // GET RATINGS 
         $ratings = franchiseRating::where(['franchiseId' => $id, 'rating' => 5])->limit(5)->get();
 
-        return view('franchise.franchiseDetail', compact('franchise', 'otherFranchise', 'ratings'));
+        return view('franchise.franchiseDetail', compact('franchise', 'otherFranchise', 'ratings','franchisor'));
     }
 }

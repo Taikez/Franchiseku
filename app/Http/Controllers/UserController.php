@@ -18,13 +18,23 @@ use App\Models\Franchise;
 
 class UserController extends Controller
 {
-    public function userDashboard(){
+    public function userDashboard(Request $request){
          // Retrieve flashed data from the session
 
         $franchiseCategories = FranchiseCategory::latest()->take(3)->get();
-        $franchises = Franchise::latest()->take(3)->get();
+        $franchises = Franchise::latest()->take(4)->get();
         $successData = session('success_data');
 
+        // Filter franchise
+        $categoryId = $request->input('category');
+
+        $queryFranchise = Franchise::query();
+        if($categoryId !== null) 
+            $queryFranchise->where('franchise_category_id', $categoryId);
+
+        // Fetch filtered data
+        $franchises = $queryFranchise->limit(4)->get();
+        
         // Pass the data to the view or use it as needed
         return view('dashboard', compact('franchiseCategories', 'franchises'))->with('successData', $successData);
     }

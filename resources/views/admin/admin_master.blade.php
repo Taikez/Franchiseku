@@ -189,10 +189,9 @@
             }, 100);
         }
 
-        var showLoadingSpinner = @json(session('showLoadingSpinner'));
-        if (showLoadingSpinner) {
+        document.addEventListener("DOMContentLoaded", function() {
             showLoading();
-        }
+        });
     </script>
 </body>
 

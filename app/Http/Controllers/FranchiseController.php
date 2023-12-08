@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Franchise;
 use App\Models\FranchiseCategory;
 use App\Models\FranchiseRating;
+use App\Models\FranchiseProposal;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -186,7 +187,7 @@ class FranchiseController extends Controller
 
     public function FranchiseByCategory($categoryId){
         $franchise = Franchise::where('franchiseCategoryId', $categoryId)->latest()->limit(4)->get();
-        $categories = franchiseCategory::all();
+        $categories = FranchiseCategory::all();
         $latestFranchise = Franchise::latest()->limit(4)->get();
 
         return view('franchise', compact('categories','latestFranchise','franchise'));
@@ -194,13 +195,71 @@ class FranchiseController extends Controller
 
     public function detail($id)
     {
-        // GET EDUCATION CONTENT
+        // GET FRANCHISE
         $franchise = Franchise::findOrFail($id);
-        $otherFranchise = franchise::where('franchise_category_id', $franchise->franchise_category_id)->whereNot('id', $id)->limit(3)->get();
+        $otherFranchise = Franchise::where('franchise_category_id', $franchise->franchise_category_id)->whereNot('id', $id)->limit(3)->get();
 
         // GET RATINGS 
-        $ratings = franchiseRating::where(['franchiseId' => $id, 'rating' => 5])->limit(5)->get();
+        $ratings = FranchiseRating::where(['franchiseId' => $id, 'rating' => 5])->limit(5)->get();
 
         return view('franchise.franchiseDetail', compact('franchise', 'otherFranchise', 'ratings'));
+    }
+
+    public function sendProposal(Request $request, $franchiseId)
+    {
+        // get user
+        $user = Auth::user();
+
+        // validation for when user has sent a proposal before
+        $franchiseProposalBasedOnUser = FranchiseProposal::where(['user_id' => $user->id, 'franchise_id' => $franchiseId]);
+
+        if($franchiseProposalBasedOnUser->count() > 0)
+        {
+            $message = 'You have already sent a proposal to this franchise!';
+            return redirect()->back()->with('error', $message);
+        }
+        
+        else
+        {
+            $customMessages = [
+                'proposalFile.required' => 'Proposal is Required!',
+                'proposalFile.mimes' => 'Proposal must be in one of the allowed file formats above.',
+                'proposalDescription.max' => 'Proposal description must not exceed 255 characters!'
+            ];
+            
+            $validatedData = $request->validate([
+                'proposalFile' => 'required|mimes:pdf,doc,docx,xls,xlsx',
+                'proposalDescription' => 'string|max:255'
+            ], $customMessages);
+    
+            $proposal = $request->file('proposalFile');
+            $name_gen_proposal = hexdec(uniqid()). '.' . $proposal->getClientOriginalExtension();
+    
+            $directory = 'upload/franchiseProposal/';
+            $save_url_proposal = $directory . $name_gen_proposal;
+            
+            if (!File::isDirectory($directory)) 
+            {
+                File::makeDirectory($directory);
+            }
+    
+            // store proposal
+            $proposal->move(public_path($directory), $name_gen_proposal);
+    
+            FranchiseProposal::insert([
+                'proposerName' => $user->name,
+                'proposerEmail' => $user->email,
+                'proposerPhoneNumber' => $user->phoneNumber,
+                'proposalFile' => $save_url_proposal, 
+                'proposalDescription' => $validatedData['proposalDescription'],
+                'franchise_id' => $franchiseId,
+                'user_id' => $user->id,
+                'status' => 'Request',
+                'created_at' => Carbon::now(),
+            ]);
+            
+            $message = 'Proposal sent successfully';
+            return redirect()->back()->with('success', $message);
+        }
     }
 }

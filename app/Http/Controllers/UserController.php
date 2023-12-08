@@ -22,7 +22,7 @@ class UserController extends Controller
          // Retrieve flashed data from the session
 
         $franchiseCategories = FranchiseCategory::latest()->take(3)->get();
-        $franchises = Franchise::latest()->take(4)->get();
+        $franchises = Franchise::where('status','approved')->take(4)->get();
         $successData = session('success_data');
 
         // Filter franchise

@@ -5,36 +5,10 @@ color:#015051;
 color:#01A7A3
 }
 
-.sendProposalBtn{
-border-radius: 15px;
-background: rgba(1, 167, 163, 0.90);
-color: whitesmoke;
-}
-
-.downloadReportBtn{
-border-radius: 15px;
-border: 1px solid rgba(0, 0, 0, 0.25);
-background: #FFF;
-}
-
 .rightContainer{
     display: flex;
     justify-content: space-around;
     flex-direction: column;
-}
-
-
-.downloadReportBtn:hover{
-    background-color: #ffffffbc;
-}
-.sendProposalBtn:hover{
-    background-color: #ffffffbc;
-}
-
-
-
-#myTabs{
-    /* background-color: red; */
 }
 
 #myTabs .nav-item{
@@ -44,3 +18,12 @@ background: #FFF;
 #myTabs .nav-item .nav-link{
     background-color: transparent;
 }
+
+/* #sendProposalBtn {
+    background-color: #01a7a3;
+    transition: background-color 0.3s ease;
+}
+
+#sendProposalBtn:hover{
+    background-color: #1cc5c2;
+} */

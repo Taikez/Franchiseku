@@ -27,15 +27,19 @@
                         </div>
                     </div>
                 </div>
-                <div class="d-grid gap-2 franchise-button">
-                    <a href="#" class="btn sendProposalBtn" type="button">Send Proposal</a>
-                    <a href="{{asset($franchise->franchiseReport)}}" class="btn downloadReportBtn" type="button" download="{{$franchise->franchiseName}} - Report">Download Franchise Report</a>
+                <div>
+                    @include('layouts.flashMessage')
+                    @include('modals.sendProposalModal')
+                    <button type="button" id="sendProposalBtn" class="btn btn-info w-100 text-white rounded-pill"
+                        data-bs-toggle="modal" data-bs-target="#sendProposalModal">Send Proposal</button>
+                    <button type="button" id="downloadFranchiseReportBtn"
+                        class="btn btn-light w-100 rounded-pill border border-1"
+                        download="{{ $franchise->franchiseName }} - Report">Download Franchise Report</button>
                 </div>
             </div>
         </div>
 
         <div class="container my-5">
-
             <ul class="nav nav-tabs" id="myTabs">
                 <li class="nav-item">
                     <a class="nav-link active" id="description-tab" data-bs-toggle="tab" href="#description">Description</a>
@@ -77,11 +81,11 @@
     </div>
 
     <div id="other-contents" class="row p-5 mt-4">
-        <h3 class="text-center fw-bold mb-5" >You might also like</h3>
+        <h3 class="text-center fw-bold mb-5">You might also like</h3>
         <div class="row">
             @if ($otherFranchise->count() == 0)
                 <div class="col-lg-12 pb-3" data-aos="fade" data-aos-duration="800">
-                    <div class="alert alert-warning w-100">No education content found!</div>
+                    <div class="alert alert-warning w-100">No franchise found!</div>
                 </div>
             @else
                 @foreach ($otherFranchise as $item)

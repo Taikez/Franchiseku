@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('educationAuthor')->nullable();
             $table->string('educationCategory')->nullable();
             $table->string('educationThumbnail')->nullable();
-            $table->string('educationShortDesc')->nullable();
+            $table->text('educationShortDesc')->nullable();
             $table->string('educationVideo')->nullable();
             $table->decimal('educationRating', 3, 2)->nullable();
             $table->timestamps();

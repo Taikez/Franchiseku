@@ -60,7 +60,7 @@
                                  Franchise
                              </a>
                              <ul class="dropdown-menu" aria-labelledby="navbarFranchise">
-                                 <li><a class="dropdown-item" href="{{ route('news') }}">Add Franchise</a></li>
+                                 <li><a class="dropdown-item" href="{{ route('register.franchise') }}">Add Franchise</a></li>
                                  <li><a class="dropdown-item" href="{{ route('education.index') }}">My Franchise</a></li>
                              </ul>
                          </li>

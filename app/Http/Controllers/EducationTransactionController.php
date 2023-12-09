@@ -40,4 +40,8 @@ class EducationTransactionController extends Controller
         return view('testMidtrans',compact('snapToken'));
         // return $snapToken;
     } 
+
+    public function PostTransaction(Request $req){
+        return $req;
+    }
 }

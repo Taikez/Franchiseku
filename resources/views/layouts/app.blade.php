@@ -53,14 +53,14 @@
 </head>
 
 <body class="font-sans antialiased" onload="hideLoading();">
-    <div class="loading spinner-overlay">
+    {{-- <div class="loading spinner-overlay">
         <div class="lds-ring">
             <div></div>
             <div></div>
             <div></div>
             <div></div>
         </div>
-    </div>
+    </div> --}}
     <div class="min-h-screen bg-gray-100">
         @include('layouts.guest_header')
 
@@ -81,51 +81,57 @@
         @include('components.footer')
     </div>
 
+
+
+    {{-- <script>
+        var baseUrl = "{{ asset('') }}";
+
+        // loading spinner
+        let fadeTarget = document.querySelector(".loading");
+
+        function showLoading() {
+            fadeTarget.style.display = "block";
+        }
+
+        function hideLoading() {
+            fadeTarget.style.display = "none";
+            let fadeEffect = setInterval(() => {
+                if (!fadeTarget.style.opacity) {
+                    fadeTarget.style.opacity = 1;
+                }
+
+                if (fadeTarget.style.opacity > 0) {
+                    fadeTarget.style.opacity -= 0.1;
+                } else {
+                    clearInterval(fadeEffect);
+                    fadeTarget.style.display = "none";
+                }
+            }, 100);
+        }
+
+        // capture scroll position
+        $('a#franchise-category-btn').on('click', function(e) {
+            e.preventDefault();
+            var scrollPosition = $(window).scrollTop();
+            localStorage.setItem('scrollPosition', scrollPosition);
+            window.location.href = $(this).attr('href');
+        });
+
+        $(document).ready(function() {
+            // restore scroll position
+            var storedScrollPosition = localStorage.getItem('scrollPosition');
+            if (storedScrollPosition !== null) {
+                $(window).scrollTop(storedScrollPosition);
+                localStorage.removeItem('scrollPosition');
+            }
+        });
+    </script> --}}
+
+    <!-- @TODO: replace SET_YOUR_CLIENT_KEY_HERE with your client key -->
+    <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
+        data-client-key="SB-Mid-client-J4Z-FHwjy3wgTgEs"></script>
+    <!-- Note: replace with src="https://app.midtrans.com/snap/snap.js" for Production environment -->
+
 </body>
 
 </html>
-
-<script>
-    var baseUrl = "{{ asset('') }}";
-
-    // loading spinner
-    let fadeTarget = document.querySelector(".loading");
-
-    function showLoading() {
-        fadeTarget.style.display = "block";
-    }
-
-    function hideLoading() {
-        fadeTarget.style.display = "none";
-        let fadeEffect = setInterval(() => {
-            if (!fadeTarget.style.opacity) {
-                fadeTarget.style.opacity = 1;
-            }
-
-            if (fadeTarget.style.opacity > 0) {
-                fadeTarget.style.opacity -= 0.1;
-            } else {
-                clearInterval(fadeEffect);
-                fadeTarget.style.display = "none";
-            }
-        }, 100);
-    }
-
-    // capture scroll position
-    $('a#franchise-category-btn').on('click', function(e) {
-        e.preventDefault();
-        var scrollPosition = $(window).scrollTop();
-        localStorage.setItem('scrollPosition', scrollPosition);
-        window.location.href = $(this).attr('href');
-    });
-
-    $(document).ready(function() {
-        // restore scroll position
-        var storedScrollPosition = localStorage.getItem('scrollPosition');
-        if (storedScrollPosition !== null) {
-            $(window).scrollTop(storedScrollPosition);
-            localStorage.removeItem('scrollPosition');
-        }
-    });
-</script>
-

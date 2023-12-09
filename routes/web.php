@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\EducationCategoryController;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\FranchiseController;
+use App\Http\Controllers\EducationTransactionController;
 use App\Http\Controllers\FranchiseCategoryController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -29,6 +30,10 @@ use Laravel\Socialite\Facades\Socialite;
 Route::get('/aboutUs', function () {
     return view('aboutUs');
 })->name('aboutUs');
+
+Route::controller(EducationTransactionController::class)->group(function(){
+    Route::get('/testMidtrans', 'index')->name('testMidtrans');
+});
 
 
 Route::get('/admin/dashboard', function () {

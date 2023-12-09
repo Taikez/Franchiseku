@@ -60,11 +60,12 @@
                                 </div>
                             @else
                                 <div>
-                                    @include('modals.purchaseEducationContentModal')
-                                    <button type="button" id="purchaseEducationBtn"
-                                        class="btn w-50 text-white rounded-pill mt-3 mb-2" data-bs-toggle="modal"
+                                    {{-- @include('modals.purchaseEducationContentModal') --}}
+                                    {{-- <button type="button" id="purchaseEducationBtn"
+                                        class="btn w-50 text-white rounded-pill mt-3 mb-2" id="pay-button" data-bs-toggle="modal"
                                         data-bs-target="#purchaseModal">Purchase
-                                        Content</button>
+                                        Content</button> --}}
+                                     <button id="pay-button" class="btn w-50 text-white btn-primary rounded-pill mt-3 mb-2">Pay!</button>
                                 </div>
                             @endif
                         </div>
@@ -177,4 +178,15 @@
             </div>
         </div>
     </div>
+
+
+    <script type="text/javascript">
+      // For example trigger on button clicked, or any time you need
+      var payButton = document.getElementById('pay-button');
+      payButton.addEventListener('click', function () {
+        // Trigger snap popup. @TODO: Replace TRANSACTION_TOKEN_HERE with your transaction token
+        window.snap.pay('{{$snapToken}}');
+        // customer will be redirected after completing payment pop-up
+      });
+    </script>
 @endsection

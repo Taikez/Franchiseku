@@ -52,7 +52,6 @@ class UserController extends Controller
         dd($req->files);
         //if theres any image
         if($req->file('profileImage')){
-            dd('Yes image');
             $user = User::findOrFail($userId);
 
             if($user->profileImage != null || $user->profileImage != ""){
@@ -91,7 +90,6 @@ class UserController extends Controller
             ]); 
             
         }else{
-            dd('no image');
             User::findOrFail($userId)->update([
                 'name' => $req->name,
                 'email' => $req->email,

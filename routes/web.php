@@ -118,6 +118,8 @@ Route::controller(FranchiseController::class)->group(function(){
     Route::get('/register/franchise','RegisterFranchise')->middleware('franchisor')->name('register.franchise');
     Route::post('/post/franchise','StoreFranchise')->middleware('franchisor')->name('store.franchise');
     Route::get('/dashboard/registerFranchise','RegisterFranchise')->middleware('franchisor')->name('dashboard.register.franchise');
+    Route::post('/send/proposal/{id}','sendProposal')->middleware('franchisor')->name('send.proposal');
+    Route::post('/edit/franchise/{id}','editFranchise')->middleware('franchisor')->name('edit.franchise');
 });
 
 

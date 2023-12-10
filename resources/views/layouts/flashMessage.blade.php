@@ -42,7 +42,7 @@
     <div class="alert alert-danger">
         <div class="d-flex justify-content-between align-items-center">
             <button type="button" class="btn-close text-start" data-dismiss="alert"></button>
-            <strong class="text-center">Please check the form for errors</strong>
+            <strong class="text-center">Some data are incorrect. Open the form to view.</strong>
             <button type="button" class="btn-close text-start" data-dismiss="alert"></button>
         </div>
     </div>

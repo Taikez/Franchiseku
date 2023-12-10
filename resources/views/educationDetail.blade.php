@@ -2,6 +2,7 @@
 
 @section('main')
     @vite('resources/css/education.css')
+
     <div class="container-fluid">
         <div class="row">
             <div id="left-content" class="col-lg-7 col-md-7 col-sm-12 p-5">
@@ -185,6 +186,7 @@
     <form action="{{route('post.education.transaction')}}" id="paymentForm" method="POST">
         @csrf
         <input type="text" name="paymentJSON" id="paymentJSONCallback"/>
+        <input type="text" name="snapToken" id="snapToken" value="{{$snapToken}}">
     </form>
 
 
@@ -212,7 +214,6 @@
           onClose: function(){
             /* You may add your own implementation here */
             alert('you closed the popup without finishing the payment');
-            sendResponseToForm(result)
           }
         })
         // customer will be redirected after completing payment pop-up

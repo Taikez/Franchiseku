@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EducationTransaction;
 use Illuminate\Http\Request;
 use App\Models\Education;
 use App\Models\EducationContent;
@@ -220,9 +221,12 @@ class EducationController extends Controller
 
         // GET RATINGS 
         $ratings = EducationContentRating::where(['educationContentId' => $id, 'rating' => 5])->limit(5)->get();
-
+        
         //GET USER
         $user = Auth::user();
+
+        //GET USER TRANSACTION 
+        $transactionStatus = EducationTransaction::where('userId',$user->id);
 
         //GET SNAP TOKEN
         // Set your Merchant Server Key
@@ -232,7 +236,7 @@ class EducationController extends Controller
         // Set sanitization on (default)
         \Midtrans\Config::$isSanitized = true;
         // Set 3DS transaction for credit card to true
-        \Midtrans\Config::$is3ds = true;
+        \Midtrans\Config::$is3ds = false;
 
         $params = [
             'transaction_details' => [
@@ -256,7 +260,6 @@ class EducationController extends Controller
         ];
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
-
 
         return view('educationDetail', compact('education','educationDuration', 'otherEducations', 'countingStars', 'ratings','snapToken'));
     }

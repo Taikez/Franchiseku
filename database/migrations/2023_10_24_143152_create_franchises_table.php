@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('franchiseName');
             $table->string('franchiseLocation')->nullable();
             $table->string('franchiseCategory');
-            $table->string('franchise_category_id')->nullable();
             $table->integer('franchisePrice');
             $table->string('franchiseLogo');
             $table->string('franchisePIC');

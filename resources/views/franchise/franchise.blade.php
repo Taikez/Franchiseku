@@ -56,7 +56,7 @@
                                     </div>
                                     <div class="p-3">
                                         <h3>{{ $item->franchiseName }}</h3>
-                                        <p class="mb-2 text-muted">By {{ $item->franchisePIC }}</p>
+                                        <p class="mb-2 text-muted">By {{ $item->franchisePICName }}</p>
                                         <span class="badge bg-info mb-3">
                                             {{ $item->franchiseCategory }}
                                         </span>

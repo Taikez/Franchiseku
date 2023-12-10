@@ -4,10 +4,10 @@
     @vite('resources/css/franchise.css')
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-6 imageContainer p-4">
+            <div class="col-lg-6 col-md-6 col-sm-12 imageContainer p-4">
                 <img class="img-fluid rounded" src="{{ asset($franchise->franchiseLogo) }}" alt="">
             </div>
-            <div class="col-md-6 rightContainer">
+            <div class="col-lg-6 col-md-6 col-sm-12 rightContainer">
                 <div class="titleContainer ppy-2">
                     <h1 class="fw-bold">{{ ucwords($franchise->franchiseName) }}</h1>
                     <hr>
@@ -27,16 +27,25 @@
                         </div>
                     </div>
                 </div>
-                <div class="d-grid gap-2 franchise-button">
-                    <a href="#" class="btn sendProposalBtn" type="button">Send Proposal</a>
-                    <a href="{{ asset($franchise->franchiseReport) }}" class="btn downloadReportBtn" type="button"
-                        download="{{ $franchise->franchiseName }} - Report">Download Franchise Report</a>
+                <div class="d-flex flex-column">
+                    @include('layouts.flashMessage')
+                    @if (Auth::check() && Auth::user()->id == $franchise->franchisePIC)
+                        @include('modals.editFranchiseModal')
+                        <button type="button" id="editFranchiseBtn" class="btn btn-info w-100 text-white rounded-pill mb-3"
+                            data-bs-toggle="modal" data-bs-target="#editFranchiseModal">Edit Franchise</button>
+                    @else
+                        @include('modals.sendProposalModal')
+                        <button type="button" id="sendProposalBtn" class="btn btn-info w-100 text-white rounded-pill mb-3"
+                            data-bs-toggle="modal" data-bs-target="#sendProposalModal">Send Proposal</button>
+                    @endif
+                    <button type="button" id="downloadFranchiseReportBtn"
+                        class="btn btn-light w-100 rounded-pill border border-1"
+                        download="{{ $franchise->franchiseName }} - Report">Download Franchise Report</button>
                 </div>
             </div>
         </div>
 
         <div class="container my-5">
-
             <ul class="nav nav-tabs" id="myTabs">
                 <li class="nav-item">
                     <a class="nav-link active" id="description-tab" data-bs-toggle="tab" href="#description">Description</a>
@@ -76,13 +85,13 @@
                 </div>
                 <div class="tab-pane fade" id="detail">
                     <ul class="list-group">
-                        <li class="list-group-item"><b>Franchise Name : </b>{{$franchise->franchiseName}} </li>
-                        <li class="list-group-item"><b>Franchise Location : </b>{{$franchise->franchiseLocation}} </li>
-                        <li class="list-group-item"><b>Franchise Category : </b>{{$franchise->franchiseCategory}} </li>
-                        <li class="list-group-item"><b>Franchise Price : </b>{{$franchise->franchisePrice}} </li>
-                      
-                        <li class="list-group-item"><b>Franchisor Name : </b>{{$franchisor->name}} </li>
-                        <li class="list-group-item"><b>Franchisor Email : </b>{{$franchisor->email}} </li>
+                        <li class="list-group-item"><b>Franchise Name : </b>{{ $franchise->franchiseName }} </li>
+                        <li class="list-group-item"><b>Franchise Location : </b>{{ $franchise->franchiseLocation }} </li>
+                        <li class="list-group-item"><b>Franchise Category : </b>{{ $franchise->franchiseCategory }} </li>
+                        <li class="list-group-item"><b>Franchise Price : </b>{{ $franchise->franchisePrice }} </li>
+
+                        <li class="list-group-item"><b>Franchisor Name : </b>{{ $franchisor->name }} </li>
+                        <li class="list-group-item"><b>Franchisor Email : </b>{{ $franchisor->email }} </li>
                     </ul>
                 </div>
             </div>
@@ -94,7 +103,7 @@
         <div class="row">
             @if ($otherFranchise->count() == 0)
                 <div class="col-lg-12 pb-3" data-aos="fade" data-aos-duration="800">
-                    <div class="alert alert-warning w-100">No education content found!</div>
+                    <div class="alert alert-warning w-100">No franchise found!</div>
                 </div>
             @else
                 @foreach ($otherFranchise as $item)

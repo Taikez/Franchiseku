@@ -1,13 +1,12 @@
-<div class="accordion" id="accordionPanelsStayOpen">
+<div class="accordion" id="accordionPanelsStayOpen" data-aos="fade" data-aos-duration="800">
     <a href="{{ route('education.index') }}" id="resetFilterButton"
-        class="btn btn-danger w-50 border border-2 rounded rounded-2 mb-3 d-flex justify-content-center align-items-center fs-5 fw-light text-center"
-        data-aos="zoom-in-right" data-aos-duration="800">
+        class="btn btn-danger w-50 border border-2 rounded rounded-2 mb-3 d-flex justify-content-center align-items-center fs-5 fw-light text-center">
         <span class="material-symbols-rounded">
             filter_alt_off
         </span>
         Reset Filter
     </a>
-    <div class="accordion-item mb-3 border-2 rounded" data-aos="fade-down-right" data-aos-duration="800">
+    <div class="accordion-item mb-3 border-2 rounded">
         <h2 class="accordion-header" id="panelsStayOpen-headingOne">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                 data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false"
@@ -28,7 +27,7 @@
         </div>
     </div>
     <div class="accordion-item border-top mb-3 border-2 rounded">
-        <h2 class="accordion-header" id="panelsStayOpen-headingTwo" data-aos="fade-right" data-aos-duration="800">
+        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                 data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
                 aria-controls="panelsStayOpen-collapseTwo">
@@ -61,7 +60,7 @@
         </div>
     </div>
     <div class="accordion-item border-top mb-3 border-2 rounded">
-        <h2 class="accordion-header" id="panelsStayOpen-headingThree" data-aos="fade-up-right" data-aos-duration="800">
+        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                 data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
                 aria-controls="panelsStayOpen-collapseThree">

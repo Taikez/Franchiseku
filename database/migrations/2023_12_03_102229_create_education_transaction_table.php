@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('paymentType')->nullable();
             $table->string('transaction_id');
-            $table->string('transaction_status');
+            $table->string('transaction_status')->nullable();
             $table->string('order_id');
-            $table->string('paymentCode');
-            $table->string('jsonData');
-            $table->string('pdf_url');
-            $table->string('fraud_status');
+            $table->string('paymentCode')->nullable();
+            $table->string('jsonData')->nullable();
+            $table->string('pdf_url')->nullable();
+            $table->string('fraud_status')->nullable();
             $table->string('snap_token', 36)->nullable();
             $table->decimal('total_price', 10, 2);
 
@@ -28,9 +28,9 @@ return new class extends Migration
             $table->unsignedBigInteger('userId');
             $table->foreign('userId')->references('id')->on('users');
             //bikin2 aja
-            $table->string('username');
-            $table->string('email');
-            $table->string('phoneNumber'); 
+            $table->string('username')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phoneNumber')->nullable(); 
             $table->timestamps();
             
         });

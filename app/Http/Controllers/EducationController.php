@@ -283,11 +283,24 @@ class EducationController extends Controller
         $user = Auth::user();
 
         //GET USER TRANSACTION
-        $transactionStatus = EducationTransaction::where('userId', $user->id);
+        $transaction = EducationTransaction::where(['userId'=> $user->id,'education_id'=>$education->id])->get();
+        $transactionStatusMessage = '';
+        if($transaction->isEmpty()){
+            $transactionStatus = false;
+            $transactionStatusMessage = 'Please buy the education first';
+        }else{
+            if($transaction[$transaction->count()-1]->transaction_status == 'settlement'){
+                $transactionStatus = true;
+                $transactionStatusMessage = 'Payment Success';
+            }else{
+                $transactionStatus = false;
+                $transactionStatusMessage = 'Please complete payment first';
+            }
+        }
 
         //GET SNAP TOKEN
         // Set your Merchant Server Key
-        \Midtrans\Config::$serverKey = 'SB-Mid-server-bUxavK_9SP0WSQ2Vk3Tzq3GS';
+        \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
         // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
         \Midtrans\Config::$isProduction = false;
         // Set sanitization on (default)
@@ -318,15 +331,18 @@ class EducationController extends Controller
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
 
-        return view(
-            'educationDetail',
+        //get transaction status
+        
+
+        return view('educationDetail',
             compact(
                 'education',
                 'educationDuration',
                 'otherEducations',
                 'countingStars',
                 'ratings',
-                'snapToken'
+                'snapToken',
+                'transactionStatus'
             )
         );
     }

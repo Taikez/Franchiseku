@@ -11,19 +11,17 @@ class EducationTransactionController extends Controller
 {
     public function index(Request $req)
     {
-
         //get user
         $user = Auth::user();
 
-
         // Set your Merchant Server Key
-        \Midtrans\Config::$serverKey = 'SB-Mid-server-bUxavK_9SP0WSQ2Vk3Tzq3GS';
+        \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
         // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-        \Midtrans\Config::$isProduction = false;
+        \Midtrans\Config::$isProduction = env('MIDTRANS_IS_PRODUCTION', false);
         // Set sanitization on (default)
-        \Midtrans\Config::$isSanitized = true;
+        \Midtrans\Config::$isSanitized = env('MIDTRANS_IS_SANITIZED', true);
         // Set 3DS transaction for credit card to true
-        \Midtrans\Config::$is3ds = true;
+        \Midtrans\Config::$is3ds = env('MIDTRANS_IS_3DS', true);
 
         $params = [
             'transaction_details' => [
@@ -40,17 +38,19 @@ class EducationTransactionController extends Controller
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
 
-        return view('testMidtrans',compact('snapToken'));
+        return view('testMidtrans', compact('snapToken'));
         // return $snapToken;
-    } 
+    }
 
-    public function PostTransaction(Request $req){
+    public function PostTransaction(Request $req)
+    {
         $json = json_decode($req->paymentJSON);
         //get user
         // dd($json);
         $user = Auth::user();
 
-
+        $pdfUrl = isset($json->pdf_url) ? $json->pdf_url : null;
+        // dd($pdfUrl);
 
         EducationTransaction::insert([
             'paymentType' => $json->payment_type,
@@ -60,23 +60,24 @@ class EducationTransactionController extends Controller
             // 'paymentCode' => $json->payment_code,
             'paymentCode' => '',
             'jsonData' => $req->paymentJSON,
-            'pdf_url' => $json->pdf_url,
+            'pdf_url' => '',
             'fraud_status' => $json->fraud_status,
             'snap_token' => $req->snapToken, //ganti snap token
             'total_price' => $json->gross_amount,
             'userId' => $user->id,
             'username' => $user->name,
-            'phoneNumber'=>$user->phoneNumber,
+            'phoneNumber' => $user->phoneNumber,
             'email' => $user->email,
             'created_at' => Carbon::now(),
         ]);
 
-
         //nanti munculin success modal
-        $notification = array(
+        $notification = [
             'message' => 'Payment Success',
             'alert-type' => 'success',
-        ); 
-        return redirect()->back()->with($notification);
+        ];
+        return redirect()
+            ->back()
+            ->with($notification);
     }
 }

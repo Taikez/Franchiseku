@@ -1,5 +1,5 @@
-<link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
+{{-- <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" /> --}}
 
 <div id="footer" class="container-fluid p-4 pt-5 bg-white" data-aos="fade" data-aos-duration="800">
 

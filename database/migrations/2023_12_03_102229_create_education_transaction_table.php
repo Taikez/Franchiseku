@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('transaction_status')->nullable();
             $table->string('order_id');
             $table->string('paymentCode')->nullable();
-            $table->text('jsonData')->nullable();
+            $table->string('jsonData')->nullable();
             $table->string('pdf_url')->nullable();
-            $table->string('fraud_status');
+            $table->string('fraud_status')->nullable();
             $table->string('snap_token', 36)->nullable();
             $table->decimal('total_price', 10, 2);
 

@@ -50,17 +50,16 @@ class EducationTransactionController extends Controller
         $user = Auth::user();
 
         $pdfUrl = isset($json->pdf_url) ? $json->pdf_url : null;
-        // dd($pdfUrl);
+        $paymentCode = isset($json->payment_code) ? $json->payment_code : null;
 
         EducationTransaction::insert([
             'paymentType' => $json->payment_type,
             'transaction_id' => $json->transaction_id,
             'transaction_status' => $json->transaction_status,
             'order_id' => $json->order_id,
-            // 'paymentCode' => $json->payment_code,
-            'paymentCode' => '',
+            'paymentCode' => $paymentCode,
             'jsonData' => $req->paymentJSON,
-            'pdf_url' => '',
+            'pdf_url' => $pdfUrl,
             'fraud_status' => $json->fraud_status,
             'snap_token' => $req->snapToken, //ganti snap token
             'total_price' => $json->gross_amount,

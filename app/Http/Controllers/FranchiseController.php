@@ -24,7 +24,7 @@ class FranchiseController extends Controller
     } // end method
 
     public function AllFranchiseRequest(){
-        $allFranchise = Franchise::latest()->where('status','Request')->get();
+        $allFranchise = Franchise::latest()->where('status','Requested')->get();
 
         return view("admin.franchise.all_franchise_request", compact('allFranchise'));
     }

@@ -24,7 +24,7 @@ class FranchiseController extends Controller
     } // end method
 
     public function AllFranchiseRequest(){
-        $allFranchise = Franchise::latest()->where('status','Request')->get();
+        $allFranchise = Franchise::latest()->where('status','Requested')->get();
 
         return view("admin.franchise.all_franchise_request", compact('allFranchise'));
     }
@@ -117,7 +117,7 @@ class FranchiseController extends Controller
             'franchisePICName' => $username,
             'franchiseLogo' => $saveLogoUrl,
             'franchise_category_id' => $validatedData['franchiseCategory'],
-            'status' => 'Request',
+            'status' => 'Requested',
             'created_at' => Carbon::now(),
         ]);
         
@@ -160,8 +160,9 @@ class FranchiseController extends Controller
 
         $allFranchise = Franchise::where('franchisePIC',$userId)->orderBy('created_at','desc')->get();
         $franchiseCategories = FranchiseCategory::all();
+        $myFranchise = true;
 
-        return view('franchise.franchise', compact('allFranchise','franchiseCategories'));
+        return view('franchise.franchise', compact('allFranchise','franchiseCategories', 'myFranchise'));
     }
     
 
@@ -182,20 +183,25 @@ class FranchiseController extends Controller
     public function Franchise(){
         $allFranchise = Franchise::where('status','approved')->get();
         $franchiseCategories = FranchiseCategory::all();
+        $myFranchise = false;
 
-        return view('franchise.franchise', compact('allFranchise','franchiseCategories'));
+        return view('franchise.franchise', compact('allFranchise','franchiseCategories', 'myFranchise'));
     }
 
     public function FranchiseByCategory($categoryId){
         $franchise = Franchise::where('franchiseCategoryId', $categoryId)->latest()->limit(4)->get();
         $categories = FranchiseCategory::all();
         $latestFranchise = Franchise::latest()->limit(4)->get();
+        $myFranchise = false;
 
-        return view('franchise', compact('categories','latestFranchise','franchise'));
+        return view('franchise.franchise', compact('categories','latestFranchise','franchise', 'myFranchise'));
     }
 
     public function detail($id)
     {
+        // GET USER
+        $user = Auth::user();
+
         // GET FRANCHISE
         $franchise = Franchise::findOrFail($id);
         $franchisor = User::where('id', $franchise->franchisePIC)->first();
@@ -205,7 +211,15 @@ class FranchiseController extends Controller
         // GET RATINGS 
         $ratings = FranchiseRating::where(['franchiseId' => $id, 'rating' => 5])->limit(5)->get();
 
-        return view('franchise.franchiseDetail', compact('franchise', 'otherFranchise', 'ratings','franchisor', 'allFranchiseCategory'));
+        if($franchise->status != 'Approved' && $user->id != $franchise->franchisePIC)
+        {
+            abort(404);
+        }
+        
+        else
+        {
+            return view('franchise.franchiseDetail', compact('franchise', 'otherFranchise', 'ratings','franchisor', 'allFranchiseCategory'));
+        }
     }
 
     public function sendProposal(Request $request, $franchiseId)
@@ -264,7 +278,7 @@ class FranchiseController extends Controller
                     'proposalDescription' => $validatedData['proposalDescription'],
                     'franchise_id' => $franchiseId,
                     'user_id' => $user->id,
-                    'status' => 'Request',
+                    'status' => 'Requested',
                     'created_at' => Carbon::now(),
                 ]);
                 
@@ -341,7 +355,7 @@ class FranchiseController extends Controller
                 'franchisePIC' => $userId,
                 'franchisePICName' => $username,
                 'franchise_category_id' => $validatedData['franchiseCategory'],
-                'status' => 'Request',
+                'status' => 'Requested',
                 'created_at' => Carbon::now(),
             ]);
         }
@@ -376,7 +390,7 @@ class FranchiseController extends Controller
                 'franchisePICName' => $username,
                 'franchiseLogo' => $saveLogoUrl,
                 'franchise_category_id' => $validatedData['franchiseCategory'],
-                'status' => 'Request',
+                'status' => 'Requested',
                 'created_at' => Carbon::now(),
             ]);
         }
@@ -410,7 +424,7 @@ class FranchiseController extends Controller
                 'franchisePICName' => $username,
                 'franchiseReport' => $saveReportUrl,
                 'franchise_category_id' => $validatedData['franchiseCategory'],
-                'status' => 'Request',
+                'status' => 'Requested',
                 'created_at' => Carbon::now(),
             ]);
         }
@@ -462,12 +476,54 @@ class FranchiseController extends Controller
                 'franchisePICName' => $username,
                 'franchiseLogo' => $saveLogoUrl,
                 'franchise_category_id' => $validatedData['franchiseCategory'],
-                'status' => 'Request',
+                'status' => 'Requested',
                 'created_at' => Carbon::now(),
             ]);
         }
         
         $message = 'Franchise updated successfully!';
         return redirect()->back()->with('success', $message);
+    }
+
+    public function historyFranchise(Request $request){
+        //get user
+        $user = Auth::user();
+
+        // get parameter values
+        $status = $request->input('status');
+        $startDate = $request->input('startDate');
+        $endDate = $request->input('endDate');
+
+        // get franchise category
+        $franchiseCategories = FranchiseCategory::all();
+
+        // filter data
+        $queryFranchiseProposal = FranchiseProposal::query()->where('user_id',$user->id)->orderBy('created_at','desc');
+
+        if ($status !== null) 
+        {
+            $queryFranchiseProposal->where('status', $status);
+        }
+
+        if ($startDate !== null) 
+        {
+            $queryFranchiseProposal->whereBetween('created_at', [$startDate.'%', '9999-12-31 23:59:59']);
+        }
+
+        else if ($endDate !== null) 
+        {
+            $queryFranchiseProposal->whereBetween('created_at', ['0001-01-01 00:00:00', $endDate.'%']);
+        }
+
+        else if($startDate !== null && $endDate !== null)
+        {
+            $queryFranchiseProposal->whereBetween('created_at', [$startDate.'%', $endDate.'%']);
+        }
+
+        // fetch filtered data
+        $franchiseProposals = $queryFranchiseProposal->paginate(4);
+            dd($queryFranchiseProposal);
+
+        return view('franchise.historyFranchise', compact('franchiseProposals', 'franchiseCategories'));
     }
 }

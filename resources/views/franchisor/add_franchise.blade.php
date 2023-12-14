@@ -37,6 +37,8 @@
                             <label for="franchiseCategory">Franchise Category</label>
                             <select class="form-control @error('franchiseCategory') is-invalid @enderror"
                                 id="franchiseCategory" name="franchiseCategory">
+                                <option>
+                                    Choose..</option>
                                 @foreach ($allFranchiseCategory as $item)
                                     <option
                                         value="{{ $item->id }}"{{ old('franchiseCategory') == $item->franchiseCategory ? 'selected' : '' }}>

@@ -94,6 +94,7 @@ Route::controller(EducationController::class)->group(function(){
     Route::get('/education/ratingView', 'ratingView');
     Route::post('/education/{id}/rate', 'rateEducation')->name('education.rate');
     Route::post('/education/{id}/purchase', 'purchaseEducation')->name('education.purchase');
+    Route::get('/education/history','historyEducation')->name('history.education');
 });
 
 Route::controller(EducationCategoryController::class)->group(function(){   
@@ -113,13 +114,15 @@ Route::controller(FranchisorController::class)->group(function(){
 Route::controller(FranchiseController::class)->group(function(){
     Route::get('/admin/all/franchise','AllFranchise')->name('all.franchise');
     Route::get('/franchise','Franchise')->name('franchise');
+    Route::post('/franchise/search', 'search')->name('franchise.search');
     Route::get('/franchise/detail/{id}','detail')->name('franchise.detail');
-    Route::get('/my/franchise','MyFranchise')->middleware('franchisor')->name('my.franchise');
-    Route::get('/register/franchise','RegisterFranchise')->middleware('franchisor')->name('register.franchise');
-    Route::post('/post/franchise','StoreFranchise')->middleware('franchisor')->name('store.franchise');
+    Route::get('franchise/myFranchise','MyFranchise')->middleware('franchisor')->name('my.franchise');
+    Route::get('/franchise/register','RegisterFranchise')->middleware('franchisor')->name('register.franchise');
+    Route::post('/franchise/post','StoreFranchise')->middleware('franchisor')->name('store.franchise');
     Route::get('/dashboard/registerFranchise','RegisterFranchise')->middleware('franchisor')->name('dashboard.register.franchise');
-    Route::post('/send/proposal/{id}','sendProposal')->middleware('franchisor')->name('send.proposal');
-    Route::post('/edit/franchise/{id}','editFranchise')->middleware('franchisor')->name('edit.franchise');
+    Route::post('/send/proposal/{id}','sendProposal')->name('send.proposal');
+    Route::post('/franchise/edit/{id}','editFranchise')->middleware('franchisor')->name('edit.franchise');
+    Route::get('/franchise/history','historyFranchise')->name('history.franchise');
 });
 
 

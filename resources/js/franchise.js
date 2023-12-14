@@ -8,8 +8,8 @@ $(document).ready(function () {
         var urlParams = new URLSearchParams(window.location.search);
 
         // Add or update the date parameters
-        urlParams.set('fromDate', startDateValue);
-        urlParams.set('toDate', endDateValue);
+        urlParams.set('startDate', startDateValue);
+        urlParams.set('endDate', endDateValue);
 
         // Initialize URL
         var url = "?" + urlParams.toString()

@@ -507,22 +507,16 @@ class FranchiseController extends Controller
 
         if ($startDate !== null) 
         {
-            $queryFranchiseProposal->whereBetween('created_at', [$startDate.'%', '9999-12-31 23:59:59']);
+            $queryFranchiseProposal->where('created_at', '>=', $startDate);
         }
 
-        else if ($endDate !== null) 
+        if ($endDate !== null) 
         {
-            $queryFranchiseProposal->whereBetween('created_at', ['0001-01-01 00:00:00', $endDate.'%']);
-        }
-
-        else if($startDate !== null && $endDate !== null)
-        {
-            $queryFranchiseProposal->whereBetween('created_at', [$startDate.'%', $endDate.'%']);
+            $queryFranchiseProposal->where('created_at', '<=', $endDate);
         }
 
         // fetch filtered data
         $franchiseProposals = $queryFranchiseProposal->paginate(4);
-            dd($queryFranchiseProposal);
 
         return view('franchise.historyFranchise', compact('franchiseProposals', 'franchiseCategories'));
     }

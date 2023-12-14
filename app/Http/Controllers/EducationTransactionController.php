@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\EducationTransaction;
+use App\Models\Education;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Auth;
@@ -52,6 +53,9 @@ class EducationTransactionController extends Controller
         $pdfUrl = isset($json->pdf_url) ? $json->pdf_url : null;
         $paymentCode = isset($json->payment_code) ? $json->payment_code : null;
 
+        //get education
+        // $education = Education::findOrFail($json->education_id);
+
         EducationTransaction::insert([
             'paymentType' => $json->payment_type,
             'transaction_id' => $json->transaction_id,
@@ -61,6 +65,7 @@ class EducationTransactionController extends Controller
             'jsonData' => $req->paymentJSON,
             'pdf_url' => $pdfUrl,
             'fraud_status' => $json->fraud_status,
+            'education_id'=>$req->educationId,
             'snap_token' => $req->snapToken, //ganti snap token
             'total_price' => $json->gross_amount,
             'userId' => $user->id,

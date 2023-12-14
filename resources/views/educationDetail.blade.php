@@ -24,7 +24,7 @@
             <div id="right-content" class="col-lg-5 col-md-5 col-sm-12 py-5 px-3">
                 <div id="thumbnail-container" class="rounded" data-aos="fade" data-aos-duration="800">
                     @if (auth()->user() &&
-                            auth()->user()->hasPurchasedEducationContent($education->id))
+                            $transactionStatus == true)
                         <h1>User bought this content!</h1>
                     @else
                         <img id="thumbnail" class="img-fluid rounded-3 opacity-50"
@@ -35,6 +35,7 @@
                             </span>
                             <h5 class="mt-3 text-black opacity-50">This video is locked</h5>
                         </div>
+                        <h1>{{$transactionStatus}}</h1>
                     @endif
                 </div>
                 <div id="content-details">
@@ -50,8 +51,7 @@
                     <div class="text-center">
                         @include('layouts.flashMessage')
                         <div class="row">
-                            @if (auth()->user() &&
-                                    auth()->user()->hasPurchasedEducationContent($education->id))
+                            @if (auth()->user() && $transactionStatus == true)
                                 @include('modals.rateEducationContentModal')
                                 <div>
                                     <button type="button" id="rateEducationBtn"
@@ -66,7 +66,7 @@
                                         class="btn w-50 text-white rounded-pill mt-3 mb-2" id="pay-button" data-bs-toggle="modal"
                                         data-bs-target="#purchaseModal">Purchase
                                         Content</button> --}}
-                                     <button id="pay-button" class="btn w-50 text-white btn-primary rounded-pill mt-3 mb-2">Pay!</button>
+                                     <button id="pay-button" class="btn w-50 text-white btn-success rounded-pill mt-3 mb-2">Pay!</button>
                                 </div>
                             @endif
                         </div>
@@ -187,6 +187,7 @@
         @csrf
         <input type="text" name="paymentJSON" id="paymentJSONCallback"/>
         <input type="text" name="snapToken" id="snapToken" value="{{$snapToken}}">
+        <input type="text" name="educationId" id="educationId" value="{{$education->id}}">
     </form>
 
 

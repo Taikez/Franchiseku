@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('pdf_url')->nullable();
             $table->string('fraud_status')->nullable();
             $table->string('snap_token', 36)->nullable();
+            $table->string('education_id');
             $table->decimal('total_price', 10, 2);
 
             //data user

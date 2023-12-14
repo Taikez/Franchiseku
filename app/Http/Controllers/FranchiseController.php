@@ -276,9 +276,9 @@ class FranchiseController extends Controller
 
     public function deleteFile($directory)
     {
-        if (Storage::disk('local')->exists($directory)) 
+        if (file_exists(public_path($directory))) 
         {
-            Storage::disk('local')->delete($directory);
+             unlink(public_path($directory));
         }
     }
 

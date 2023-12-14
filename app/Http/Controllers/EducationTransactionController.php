@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EducationTransaction;
+use App\Models\Education;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Auth;
 
 class EducationTransactionController extends Controller
 {
@@ -14,7 +18,7 @@ class EducationTransactionController extends Controller
 
 
         // Set your Merchant Server Key
-        \Midtrans\Config::$serverKey = 'SB-Mid-server-bUxavK_9SP0WSQ2Vk3Tzq3GS';
+        \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
         // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
         \Midtrans\Config::$isProduction = false;
         // Set sanitization on (default)
@@ -40,4 +44,44 @@ class EducationTransactionController extends Controller
         return view('testMidtrans',compact('snapToken'));
         // return $snapToken;
     } 
+
+    public function PostTransaction(Request $req){
+        $json = json_decode($req->paymentJSON);
+        //get user
+        // dd($json);
+        $user = Auth::user();
+
+        $pdfUrl = isset($json->pdf_url) ? $json->pdf_url : null;
+        $paymentCode = isset($json->payment_code) ? $json->payment_code : null;
+
+        //get education
+        // $education = Education::findOrFail($json->education_id);
+
+        EducationTransaction::insert([
+            'paymentType' => $json->payment_type,
+            'transaction_id' => $json->transaction_id,
+            'transaction_status' => $json->transaction_status,
+            'order_id' => $json->order_id,
+            'paymentCode' => $paymentCode,
+            'jsonData' => $req->paymentJSON,
+            'pdf_url' => $pdfUrl,
+            'fraud_status' => $json->fraud_status,
+            'education_id'=>$req->educationId,
+            'snap_token' => $req->snapToken, //ganti snap token
+            'total_price' => $json->gross_amount,
+            'userId' => $user->id,
+            'username' => $user->name,
+            'phoneNumber'=>$user->phoneNumber,
+            'email' => $user->email,
+            'created_at' => Carbon::now(),
+        ]);
+
+
+        //nanti munculin success modal
+        $notification = array(
+            'message' => 'Payment Success',
+            'alert-type' => 'success',
+        ); 
+        return redirect()->back()->with($notification);
+    }
 }

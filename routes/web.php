@@ -122,6 +122,14 @@ Route::controller(FranchiseController::class)->group(function(){
     Route::post('/edit/franchise/{id}','editFranchise')->middleware('franchisor')->name('edit.franchise');
 });
 
+
+Route::middleware(['auth'])->group(function(){
+    Route::controller(EducationTransactionController::class)->group(function(){
+        Route::get('/my/education/transaction','MyTransaction')->name('my.education.transaction');
+        Route::post('/post/education/transaction','PostTransaction')->name('post.education.transaction');
+    });
+});
+
 //education route for admin
 Route::middleware(['admin','auth'])->group(function(){
     Route::controller(EducationController::class)->group(function(){

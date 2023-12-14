@@ -2,6 +2,7 @@
 
 @section('main')
     @vite('resources/css/education.css')
+
     <div class="container-fluid">
         <div class="row">
             <div id="left-content" class="col-lg-7 col-md-7 col-sm-12 p-5">
@@ -23,7 +24,7 @@
             <div id="right-content" class="col-lg-5 col-md-5 col-sm-12 py-5 px-3">
                 <div id="thumbnail-container" class="rounded" data-aos="fade" data-aos-duration="800">
                     @if (auth()->user() &&
-                            auth()->user()->hasPurchasedEducationContent($education->id))
+                            $transactionStatus == true)
                         <h1>User bought this content!</h1>
                     @else
                         <img id="thumbnail" class="img-fluid rounded-3 opacity-50"
@@ -34,6 +35,7 @@
                             </span>
                             <h5 class="mt-3 text-black opacity-50">This video is locked</h5>
                         </div>
+                        <h1>{{$transactionStatus}}</h1>
                     @endif
                 </div>
                 <div id="content-details">
@@ -49,8 +51,7 @@
                     <div class="text-center">
                         @include('layouts.flashMessage')
                         <div class="row">
-                            @if (auth()->user() &&
-                                    auth()->user()->hasPurchasedEducationContent($education->id))
+                            @if (auth()->user() && $transactionStatus == true)
                                 @include('modals.rateEducationContentModal')
                                 <div>
                                     <button type="button" id="rateEducationBtn"
@@ -65,7 +66,7 @@
                                         class="btn w-50 text-white rounded-pill mt-3 mb-2" id="pay-button" data-bs-toggle="modal"
                                         data-bs-target="#purchaseModal">Purchase
                                         Content</button> --}}
-                                     <button id="pay-button" class="btn w-50 text-white btn-primary rounded-pill mt-3 mb-2">Pay!</button>
+                                     <button id="pay-button" class="btn w-50 text-white btn-success rounded-pill mt-3 mb-2">Pay!</button>
                                 </div>
                             @endif
                         </div>
@@ -180,13 +181,53 @@
     </div>
 
 
+    {{-- passing data untuk midtrans --}}
+    {{-- Route belom dibikin, nnti insert ke table transaksi aja --}}
+    <form action="{{route('post.education.transaction')}}" id="paymentForm" method="POST">
+        @csrf
+        <input type="text" name="paymentJSON" id="paymentJSONCallback"/>
+        <input type="text" name="snapToken" id="snapToken" value="{{$snapToken}}">
+        <input type="text" name="educationId" id="educationId" value="{{$education->id}}">
+    </form>
+
+
     <script type="text/javascript">
       // For example trigger on button clicked, or any time you need
       var payButton = document.getElementById('pay-button');
       payButton.addEventListener('click', function () {
         // Trigger snap popup. @TODO: Replace TRANSACTION_TOKEN_HERE with your transaction token
-        window.snap.pay('{{$snapToken}}');
+        window.snap.pay('{{$snapToken}}', {
+          onSuccess: function(result){
+            /* You may add your own implementation here */
+            console.log(result);
+            sendResponseToForm(result)
+          },
+          onPending: function(result){
+            /* You may add your own implementation here */
+            console.log(result);
+            sendResponseToForm(result)
+          },
+          onError: function(result){
+            /* You may add your own implementation here */
+            console.log(result);
+            sendResponseToForm(result)
+          },
+          onClose: function(){
+            /* You may add your own implementation here */
+            alert('you closed the popup without finishing the payment');
+          }
+        })
         // customer will be redirected after completing payment pop-up
       });
+
+
+      function sendResponseToForm(result){
+        var value =  document.getElementById('paymentJSONCallback').value;
+        var jsonData = JSON.stringify(result);
+
+        $("#paymentJSONCallback").val(jsonData);
+        // alert(value); 
+        $('#paymentForm').submit();
+      }
     </script>
 @endsection

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EducationTransaction;
 use Illuminate\Http\Request;
 use App\Models\Education;
 use App\Models\EducationContent;
@@ -19,28 +20,36 @@ class EducationController extends Controller
 {
     //
 
-    public function AllEducation(){
+    public function AllEducation()
+    {
         $educations = EducationContent::all();
 
         return view('admin.education.all_education', compact('educations'));
     } // end method
 
+    public function AddEducation()
+    {
+        $educationCategories = EducationCategory::orderBy(
+            'educationCategory',
+            'ASC'
+        )->get();
 
-    public function AddEducation(){
-        $educationCategories = EducationCategory::orderBy('educationCategory', 'ASC')->get();
-
-        return view('admin.education.add_education', compact('educationCategories'));
+        return view(
+            'admin.education.add_education',
+            compact('educationCategories')
+        );
     } // end method
 
-    public function storeVideo(Request $req){
- 
+    public function storeVideo(Request $req)
+    {
         $video = $req->file('educationVideo');
-        $name_gen_vid = hexdec(uniqid()) . '.' . $video->getClientOriginalExtension();
+        $name_gen_vid =
+            hexdec(uniqid()) . '.' . $video->getClientOriginalExtension();
         //resize image
-        
+
         //specify desired directory path
         $directory = 'upload/education/';
-        
+
         $save_url_vid = $directory . $name_gen_vid;
 
         dd($directory, $name_gen_vid, 'public');
@@ -51,68 +60,80 @@ class EducationController extends Controller
         ]);
     }
 
-
-    public function PostEducation(Request $req){
+    public function PostEducation(Request $req)
+    {
         $uploadedFiles = $req->file('educationVideo');
-        
+
         // $this->storeVideo($req);
         // dd($req);
 
         $customMessages = [
             'educationTitle.required' => 'Education Title is Required!',
             'educationDesc.required' => 'Education Description is Required!',
-            'educationShortDesc.required' => 'Education Short Description is Required!',
+            'educationShortDesc.required' =>
+                'Education Short Description is Required!',
             'educationAuthor.required' => 'Education Author is Required!',
             'educationPrice.required' => 'Education Price is Required!',
             'educationPrice.integer' => 'Education Price must be an integer!',
             'educationCategory.required' => 'Education Category is Required!',
             // 'educationVideo.required' => 'Education Video is Required!',
-            'educationVideo.mimes' => 'Education Video must be in one of the allowed formats (mp4, mov, avi, mkv, wmv).',
+            'educationVideo.mimes' =>
+                'Education Video must be in one of the allowed formats (mp4, mov, avi, mkv, wmv).',
             'educationThumbnail.required' => 'Education Thumbnail is Required!',
-            'educationThumbnail.image' => 'Education Thumbnail must be a valid image file.',
-            'educationThumbnail.mimes' => 'Education Thumbnail must be in one of the allowed image formats (jpeg, png, jpg, gif).',
+            'educationThumbnail.image' =>
+                'Education Thumbnail must be a valid image file.',
+            'educationThumbnail.mimes' =>
+                'Education Thumbnail must be in one of the allowed image formats (jpeg, png, jpg, gif).',
         ];
-        
-        $validatedData = $req->validate([
-            'educationTitle' => 'required|string|max:255',
-            'educationDesc' => 'required|string',
-            'educationShortDesc' => 'required|string|max:255',
-            'educationAuthor' => 'required|string|max:255',
-            'educationCategory' => 'required|string|max:255',
-            'educationPrice' => 'required|integer',
-            'educationThumbnail' => 'required|image|mimes:jpeg,png,jpg,gif',
-            'educationVideo' => 'required|mimes:mp4,mov,avi,mkv,wmv',
-        ],$customMessages);
+
+        $validatedData = $req->validate(
+            [
+                'educationTitle' => 'required|string|max:255',
+                'educationDesc' => 'required|string',
+                'educationShortDesc' => 'required|string|max:255',
+                'educationAuthor' => 'required|string|max:255',
+                'educationCategory' => 'required|string|max:255',
+                'educationPrice' => 'required|integer',
+                'educationThumbnail' => 'required|image|mimes:jpeg,png,jpg,gif',
+                'educationVideo' => 'required|mimes:mp4,mov,avi,mkv,wmv',
+            ],
+            $customMessages
+        );
 
         //get category name
-        $education = EducationCategory::findOrFail($validatedData['educationCategory']);
-        
-        
+        $education = EducationCategory::findOrFail(
+            $validatedData['educationCategory']
+        );
+
         $image = $req->file('educationThumbnail');
         $video = $req->file('educationVideo');
-        $name_gen_img = hexdec(uniqid()). '.' . $image->getClientOriginalExtension();
-        $name_gen_vid = hexdec(uniqid()). '.' . $video->getClientOriginalExtension();
-        
+        $name_gen_img =
+            hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+        $name_gen_vid =
+            hexdec(uniqid()) . '.' . $video->getClientOriginalExtension();
+
         //resize image
-        
+
         //specify desired directory path
         $directory = 'upload/education/';
-        
+
         $save_url_img = $directory . $name_gen_img;
         $save_url_vid = $directory . $name_gen_vid;
 
-            // Create the directory if it doesn't exist
+        // Create the directory if it doesn't exist
         if (!File::isDirectory($directory)) {
             File::makeDirectory($directory);
         }
 
         //store image
-        Image::make($image)->resize(800,450)->save(public_path($directory . $name_gen_img));
+        Image::make($image)
+            ->resize(800, 450)
+            ->save(public_path($directory . $name_gen_img));
 
         //store video
         // $video->storeAs($directory,$name_gen_vid,'public');
         $video->move(public_path($directory), $name_gen_vid);
-        
+
         EducationContent::insert([
             'educationTitle' => $validatedData['educationTitle'],
             'educationCategory' => $education->educationCategory,
@@ -126,12 +147,14 @@ class EducationController extends Controller
             'created_at' => Carbon::now(),
         ]);
 
-        $notification = array(
+        $notification = [
             'message' => 'Education Added Successfully',
             'alert-type' => 'success',
-        ); 
+        ];
 
-        return redirect()->route('all.education')->with($notification);
+        return redirect()
+            ->route('all.education')
+            ->with($notification);
     } // end method
 
     public function index(Request $request)
@@ -147,22 +170,29 @@ class EducationController extends Controller
         // FILTER DATA
         $queryEducation = EducationContent::query();
 
-        if($categoryId !== null) 
+        if ($categoryId !== null) {
             $queryEducation->where('education_category_id', $categoryId);
+        }
 
-        if($minPrice !== null)
+        if ($minPrice !== null) {
             $queryEducation->where('educationPrice', '>=', $minPrice);
+        }
 
-        if($maxPrice !== null)
+        if ($maxPrice !== null) {
             $queryEducation->where('educationPrice', '<=', $maxPrice);
+        }
 
-        if($rating !== null)
+        if ($rating !== null) {
             $queryEducation->where('educationRating', $rating);
+        }
 
         // FETCH FILTERED DATA
         $educations = $queryEducation->limit(9)->get();
 
-        return view('educationContent', compact('educationCategories', 'educations'));
+        return view(
+            'educationContent',
+            compact('educationCategories', 'educations')
+        );
     }
 
     public function userAllEducation(Request $request)
@@ -178,61 +208,105 @@ class EducationController extends Controller
         // FILTER DATA
         $queryEducation = EducationContent::query();
 
-        if($categoryId !== null) 
+        if ($categoryId !== null) {
             $queryEducation->where('education_category_id', $categoryId);
+        }
 
-        if($minPrice !== null)
+        if ($minPrice !== null) {
             $queryEducation->where('educationPrice', '>=', $minPrice);
+        }
 
-        if($maxPrice !== null)
+        if ($maxPrice !== null) {
             $queryEducation->where('educationPrice', '<=', $maxPrice);
+        }
 
-        if($rating !== null)
+        if ($rating !== null) {
             $queryEducation->where('educationRating', $rating);
+        }
 
         // FETCH FILTERED DATA
         $educations = $queryEducation->paginate(9);
 
-        return view('allEducationContent', compact('educationCategories', 'educations'));
+        return view(
+            'allEducationContent',
+            compact('educationCategories', 'educations')
+        );
     }
 
     public function search(Request $request)
     {
         $educationCategories = EducationCategory::all();
-        $educations = EducationContent::where('educationTitle', 'like', '%'. $request->searchValue . '%')->paginate(9);
-        
-        return view('educationContent', compact('educationCategories', 'educations'));
+        $educations = EducationContent::where(
+            'educationTitle',
+            'like',
+            '%' . $request->searchValue . '%'
+        )->paginate(9);
+
+        return view(
+            'educationContent',
+            compact('educationCategories', 'educations')
+        );
     }
 
     public function detail($id)
     {
-       
         // GET EDUCATION CONTENT
         $education = EducationContent::findOrFail($id);
-        $videoPublicPath = EducationContent::where('id', $id)->pluck('educationVideo');
-        $otherEducations = EducationContent::where('education_category_id', $education->education_category_id)->whereNot('id', $id)->limit(4)->get();
+        $videoPublicPath = EducationContent::where('id', $id)->pluck(
+            'educationVideo'
+        );
+        $otherEducations = EducationContent::where(
+            'education_category_id',
+            $education->education_category_id
+        )
+            ->whereNot('id', $id)
+            ->limit(4)
+            ->get();
         $countingStars = $education->educationRating;
 
         // GET VIDEO DURATION
         $videoPath = public_path($videoPublicPath);
-        $duration = shell_exec("ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 '{$videoPath}'");
+        $duration = shell_exec(
+            "ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 '{$videoPath}'"
+        );
         $educationDuration = round(floatval($duration) / 60, 2);
 
-        // GET RATINGS 
-        $ratings = EducationContentRating::where(['educationContentId' => $id, 'rating' => 5])->limit(5)->get();
+        // GET RATINGS
+        $ratings = EducationContentRating::where([
+            'educationContentId' => $id,
+            'rating' => 5,
+        ])
+            ->limit(5)
+            ->get();
 
         //GET USER
         $user = Auth::user();
 
+        //GET USER TRANSACTION
+        $transaction = EducationTransaction::where(['userId'=> $user->id,'education_id'=>$education->id])->get();
+        $transactionStatusMessage = '';
+        if($transaction->isEmpty()){
+            $transactionStatus = false;
+            $transactionStatusMessage = 'Please buy the education first';
+        }else{
+            if($transaction[$transaction->count()-1]->transaction_status == 'settlement'){
+                $transactionStatus = true;
+                $transactionStatusMessage = 'Payment Success';
+            }else{
+                $transactionStatus = false;
+                $transactionStatusMessage = 'Please complete payment first';
+            }
+        }
+
         //GET SNAP TOKEN
         // Set your Merchant Server Key
-        \Midtrans\Config::$serverKey = 'SB-Mid-server-bUxavK_9SP0WSQ2Vk3Tzq3GS';
+        \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
         // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
         \Midtrans\Config::$isProduction = false;
         // Set sanitization on (default)
         \Midtrans\Config::$isSanitized = true;
         // Set 3DS transaction for credit card to true
-        \Midtrans\Config::$is3ds = true;
+        \Midtrans\Config::$is3ds = false;
 
         $params = [
             'transaction_details' => [
@@ -250,56 +324,66 @@ class EducationController extends Controller
                     'id' => 'a1',
                     'price' => $education->educationPrice,
                     'quantity' => 1,
-                    'name' => $education->educationTitle
-                ]
+                    'name' => $education->educationTitle,
+                ],
             ],
         ];
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
 
+        //get transaction status
+        
 
-        return view('educationDetail', compact('education','educationDuration', 'otherEducations', 'countingStars', 'ratings','snapToken'));
+        return view('educationDetail',
+            compact(
+                'education',
+                'educationDuration',
+                'otherEducations',
+                'countingStars',
+                'ratings',
+                'snapToken',
+                'transactionStatus'
+            )
+        );
     }
 
     public function rateEducation(Request $request, $educationContentId)
     {
-        if($request->isMethod('POST'))
-        { 
-            if(!Auth::check())
-            {
+        if ($request->isMethod('POST')) {
+            if (!Auth::check()) {
                 $message = "Login to rate this content!";
-                return redirect()->back()->with('error', $message);
-            }
-
-            else
-            {
+                return redirect()
+                    ->back()
+                    ->with('error', $message);
+            } else {
                 // VALIDATE FOR WHEN USER ALREADY RATED CONTENT
-                $ratingCount = EducationContentRating::where(['userId' => Auth::user()->id, 'educationContentId' => $educationContentId])->count();
-                if($ratingCount > 0)
-                {
+                $ratingCount = EducationContentRating::where([
+                    'userId' => Auth::user()->id,
+                    'educationContentId' => $educationContentId,
+                ])->count();
+                if ($ratingCount > 0) {
                     $message = "You have already rated this product!";
-                    return redirect()->back()->with('error', $message);
-                } 
-                
-                else
-                {
+                    return redirect()
+                        ->back()
+                        ->with('error', $message);
+                } else {
                     // DO SOME VALIDATION HERE YEA
-                    if($request->rating == null || $request->rating == "")
-                    {
+                    if ($request->rating == null || $request->rating == "") {
                         $message = "You haven't given this content a rating!";
-                        return redirect()->back()->with('warning', $message);
-                    }
-                    
-                    else if($request->ratingComment == null || $request->ratingComment == "")
-                    {
+                        return redirect()
+                            ->back()
+                            ->with('warning', $message);
+                    } elseif (
+                        $request->ratingComment == null ||
+                        $request->ratingComment == ""
+                    ) {
                         $message = "Give the content a comment first!";
-                        return redirect()->back()->with('warning', $message);
-                    }
-
-                    else
-                    {
+                        return redirect()
+                            ->back()
+                            ->with('warning', $message);
+                    } else {
                         // STORE THE RATING
-                        $rating = new EducationContentRating;
+                        $rating = new EducationContentRating();
                         $rating->userId = Auth::user()->id;
                         $rating->educationContentId = $educationContentId;
                         $rating->rating = $request->rating;
@@ -307,14 +391,20 @@ class EducationController extends Controller
                         $rating->save();
 
                         // CALCULATE AVERAGE RATING AND STORE IT
-                        $averageRating = EducationContentRating::calculateAverageRating($educationContentId);
+                        $averageRating = EducationContentRating::calculateAverageRating(
+                            $educationContentId
+                        );
 
-                        $education = EducationContent::findOrFail($educationContentId);
+                        $education = EducationContent::findOrFail(
+                            $educationContentId
+                        );
                         $education->educationRating = $averageRating;
                         $education->save();
 
                         $message = 'Rating submitted successfully.';
-                        return redirect()->back()->with('success', $message);
+                        return redirect()
+                            ->back()
+                            ->with('success', $message);
                     }
                 }
             }
@@ -323,6 +413,5 @@ class EducationController extends Controller
 
     public function purchaseEducation()
     {
-        
     }
 }

@@ -14,15 +14,26 @@ return new class extends Migration
         Schema::create('education_transaction', function (Blueprint $table) {
             $table->id();
             $table->string('paymentType')->nullable();
+            $table->string('transaction_id');
+            $table->string('transaction_status')->nullable();
+            $table->string('order_id');
+            $table->string('paymentCode')->nullable();
+            $table->string('jsonData')->nullable();
+            $table->string('pdf_url')->nullable();
+            $table->string('fraud_status')->nullable();
+            $table->string('snap_token', 36)->nullable();
+            $table->string('education_id');
+            $table->decimal('total_price', 10, 2);
+
+            //data user
             $table->unsignedBigInteger('userId');
             $table->foreign('userId')->references('id')->on('users');
+            //bikin2 aja
+            $table->string('username')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phoneNumber')->nullable(); 
             $table->timestamps();
-
-            $table->string('number', 16);
-            $table->decimal('total_price', 10, 2);
-            $table->enum('payment_status', ['1', '2', '3', '4'])->comment('1=menunggu pembayaran, 2=sudah dibayar, 3=kadaluarsa, 4=batal');
-            $table->string('snap_token', 36)->nullable();
-            $table->timestamps();
+            
         });
     }
 

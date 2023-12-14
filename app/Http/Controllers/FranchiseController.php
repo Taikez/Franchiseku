@@ -494,9 +494,6 @@ class FranchiseController extends Controller
         $startDate = $request->input('startDate');
         $endDate = $request->input('endDate');
 
-        // get franchise category
-        $franchiseCategories = FranchiseCategory::all();
-
         // filter data
         $queryFranchiseProposal = FranchiseProposal::query()->where('user_id',$user->id)->orderBy('created_at','desc');
 
@@ -518,6 +515,20 @@ class FranchiseController extends Controller
         // fetch filtered data
         $franchiseProposals = $queryFranchiseProposal->paginate(4);
 
-        return view('franchise.historyFranchise', compact('franchiseProposals', 'franchiseCategories'));
+        return view('franchise.historyFranchise', compact('franchiseProposals'));
+    }
+
+    public function searchHistory(Request $request)
+    {
+        $franchiseProposals = FranchiseProposal::whereHas(
+            'franchise', function ($query) use ($request) {
+                $query->where('franchiseName', 'like', '%' . $request->searchValue . '%');
+            }
+        )->paginate(4);
+
+        return view(
+            'franchise.historyFranchise',
+            compact('franchiseProposals')
+        );
     }
 }

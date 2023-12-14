@@ -411,7 +411,50 @@ class EducationController extends Controller
         }
     }
 
-    public function purchaseEducation()
+    public function historyEducation(Request $request){
+        //get user
+        $user = Auth::user();
+
+        // get parameter values
+        $status = $request->input('status');
+        $startDate = $request->input('startDate');
+        $endDate = $request->input('endDate');
+
+        // filter data
+        $queryEducationTransaction = EducationTransaction::query()->where('userId',$user->id)->orderBy('created_at','desc');
+
+        if ($status !== null) 
+        {
+            $queryEducationTransaction->where('transaction_status', $status);
+        }
+
+        if ($startDate !== null) 
+        {
+            $queryEducationTransaction->where('created_at', '>=', $startDate);
+        }
+
+        if ($endDate !== null) 
+        {
+            $queryEducationTransaction->where('created_at', '<=', $endDate);
+        }
+
+        // fetch filtered data
+        $educationTransactions = $queryEducationTransaction->paginate(4);
+
+        return view('historyEducation', compact('educationTransactions'));
+    }
+
+    public function searchHistory(Request $request)
     {
+        $educationTransactions = EducationTransaction::whereHas(
+            'educationContent', function ($query) use ($request) {
+                $query->where('educationTitle', 'like', '%' . $request->searchValue . '%');
+            }
+        )->paginate(4);
+
+        return view(
+            'historyEducation',
+            compact('educationTransactions')
+        );
     }
 }

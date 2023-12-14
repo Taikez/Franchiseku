@@ -95,6 +95,7 @@ Route::controller(EducationController::class)->group(function(){
     Route::post('/education/{id}/rate', 'rateEducation')->name('education.rate');
     Route::post('/education/{id}/purchase', 'purchaseEducation')->name('education.purchase');
     Route::get('/education/history','historyEducation')->name('history.education');
+    Route::post('/education/history/search', 'searchHistory')->name('history.education.search');
 });
 
 Route::controller(EducationCategoryController::class)->group(function(){   
@@ -123,13 +124,14 @@ Route::controller(FranchiseController::class)->group(function(){
     Route::post('/send/proposal/{id}','sendProposal')->name('send.proposal');
     Route::post('/franchise/edit/{id}','editFranchise')->middleware('franchisor')->name('edit.franchise');
     Route::get('/franchise/history','historyFranchise')->name('history.franchise');
+    Route::post('/franchise/history/search', 'searchHistory')->name('history.franchise.search');
 });
 
 
 Route::middleware(['auth'])->group(function(){
     Route::controller(EducationTransactionController::class)->group(function(){
         Route::get('/my/education/transaction','MyTransaction')->name('my.education.transaction');
-        Route::post('/post/education/transaction','PostTransaction')->name('post.education.transaction');
+        Route::post('/education/transaction/post','PostTransaction')->name('post.education.transaction');
     });
 });
 

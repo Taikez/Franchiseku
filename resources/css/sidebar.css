@@ -1,0 +1,36 @@
+#resetFilterButton {
+    height: 50px;
+}
+.fixed-height-box {
+    height: 200px;
+}
+
+#statusList,
+#categoryList,
+#priceList,
+#ratingList {
+    transition: 0.4s;
+}
+
+#statusList:hover,
+#categoryList:hover,
+#priceList:hover,
+#ratingList:hover {
+    background-color: rgb(247, 246, 246);
+}
+
+.accordion-item,
+.accordion-body,
+.accordion-header,
+.accordion-button {
+    background-color: white;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: transparent !important;
+    color: inherit;
+}
+
+button.accordion-button:focus {
+    box-shadow: inherit;
+}

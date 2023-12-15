@@ -35,9 +35,14 @@
                         </div>
                         <div class="form-group mb-3">
                             <label for="franchiseCategory">Franchise Category</label>
-                            <select class="form-control @error('franchiseCategory') is-invalid @enderror" id="franchiseCategory" name="franchiseCategory">
-                                @foreach ($allFranchiseCategory as $item)                                
-                                    <option value="{{ $item->id }}"{{ old('franchiseCategory') == $item->franchiseCategory ? 'selected' : '' }}>{{ $item->franchiseCategory }}</option>
+                            <select class="form-control @error('franchiseCategory') is-invalid @enderror"
+                                id="franchiseCategory" name="franchiseCategory">
+                                <option>
+                                    Choose..</option>
+                                @foreach ($allFranchiseCategory as $item)
+                                    <option
+                                        value="{{ $item->id }}"{{ old('franchiseCategory') == $item->franchiseCategory ? 'selected' : '' }}>
+                                        {{ $item->franchiseCategory }}</option>
                                 @endforeach
                             </select>
                             @error('franchiseCategory')
@@ -91,18 +96,4 @@
             </div>
         </div>
     </section>
-
-    <script>
-        $(document).ready(function() {
-            $('#image').change(function(e) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    $('#showImage').attr('src', e.target.result);
-                    console.log(e.target.result);
-                }
-
-                reader.readAsDataURL(e.target.files['0']);
-            });
-        });
-    </script>
 @endsection

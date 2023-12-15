@@ -5,23 +5,23 @@
 @endsection
 
 @section('main')
-    @vite('resources/css/education.css')
-    @vite('resources/js/education.js')
+    @vite('resources/css/franchise.css')
+    @vite('resources/js/franchise.js')
 
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12 p-5">
                 <h1 class="text-center fw-bold" data-aos="fade-down" data-aos-duration="800">Franchise List</h1>
-                <p class="text-center text-secondary mb-4" data-aos="zoom-in-up" data-aos-duration="800">You can learn
+                <p class="text-center text-secondary mb-4" data-aos="fade" data-aos-duration="800">You can learn
                     something new everyday!</p>
-                <div class="container-fluid w-100" data-aos="fade-up-left" data-aos-duration="800">
+                <div class="container-fluid w-100" data-aos="fade" data-aos-duration="800">
                     <img src="{{ asset('frontendImg/educationContentBanner.png') }}" alt="Education Content Banner"
                         class="img-fluid w-100">
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 mb-4 px-3" data-aos="fade-up" data-aos-duration="800">
+            <div class="col-lg-12 col-md-12 col-sm-12 mb-4 px-3">
                 <form action="{{ route('education.search') }}" class="col-md-12" method="POST">
                     @csrf
                     <div class="input-group">
@@ -36,11 +36,9 @@
             </div>
         </div>
         <div class="row">
-            <div id="education-vertical-menu" class="col-lg-3 col-md-3 col-sm-3">
-                @include('components.franchise-sidebar')
-            </div>
+            @include('components.franchise-sidebar')
             @if ($allFranchise->count() == 0)
-                <div class="col-lg-9 pb-3" data-aos="fade-down-right" data-aos-duration="800">
+                <div class="col-lg-9 pb-3">
                     <div class="alert alert-warning w-100">No franchise found!</div>
                 </div>
             @else
@@ -55,7 +53,32 @@
                                             class="img-fluid w-100" style="object-fit: cover; height: 100%; width: 100%;">
                                     </div>
                                     <div class="p-3">
-                                        <h3>{{ $item->franchiseName }}</h3>
+                                        <div class="row">
+                                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                                <h3>{{ $item->franchiseName }}</h3>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-12 text-end">
+                                                @if ($myFranchise == true)
+                                                    @if ($item->status == 'Requested')
+                                                        <span class="badge bg-warning mb-3">
+                                                            Requested
+                                                        </span>
+                                                    @elseif($item->status == 'Approved')
+                                                        <span class="badge bg-success mb-3">
+                                                            Approved
+                                                        </span>
+                                                    @elseif($item->status == 'Rejected')
+                                                        <span class="badge bg-danger mb-3">
+                                                            Rejected
+                                                        </span>
+                                                    @else
+                                                        <span class="badge bg-warning mb-3">
+                                                            Status not found
+                                                        </span>
+                                                    @endif
+                                                @endif
+                                            </div>
+                                        </div>
                                         <p class="mb-2 text-muted">By {{ $item->franchisePICName }}</p>
                                         <span class="badge bg-info mb-3">
                                             {{ $item->franchiseCategory }}

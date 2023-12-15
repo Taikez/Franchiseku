@@ -16,7 +16,7 @@
                 <div class="franchise-desc">
                     <div class="row mt-4">
                         <div class="col-md-4 d-grid">
-                            <p>Price <br> <b>Rp {{ number_format($franchise->franchisePrice, 0, '.', ',') }}</b> </p>
+                            <p>Price <br> <b>IDR {{ number_format($franchise->franchisePrice, 2, '.', ',') }}</b> </p>
                         </div>
                         <div class="col-md-4">
                             <p>Location <br> <b>{{ $franchise->franchiseLocation }}</b></p>

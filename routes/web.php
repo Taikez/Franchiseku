@@ -13,8 +13,8 @@ use App\Http\Controllers\EducationController;
 use App\Http\Controllers\FranchiseController;
 use App\Http\Controllers\EducationTransactionController;
 use App\Http\Controllers\FranchiseCategoryController;
-use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -33,6 +33,13 @@ Route::get('/aboutUs', function () {
     return view('aboutUs');
 })->name('aboutUs');
 
+Route::controller(GoogleAuthController::class)->group(function(){
+
+    Route::get('/auth/{provider}/redirect', 'redirect')->name('google.auth.redirect');
+    Route::get('/auth/{provider}/call-back', 'callback');
+
+});
+
 
 Route::controller(PusherController::class)->group(function(){
     Route::get('/tesPusher', 'Index')->name('test.pusher');
@@ -44,12 +51,6 @@ Route::controller(EducationTransactionController::class)->group(function(){
     Route::get('/testMidtrans', 'index')->name('testMidtrans');
 });
 
-Route::controller(GoogleAuthController::class)->group(function(){
-
-    Route::get('/auth/{provider}/redirect', 'redirect')->name('google.auth.redirect');
-    Route::get('/auth/{provider}/call-back', 'callback');
-    
-});
 
 Route::get('/admin/dashboard', function () {
     return view('admin.admin_index');
@@ -109,6 +110,8 @@ Route::controller(EducationController::class)->group(function(){
     Route::get('/education/ratingView', 'ratingView');
     Route::post('/education/{id}/rate', 'rateEducation')->name('education.rate');
     Route::post('/education/{id}/purchase', 'purchaseEducation')->name('education.purchase');
+    Route::get('/education/history','historyEducation')->name('history.education');
+    Route::post('/education/history/search', 'searchHistory')->name('history.education.search');
 });
 
 Route::controller(EducationCategoryController::class)->group(function(){   
@@ -128,20 +131,23 @@ Route::controller(FranchisorController::class)->group(function(){
 Route::controller(FranchiseController::class)->group(function(){
     Route::get('/admin/all/franchise','AllFranchise')->name('all.franchise');
     Route::get('/franchise','Franchise')->name('franchise');
+    Route::post('/franchise/search', 'search')->name('franchise.search');
     Route::get('/franchise/detail/{id}','detail')->name('franchise.detail');
-    Route::get('/my/franchise','MyFranchise')->middleware('franchisor')->name('my.franchise');
-    Route::get('/register/franchise','RegisterFranchise')->middleware('franchisor')->name('register.franchise');
-    Route::post('/post/franchise','StoreFranchise')->middleware('franchisor')->name('store.franchise');
+    Route::get('franchise/myFranchise','MyFranchise')->middleware('franchisor')->name('my.franchise');
+    Route::get('/franchise/register','RegisterFranchise')->middleware('franchisor')->name('register.franchise');
+    Route::post('/franchise/post','StoreFranchise')->middleware('franchisor')->name('store.franchise');
     Route::get('/dashboard/registerFranchise','RegisterFranchise')->middleware('franchisor')->name('dashboard.register.franchise');
-    Route::post('/send/proposal/{id}','sendProposal')->middleware('franchisor')->name('send.proposal');
-    Route::post('/edit/franchise/{id}','editFranchise')->middleware('franchisor')->name('edit.franchise');
+    Route::post('/send/proposal/{id}','sendProposal')->name('send.proposal');
+    Route::post('/franchise/edit/{id}','editFranchise')->middleware('franchisor')->name('edit.franchise');
+    Route::get('/franchise/history','historyFranchise')->name('history.franchise');
+    Route::post('/franchise/history/search', 'searchHistory')->name('history.franchise.search');
 });
 
 
 Route::middleware(['auth'])->group(function(){
     Route::controller(EducationTransactionController::class)->group(function(){
         Route::get('/my/education/transaction','MyTransaction')->name('my.education.transaction');
-        Route::post('/post/education/transaction','PostTransaction')->name('post.education.transaction');
+        Route::post('/education/transaction/post','PostTransaction')->name('post.education.transaction');
     });
 });
 

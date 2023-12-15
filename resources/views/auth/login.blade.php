@@ -63,15 +63,12 @@
                                 <div class="mb-3 mt-3 form-check text-start">
                                     <input id="remember_me" class="form-check-input" type="checkbox" name="remember">
                                     <label for="remember_me" class="form-check-label">{{ __('Remember me') }}</label>
-                                </div> 
-
+                                </div>
 
                                 <div class="mb-3">
                                     {{-- nanti baru di edit  --}}
                                     <a class="btn btn-light" href="/auth/google/redirect"> <img src="https://img.icons8.com/color/16/000000/google-logo.png"> Login with google</a>
                                 </div>
-
-
 
 
                                 <div class="mb-3 text-start">

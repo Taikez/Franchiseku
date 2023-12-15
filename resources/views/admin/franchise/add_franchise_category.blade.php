@@ -53,11 +53,11 @@
 
                                 {{-- blog category  --}}
                                 <div class="row mb-3">
-                                    <label for="example-text-input" class="col-sm-2 col-form-label">franchise Category
+                                    <label for="example-text-input" class="col-sm-2 col-form-label">Franchise Category
                                         Name</label>
                                     <div class="col-sm-10">
                                         <input class="form-control" name="franchiseCategory" type="text"
-                                            placeholder="franchise Category" id="example-text-input">
+                                            placeholder="Franchise Category" id="example-text-input">
                                         @error('franchiseCategory')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror

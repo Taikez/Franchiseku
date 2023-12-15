@@ -53,14 +53,14 @@
 </head>
 
 <body class="font-sans antialiased" onload="hideLoading();">
-    {{-- <div class="loading spinner-overlay">
+    <div class="loading spinner-overlay">
         <div class="lds-ring">
             <div></div>
             <div></div>
             <div></div>
             <div></div>
         </div>
-    </div> --}}
+    </div>
     <div class="min-h-screen bg-gray-100">
         @include('layouts.guest_header')
 
@@ -83,7 +83,7 @@
 
 
 
-    {{-- <script>
+    <script>
         var baseUrl = "{{ asset('') }}";
 
         // loading spinner
@@ -125,7 +125,19 @@
                 localStorage.removeItem('scrollPosition');
             }
         });
-    </script> --}}
+
+        $(document).ready(function() {
+            $('#image').change(function(e) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#showImage').attr('src', e.target.result);
+                    console.log(e.target.result);
+                }
+
+                reader.readAsDataURL(e.target.files['0']);
+            });
+        });
+    </script>
 
     <!-- @TODO: replace SET_YOUR_CLIENT_KEY_HERE with your client key -->
     <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"

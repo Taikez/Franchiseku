@@ -33,35 +33,37 @@
 
     <section class="home-top-news d-flex align-items-center justify-content-center" style="min-height: 60vh"
         id="home-top-news">
-        @php
-            $latestNews = App\Models\News::latest()->first();
-        @endphp
-
         <div class="container">
-            <div class="card mb-3 border-0 shadow-sm" style="background-color: #EFF6FE;" data-aos="fade"
-                data-aos-duration="800">
-                <div class="row">
-                    <div class="col-md-8 p-3">
-                        <div class="card-body">
-                            <h2 class="badge bg-secondary mb-4 fs-4 fw-light">
-                                {{ $latestNews['category']['newsCategory'] }}</h2>
-                            <a href="{{ route('news.detail', $latestNews->id) }}" class="text-decoration-0">
-                                <p class="card-title fs-1 fw-light news-title mb-4">{{ $latestNews->newsTitle }}</p>
-                            </a>
-                            <p class="card-text"><small class="text-body-secondary">Published
-                                    {{ Carbon\Carbon::parse($latestNews->created_at)->diffForHumans() }} </small></p>
-                            <p class="card-text">By: {{ $latestNews->newsAuthor }}</p>
-                            <a href="{{ route('news.detail', $latestNews->id) }}"">See More >></a>
-
-                        </div>
-                    </div>
-                    <div class="col-md-4 d-flex align-items-center p-4">
-                        <a href="{{ route('news.detail', $latestNews->id) }}">
-                            <img src="{{ asset($latestNews->newsImage) }}" class=" w-100 img-fluid rounded" alt="...">
-                        </a>
-                    </div>
+            @if (is_null($latestNews))
+                <div class="col-12" data-aos="fade" data-aos-duration="800">
+                    <div class="alert alert-warning w-100">No news to be found!</div>
                 </div>
-            </div>
+            @else
+                <div class="card mb-3 border-0 shadow-sm" style="background-color: #EFF6FE;" data-aos="fade"
+                    data-aos-duration="800">
+                    <div class="row">
+                        <div class="col-md-8 p-3">
+                            <div class="card-body">
+                                <h2 class="badge bg-secondary mb-4 fs-4 fw-light">
+                                    {{ $latestNews['category']['newsCategory'] }}</h2>
+                                <a href="{{ route('news.detail', $latestNews->id) }}" class="text-decoration-0">
+                                    <p class="card-title fs-1 fw-light news-title mb-4">{{ $latestNews->newsTitle }}</p>
+                                </a>
+                                <p class="card-text"><small class="text-body-secondary">Published
+                                        {{ Carbon\Carbon::parse($latestNews->created_at)->diffForHumans() }} </small></p>
+                                <p class="card-text">By: {{ $latestNews->newsAuthor }}</p>
+                                <a href="{{ route('news.detail', $latestNews->id) }}"">See More >></a>
+                            </div>
+                            <div class="col-md-4 d-flex align-items-center p-4">
+                                <a href="{{ route('news.detail', $latestNews->id) }}">
+                                    <img src="{{ asset($latestNews->newsImage) }}" class=" w-100 img-fluid rounded"
+                                        alt="...">
+                                </a>
+                            </div>
+            @endif
+        </div>
+        </div>
+        </div>
         </div>
     </section>
 
@@ -81,7 +83,6 @@
                 @if ($franchiseCategories->count() == 0)
                     <div class="col-3 pb-3" data-aos="fade" data-aos-duration="800">
                         <div class="alert alert-warning w-100">No franchise categories to be found!</div>
-
                     </div>
                 @else
                     <div class="col align-self-center">

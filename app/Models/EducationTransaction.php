@@ -12,8 +12,8 @@ class EducationTransaction extends Model
     protected $table = 'education_transaction';
     protected $guarded = ['id'];
 
-    public function details()
+    public function educationContent()
     {
-        return $this->hasMany(DetailEducationTransaction::class, 'transactionId');
+        return $this->belongsTo(EducationContent::class, 'education_id', 'id');
     }
 }

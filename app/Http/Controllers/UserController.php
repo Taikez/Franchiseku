@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\FranchiseCategory;
 use App\Models\Franchise;
+use App\Models\News;
 
 class UserController extends Controller
 {
@@ -22,8 +23,10 @@ class UserController extends Controller
          // Retrieve flashed data from the session
 
         $franchiseCategories = FranchiseCategory::latest()->take(3)->get();
-        $franchises = Franchise::where('status','approved')->take(4)->get();
         $successData = session('success_data');
+
+        // Latest news
+        $latestNews = News::latest()->first();
 
         // Filter franchise
         $categoryId = $request->input('category');
@@ -32,11 +35,13 @@ class UserController extends Controller
         if($categoryId !== null) 
             $queryFranchise->where('franchise_category_id', $categoryId);
 
+        $queryFranchise->where('status', 'Approved');
+
         // Fetch filtered data
         $franchises = $queryFranchise->limit(4)->get();
-        
+
         // Pass the data to the view or use it as needed
-        return view('dashboard', compact('franchiseCategories', 'franchises'))->with('successData', $successData);
+        return view('dashboard', compact('franchiseCategories', 'franchises', 'latestNews'))->with('successData', $successData);
     }
 
       // Display the profile update form

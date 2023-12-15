@@ -34,7 +34,7 @@
                      </a>
                      <ul class="dropdown-menu" aria-labelledby="navbarFeatures">
                          <li><a class="dropdown-item" href="{{ route('news') }}">News</a></li>
-                         <li><a class="dropdown-item" href="{{ route('education.index') }}">Education</a></li>
+                         <li><a class="dropdown-item" href="{{ route('education.index') }}">Education Contents</a></li>
                          <li><a class="dropdown-item" href="{{ route('franchise') }}">Franchises</a></li>
                          @guest
                          @else
@@ -63,65 +63,79 @@
                                  <li><a class="dropdown-item" href="{{ route('register.franchise') }}">Add Franchise</a>
                                  </li>
                                  <li><a class="dropdown-item" href="{{ route('my.franchise') }}">My Franchise</a></li>
-                             </ul>
                          </li>
-                     @endif
-                 @endguest
-
-                 <li class="nav-item">
-                     <a class="nav-link fs-5 text-start" href="{{ route('aboutUs') }}">About Us</a>
+                 </ul>
                  </li>
+                 @endif
+             @endguest
 
-                 <li class="nav-item">
-                     <a class="nav-link fs-5 text-start" href="#">Subscribe</a>
-                 </li>
+             <li class="nav-item">
+                 <a class="nav-link fs-5 text-start" href="{{ route('aboutUs') }}">About Us</a>
+             </li>
 
-                 @guest
-                     <div id="loginRegisterBtn" class="button-group d-flex">
-                         <li class="nav-item">
-                             <a id="loginBtn" class="btn btn-success header-button border-0 p-2"
-                                 href="{{ route('login') }}" type="submit" style="background-color: #3CBA79;">Login</a>
-                         </li>
-                         <li class="nav-item">
-                             <a id="registerBtn" class="btn btn-info header-button border-0 p-2"
-                                 style="background: #4F7097; color:#fafbfc" href="{{ route('register') }}"
-                                 type="submit">Register</a>
-                         </li>
-                     </div>
-                 @else
-                     @php
-                         $user = Auth::user();
-                     @endphp
-                     <li class="nav-item dropdown">
-                         <div class="d-flex align-items-center">
-                             <div id="profilePicture">
-                                 @if ($user->profileImage == null || $user->profileImage == '')
-                                     <span class="material-symbols-outlined ">person</span>
-                                 @else
-                                     <img class="rounded-circle" style="height:2.5rem; width:2.5rem"
-                                         src="{{ asset($user->profileImage) }}" alt="">
-                                 @endif
-                             </div>
-                             <a class="nav-link dropdown-toggle fs-5 d-flex align-items-center" href="#"
-                                 id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                 aria-expanded="false">
+             <li class="nav-item">
+                 <a class="nav-link fs-5 text-start" href="#">Subscribe</a>
+             </li>
 
-                                 {{ ucwords(Auth::user()->name) }}
-                             </a>
-                         </div>
-                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                             <a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a>
-                             <a class="dropdown-item" href="">Settings</a>
-                             <div class="dropdown-divider"></div>
-                             <a class="dropdown-item" href="{{ route('logout') }}"
-                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                             <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                 style="display: none;">
-                                 @csrf
-                             </form>
-                         </div>
+             @guest
+                 <div id="loginRegisterBtn" class="button-group d-flex">
+                     <li class="nav-item">
+                         <a id="loginBtn" class="btn btn-success header-button border-0 p-2" href="{{ route('login') }}"
+                             type="submit" style="background-color: #3CBA79;">Login</a>
                      </li>
-                 @endguest
+                     <li class="nav-item">
+                         <a id="registerBtn" class="btn btn-info header-button border-0 p-2"
+                             style="background: #4F7097; color:#fafbfc" href="{{ route('register') }}"
+                             type="submit">Register</a>
+                     </li>
+                 </div>
+             @else
+                 @php
+                     $user = Auth::user();
+                 @endphp
+                 <li class="nav-item dropdown">
+                     <a class="nav-link dropdown-toggle fs-5 text-start" href="{{ route('franchise') }}"
+                         id="navbarFranchise" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                         aria-expanded="false">
+                         History
+                     </a>
+                     <ul class="dropdown-menu" aria-labelledby="navbarFranchise">
+                         <li><a class="dropdown-item" href="{{ route('history.franchise') }}">Franchise History</a>
+                         </li>
+                         <li><a class="dropdown-item" href="{{ route('history.education') }}">Education Content
+                                 History</a>
+                         </li>
+                     </ul>
+                 </li>
+                 <li class="nav-item dropdown">
+                     <div class="d-flex align-items-center">
+                         <div id="profilePicture">
+                             @if ($user->profileImage == null || $user->profileImage == '')
+                                 <span class="material-symbols-outlined ">person</span>
+                             @else
+                                 <img class="rounded-circle" style="height:2.5rem; width:2.5rem"
+                                     src="{{ asset($user->profileImage) }}" alt="">
+                             @endif
+                         </div>
+                         <a class="nav-link dropdown-toggle fs-5 d-flex align-items-center" href="#"
+                             id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                             aria-expanded="false">
+
+                             {{ ucwords(Auth::user()->name) }}
+                         </a>
+                     </div>
+                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                         <a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a>
+                         <a class="dropdown-item" href="">Settings</a>
+                         <div class="dropdown-divider"></div>
+                         <a class="dropdown-item" href="{{ route('logout') }}"
+                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                             @csrf
+                         </form>
+                     </div>
+                 </li>
+             @endguest
              </ul>
          </div>
      </div>

@@ -80,7 +80,7 @@ class FranchisorController extends Controller
     }
 
     public function AllFranchisor(){
-        $allFranchisor = User::where('role', 'Franchisor')->latest()->get();
+        $allFranchisor = Franchisor::all();
         return view('admin.franchisor.all_franchisor',compact('allFranchisor'));
     }
 

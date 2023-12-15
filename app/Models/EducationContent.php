@@ -18,7 +18,7 @@ class EducationContent extends Model
     
     public function rating()
     {
-        return $this->hasMany(EducationContentRating::class, 'educatonContentId', 'id');
+        return $this->hasMany(EducationContentRating::class, 'educationContentId', 'id');
     }
 
     use HasFactory;

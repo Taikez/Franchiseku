@@ -117,7 +117,7 @@ class FranchiseController extends Controller
             'franchisePICName' => $username,
             'franchiseLogo' => $saveLogoUrl,
             'franchise_category_id' => $validatedData['franchiseCategory'],
-            'status' => 'Request',
+            'status' => 'Requested',
             'created_at' => Carbon::now(),
         ]);
         
@@ -160,8 +160,9 @@ class FranchiseController extends Controller
 
         $allFranchise = Franchise::where('franchisePIC',$userId)->orderBy('created_at','desc')->get();
         $franchiseCategories = FranchiseCategory::all();
+        $myFranchise = true;
 
-        return view('franchise.franchise', compact('allFranchise','franchiseCategories'));
+        return view('franchise.franchise', compact('allFranchise','franchiseCategories', 'myFranchise'));
     }
     
 
@@ -182,20 +183,25 @@ class FranchiseController extends Controller
     public function Franchise(){
         $allFranchise = Franchise::where('status','approved')->get();
         $franchiseCategories = FranchiseCategory::all();
+        $myFranchise = false;
 
-        return view('franchise.franchise', compact('allFranchise','franchiseCategories'));
+        return view('franchise.franchise', compact('allFranchise','franchiseCategories', 'myFranchise'));
     }
 
     public function FranchiseByCategory($categoryId){
         $franchise = Franchise::where('franchiseCategoryId', $categoryId)->latest()->limit(4)->get();
         $categories = FranchiseCategory::all();
         $latestFranchise = Franchise::latest()->limit(4)->get();
+        $myFranchise = false;
 
-        return view('franchise', compact('categories','latestFranchise','franchise'));
+        return view('franchise.franchise', compact('categories','latestFranchise','franchise', 'myFranchise'));
     }
 
     public function detail($id)
     {
+        // GET USER
+        $user = Auth::user();
+
         // GET FRANCHISE
         $franchise = Franchise::findOrFail($id);
         $franchisor = User::where('id', $franchise->franchisePIC)->first();
@@ -205,7 +211,15 @@ class FranchiseController extends Controller
         // GET RATINGS 
         $ratings = FranchiseRating::where(['franchiseId' => $id, 'rating' => 5])->limit(5)->get();
 
-        return view('franchise.franchiseDetail', compact('franchise', 'otherFranchise', 'ratings','franchisor', 'allFranchiseCategory'));
+        if($franchise->status != 'Approved' && $user->id != $franchise->franchisePIC)
+        {
+            abort(404);
+        }
+        
+        else
+        {
+            return view('franchise.franchiseDetail', compact('franchise', 'otherFranchise', 'ratings','franchisor', 'allFranchiseCategory'));
+        }
     }
 
     public function sendProposal(Request $request, $franchiseId)
@@ -264,7 +278,7 @@ class FranchiseController extends Controller
                     'proposalDescription' => $validatedData['proposalDescription'],
                     'franchise_id' => $franchiseId,
                     'user_id' => $user->id,
-                    'status' => 'Request',
+                    'status' => 'Requested',
                     'created_at' => Carbon::now(),
                 ]);
                 
@@ -276,9 +290,9 @@ class FranchiseController extends Controller
 
     public function deleteFile($directory)
     {
-        if (Storage::disk('local')->exists($directory)) 
+        if (file_exists(public_path($directory))) 
         {
-            Storage::disk('local')->delete($directory);
+             unlink(public_path($directory));
         }
     }
 
@@ -341,7 +355,7 @@ class FranchiseController extends Controller
                 'franchisePIC' => $userId,
                 'franchisePICName' => $username,
                 'franchise_category_id' => $validatedData['franchiseCategory'],
-                'status' => 'Request',
+                'status' => 'Requested',
                 'created_at' => Carbon::now(),
             ]);
         }
@@ -376,7 +390,7 @@ class FranchiseController extends Controller
                 'franchisePICName' => $username,
                 'franchiseLogo' => $saveLogoUrl,
                 'franchise_category_id' => $validatedData['franchiseCategory'],
-                'status' => 'Request',
+                'status' => 'Requested',
                 'created_at' => Carbon::now(),
             ]);
         }
@@ -410,10 +424,11 @@ class FranchiseController extends Controller
                 'franchisePICName' => $username,
                 'franchiseReport' => $saveReportUrl,
                 'franchise_category_id' => $validatedData['franchiseCategory'],
-                'status' => 'Request',
+                'status' => 'Requested',
                 'created_at' => Carbon::now(),
             ]);
         }
+
         // edit with report and logo
         else
         {
@@ -424,7 +439,7 @@ class FranchiseController extends Controller
             // Update franchise logo
             $name_gen_logo = hexdec(uniqid()). '.' . $franchiseLogo->getClientOriginalExtension();
             $directoryLogo = 'upload/FranchiseLogo/';
-            $saveLogoUrl = $directoryLogo . $name_gen_logo; 
+            $saveLogoUrl = $directory . $name_gen_logo; 
 
             // delete old report
             $currentReportUrl = $franchise->franchiseReport;
@@ -449,7 +464,7 @@ class FranchiseController extends Controller
             $franchiseReport->move($directoryReport, $name_gen_report);
     
             //store image
-            Image::make($franchiseLogo)->resize(800,450)->save(public_path($directoryLogo . $name_gen_logo));
+            Image::make($franchiseLogo)->resize(800,450)->save(public_path($directory . $name_gen_logo));
     
             $franchise->update([
                 'franchiseName' => $validatedData['franchiseName'],
@@ -461,12 +476,59 @@ class FranchiseController extends Controller
                 'franchisePICName' => $username,
                 'franchiseLogo' => $saveLogoUrl,
                 'franchise_category_id' => $validatedData['franchiseCategory'],
-                'status' => 'Request',
+                'status' => 'Requested',
                 'created_at' => Carbon::now(),
             ]);
         }
         
         $message = 'Franchise updated successfully!';
         return redirect()->back()->with('success', $message);
+    }
+
+    public function historyFranchise(Request $request){
+        //get user
+        $user = Auth::user();
+
+        // get parameter values
+        $status = $request->input('status');
+        $startDate = $request->input('startDate');
+        $endDate = $request->input('endDate');
+
+        // filter data
+        $queryFranchiseProposal = FranchiseProposal::query()->where('user_id',$user->id)->orderBy('created_at','desc');
+
+        if ($status !== null) 
+        {
+            $queryFranchiseProposal->where('status', $status);
+        }
+
+        if ($startDate !== null) 
+        {
+            $queryFranchiseProposal->where('created_at', '>=', $startDate);
+        }
+
+        if ($endDate !== null) 
+        {
+            $queryFranchiseProposal->where('created_at', '<=', $endDate);
+        }
+
+        // fetch filtered data
+        $franchiseProposals = $queryFranchiseProposal->paginate(4);
+
+        return view('franchise.historyFranchise', compact('franchiseProposals'));
+    }
+
+    public function searchHistory(Request $request)
+    {
+        $franchiseProposals = FranchiseProposal::whereHas(
+            'franchise', function ($query) use ($request) {
+                $query->where('franchiseName', 'like', '%' . $request->searchValue . '%');
+            }
+        )->paginate(4);
+
+        return view(
+            'franchise.historyFranchise',
+            compact('franchiseProposals')
+        );
     }
 }

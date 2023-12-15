@@ -24,7 +24,7 @@ class FranchiseController extends Controller
     } // end method
 
     public function AllFranchiseRequest(){
-        $allFranchise = Franchise::latest()->where('status','Request')->get();
+        $allFranchise = Franchise::latest()->where('status','Requested')->get();
 
         return view("admin.franchise.all_franchise_request", compact('allFranchise'));
     }
@@ -414,7 +414,6 @@ class FranchiseController extends Controller
                 'created_at' => Carbon::now(),
             ]);
         }
-
         // edit with report and logo
         else
         {
@@ -425,7 +424,7 @@ class FranchiseController extends Controller
             // Update franchise logo
             $name_gen_logo = hexdec(uniqid()). '.' . $franchiseLogo->getClientOriginalExtension();
             $directoryLogo = 'upload/FranchiseLogo/';
-            $saveLogoUrl = $directory . $name_gen_logo; 
+            $saveLogoUrl = $directoryLogo . $name_gen_logo; 
 
             // delete old report
             $currentReportUrl = $franchise->franchiseReport;
@@ -450,7 +449,7 @@ class FranchiseController extends Controller
             $franchiseReport->move($directoryReport, $name_gen_report);
     
             //store image
-            Image::make($franchiseLogo)->resize(800,450)->save(public_path($directory . $name_gen_logo));
+            Image::make($franchiseLogo)->resize(800,450)->save(public_path($directoryLogo . $name_gen_logo));
     
             $franchise->update([
                 'franchiseName' => $validatedData['franchiseName'],

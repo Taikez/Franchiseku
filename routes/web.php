@@ -12,6 +12,7 @@ use App\Http\Controllers\EducationController;
 use App\Http\Controllers\FranchiseController;
 use App\Http\Controllers\EducationTransactionController;
 use App\Http\Controllers\FranchiseCategoryController;
+use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Laravel\Socialite\Facades\Socialite;
@@ -35,6 +36,12 @@ Route::controller(EducationTransactionController::class)->group(function(){
     Route::get('/testMidtrans', 'index')->name('testMidtrans');
 });
 
+Route::controller(GoogleAuthController::class)->group(function(){
+
+    Route::get('/auth/{provider}/redirect', 'redirect')->name('google.auth.redirect');
+    Route::get('/auth/{provider}/call-back', 'callback');
+    
+});
 
 Route::get('/admin/dashboard', function () {
     return view('admin.admin_index');

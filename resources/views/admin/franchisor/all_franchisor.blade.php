@@ -29,6 +29,7 @@
                             <tr>
                                 <th style="width:10px;">No</th>
                                 <th>Username</th>
+                                <th>Address</th>
                                 <th>Email</th>
                                 <th>Phone Number</th>
                             </tr>
@@ -39,9 +40,11 @@
                                 @foreach ($allFranchisor  as $item)
                                 <tr>
                                     <td>{{$i++}}</td>
-                                    <td>{{$item->name}}</td>
+                                    <td>{{$item->username}}</td>
+                                    <td>{{$item->address}}</td>
                                     <td>{{$item->email}}</td>
                                     <td>{{$item->phoneNumber}}</td>
+                                   
                                 </tr>
                                 @endforeach
                             </tbody>

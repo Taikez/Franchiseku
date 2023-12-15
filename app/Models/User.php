@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Str;
 
 class User extends Authenticatable
 {
@@ -19,16 +18,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'id',
         'name',
         'email',
         'role',
         'phoneNumber',
         'profileImage',
         'password',
-        'provider',
-        'provider_id',
-        'provider_token',
     ];
 
     /**
@@ -63,11 +58,5 @@ class User extends Authenticatable
     public function purchases()
     {
         return $this->hasMany(EducationTransaction::class, 'userId');
-    }
-
-    public function generateUserName($username){
-        if($username == null){
-            $username = Str::lower(Str::random(8));
-        }
     }
 }

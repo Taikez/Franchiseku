@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PusherController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FranchisorController;
@@ -31,6 +32,13 @@ use Laravel\Socialite\Facades\Socialite;
 Route::get('/aboutUs', function () {
     return view('aboutUs');
 })->name('aboutUs');
+
+
+Route::controller(PusherController::class)->group(function(){
+    Route::get('/tesPusher', 'Index')->name('test.pusher');
+    Route::post('/broadcast', 'BroadcastPusher')->name('pusher.broadcast');
+    Route::post('/receive', 'ReceivePusher')->name('pusher.receive');
+});
 
 Route::controller(EducationTransactionController::class)->group(function(){
     Route::get('/testMidtrans', 'index')->name('testMidtrans');

@@ -5,8 +5,8 @@
 @endsection
 
 @section('main')
-    {{-- @vite('resources/css/education.css')
-    @vite('resources/js/education.js') --}}
+    @vite('resources/css/education.css')
+    @vite('resources/js/education.js')
 
     <div class="container-fluid">
         <div class="row">

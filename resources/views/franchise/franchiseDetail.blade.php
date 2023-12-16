@@ -37,6 +37,7 @@
                         @include('modals.sendProposalModal')
                         <button type="button" id="sendProposalBtn" class="btn btn-info w-100 text-white rounded-pill mb-3"
                             data-bs-toggle="modal" data-bs-target="#sendProposalModal">Send Proposal</button>
+                        <a class="btn btn-warning text-white rounded-pill mb-3" href="/chat/{{$franchise->franchisePIC}}" target="_blank">Send Message</a>
                     @endif
                     <button type="button" id="downloadFranchiseReportBtn"
                         class="btn btn-light w-100 rounded-pill border border-1"
@@ -56,31 +57,8 @@
             </ul>
             <div class="tab-content mt-2">
                 <div class="tab-pane fade show active" id="description">
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit tempore culpa quae distinctio
-                        excepturi recusandae amet, quaerat vitae explicabo dignissimos? Rem officiis a in cupiditate quos,
-                        quis ullam eveniet molestiae enim. Odio doloribus repudiandae laudantium iusto vero quae
-                        necessitatibus autem voluptatum facere hic dolore asperiores debitis accusantium rerum aspernatur
-                        fugit ex, officiis amet. Quidem ex vel omnis provident ipsum nesciunt quam cumque laudantium quaerat
-                        totam, rem ratione quo veritatis quasi labore voluptas debitis blanditiis officia consectetur ad,
-                        error deleniti officiis! Aspernatur eum perferendis laboriosam, temporibus nostrum, doloremque,
-                        molestiae est impedit officiis quas numquam. Expedita ex reprehenderit praesentium maiores quae rem
-                        ad quas incidunt assumenda, nulla delectus cum nisi corporis alias aperiam dolorem neque sapiente
-                        nam necessitatibus explicabo. Rerum officiis error harum tempore fuga inventore nisi, qui atque eius
-                        itaque quisquam culpa, nihil laboriosam possimus commodi? Sint quas perspiciatis minima doloribus
-                        debitis ab officiis, cumque obcaecati eius odit modi sunt quos iure omnis amet praesentium illo
-                        magnam ea voluptas nesciunt assumenda distinctio natus exercitationem ex. Asperiores nesciunt quam
-                        nemo nostrum deserunt debitis magnam sunt omnis a magni, praesentium itaque eos ipsa neque modi
-                        eveniet in? Tempora voluptas amet, harum, enim dolor voluptatibus itaque obcaecati, odio nisi
-                        quibusdam libero incidunt fugit quod iste eos vero cum nihil. Mollitia ad et quidem distinctio,
-                        tempora fuga culpa sint, ullam maxime veritatis voluptates illum ipsa. Vel, aliquid amet deserunt
-                        quas, fugit illo unde incidunt expedita iusto a numquam inventore vitae, voluptatem libero id
-                        debitis reiciendis autem voluptas mollitia necessitatibus dolores illum. Nemo pariatur eum
-                        reprehenderit voluptatibus odit, quos doloremque quibusdam, esse quis alias expedita! Expedita quo
-                        iste nihil corrupti esse odio quasi architecto voluptas? Obcaecati, non fugiat culpa earum,
-                        accusamus, delectus autem asperiores recusandae assumenda provident adipisci veniam labore
-                        doloremque sequi soluta quisquam cumque ipsam. Eaque quo vero veritatis voluptatem qui fuga illum
-                        itaque optio!
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet omnis numquam quibusdam quas eos nulla, adipisci reiciendis aliquam placeat similique! Ipsa ad voluptate assumenda vel veniam, quisquam veritatis necessitatibus eius natus placeat numquam velit excepturi id rerum, accusamus sint facilis labore iusto doloribus repellat quos libero. Corporis velit, dignissimos provident quis reprehenderit adipisci, eum quo sunt, ullam accusantium nisi quaerat? Quo voluptatem quae eius dolor non? Dolores numquam sed optio sequi odit? Repellendus, quae. Nobis quis veritatis corporis eveniet temporibus optio asperiores. Sed assumenda exercitationem, eius reprehenderit quae quis, vel quod excepturi nam neque id eaque, culpa maiores pariatur amet laborum ipsam ea ipsa praesentium veritatis? Dolor laboriosam provident quisquam hic molestias nisi vel nulla eaque iusto accusamus, velit, et, obcaecati laborum non consequatur quia. Repellat minus dolores cupiditate temporibus quasi quod eveniet consectetur reprehenderit quaerat eaque aliquid quos repudiandae commodi ipsa magni assumenda, iste cum aspernatur veniam enim exercitationem.
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magnam animi consequatur officiis perferendis alias consectetur, explicabo at! Ab nemo, officia ex amet distinctio laboriosam id numquam ratione culpa molestias facere officiis itaque assumenda at. Veritatis accusantium asperiores quos voluptates! Veniam consequuntur nostrum sint sapiente doloremque, cumque cupiditate nesciunt natus, quae porro atque blanditiis rerum quos libero totam accusantium in ducimus quas adipisci voluptates. Vero placeat harum vitae sequi quia voluptatibus voluptatum adipisci at illum itaque eum qui animi eos perspiciatis porro mollitia repellendus perferendis, alias temporibus soluta laudantium in eius tenetur enim. Rem placeat dolor vel sapiente error consequuntur culpa.
                     </p>
                 </div>
                 <div class="tab-pane fade" id="detail">

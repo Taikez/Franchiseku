@@ -11,7 +11,7 @@
             font-weight: 700px;
         }
     </style>
-
+   
     <div class="page-content">
         <div class="container-fluid">
 
@@ -20,23 +20,27 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <h4 class="card-title">Add News Page</h4>
+                            <h4 class="card-title">Edit News Page</h4>
 
-                            <form action="{{ route('post.news') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('update.news') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
 
+                                {{-- get id  --}}
+                                <input type="hidden" name="id" value="{{$news->id}}">
 
                                 {{-- News Category  --}}
                                 <div class="row mb-3">
                                     <label for="example-text-input" class="col-sm-2 col-form-label">News Category</label>
                                     <div class="col-sm-10">
-                                        <select name="newsCategoryId" class="form-select"
-                                            aria-label="Default select example">
-                                            <option selected="" value="">Choose Category</option>
+                                        <select name="newsCategoryId" class="form-select" aria-label="Default select example">
+                                                <option selected="">Choose Category</option>
                                             @foreach ($categories as $item)
-                                                <option value="{{ $item->id }}">{{ $item->newsCategory }}</option>
+                                                <option value="{{ $item->id }}" {{ $news->newsCategoryId == $item->id ? 'selected' : '' }}>{{ $item->newsCategory }}</option>
                                             @endforeach
                                         </select>
+                                         @error('newsCategoryId')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div>
 
@@ -44,7 +48,7 @@
                                 <div class="row mb-3">
                                     <label for="example-text-input" class="col-sm-2 col-form-label">News Title</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" name="newsTitle" type="text" placeholder="Title"
+                                        <input class="form-control" name="newsTitle" type="text" value="{{$news->newsTitle}}" placeholder="Title"
                                             id="example-text-input">
                                         @error('newsTitle')
                                             <span class="text-danger">{{ $message }}</span>
@@ -56,7 +60,7 @@
                                 <div class="row mb-3">
                                     <label for="example-text-input" class="col-sm-2 col-form-label">News Author</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" name="newsAuthor" type="text" placeholder="Author"
+                                        <input class="form-control" name="newsAuthor" value="{{$news->newsAuthor}}" type="text" placeholder="Author"
                                             id="example-text-input">
                                         @error('newsAuthor')
                                             <span class="text-danger">{{ $message }}</span>
@@ -69,7 +73,8 @@
                                     <label for="example-text-input" class="col-sm-2 col-form-label">News Content</label>
                                     <div class="col-sm-10">
                                         <textarea id="elm1" name="newsContent">
-                                    </textarea>
+                                            <p>{!! $news->newsContent !!}</p>
+                                        </textarea>
                                     </div>
                                 </div>
 
@@ -77,7 +82,7 @@
                                 <div class="row mb-3">
                                     <label for="example-text-input" class="col-sm-2 col-form-label">News Tags</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" name="newsTags" value="Franchise,Investing"
+                                        <input class="form-control"  name="newsTags" value="{{$news->newsTags}}"
                                             type="text" data-role="tagsinput" id="example-text-input">
                                     </div>
                                 </div>
@@ -99,13 +104,13 @@
                                     <label for="example-text-input" class="col-sm-2 col-form-label"></label>
                                     <div class="col-sm-10">
                                         <img id="showImage" style="width: 128px" class="rounded avatar-lg"
-                                            src="{{ url('upload/no_image.jpg') }}" alt="Card image cap">
+                                            src="{{ asset($news->newsImage) }}" alt="Card image cap">
                                     </div>
                                 </div>
 
 
                                 <input type="submit" class="btn btn-info waves-effect waves-light" id="submitBtn"
-                                    value="Insert News Data" onclick="showLoading()">
+                                    value="Update News Data" onclick="showLoading()">
 
                             </form>
                         </div>

@@ -180,9 +180,9 @@
     {{-- Route belom dibikin, nnti insert ke table transaksi aja --}}
     <form action="{{ route('post.education.transaction') }}" id="paymentForm" method="POST">
         @csrf
-        <input type="text" name="paymentJSON" id="paymentJSONCallback" />
-        <input type="text" name="snapToken" id="snapToken" value="{{ $snapToken }}">
-        <input type="text" name="educationId" id="educationId" value="{{ $education->id }}">
+        <input type="hidden" name="paymentJSON" id="paymentJSONCallback" />
+        <input type="hidden" name="snapToken" id="snapToken" value="{{ $snapToken }}">
+        <input type="hidden" name="educationId" id="educationId" value="{{ $education->id }}">
     </form>
 
 

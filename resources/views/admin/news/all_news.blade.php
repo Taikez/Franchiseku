@@ -29,7 +29,8 @@
                             <tr>
                                 <th>No</th>
                                 <th>News Category</th>
-                                <th >News Title</th>
+                                <th>Author</th>
+                                <th>News Title</th>
                                 <th>News Tags</th>
                                 <th>News Image</th> 
                                 <th>Action</th>
@@ -42,15 +43,16 @@
                                 <tr>
                                     <td>{{$i++}}</td>
                                     <td>{{$item['category']['newsCategory']}}</td>
+                                    <td>{{$item->newsAuthor}}</td>
                                     <td style="width: 10rem">{{$item->newsTitle}}</td>
                                     <td>{{$item->newsTags}}</td>
                                     <td><img src="{{asset($item->newsImage)}}" alt="" class="" style="width: 5.5rem"></td>
 
                                     <td>
-                                        <a href="#" class="btn btn-info btn-sm" title="Edit News" >
+                                        <a href="{{route('edit.news', $item->id)}}" class="btn btn-info btn-sm" title="Edit News" >
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a href="#" class="btn btn-danger btn-sm" title="Delete News" id="delete">
+                                        <a href="{{route('delete.news', $item->id)}}" class="btn btn-danger btn-sm" title="Delete News" id="delete">
                                             <i class="fas fa-trash-alt"></i>
                                         </a>
                                     </td>

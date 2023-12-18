@@ -439,7 +439,7 @@ class FranchiseController extends Controller
             // Update franchise logo
             $name_gen_logo = hexdec(uniqid()). '.' . $franchiseLogo->getClientOriginalExtension();
             $directoryLogo = 'upload/FranchiseLogo/';
-            $saveLogoUrl = $directory . $name_gen_logo; 
+            $saveLogoUrl = $directoryLogo . $name_gen_logo; 
 
             // delete old report
             $currentReportUrl = $franchise->franchiseReport;
@@ -464,7 +464,7 @@ class FranchiseController extends Controller
             $franchiseReport->move($directoryReport, $name_gen_report);
     
             //store image
-            Image::make($franchiseLogo)->resize(800,450)->save(public_path($directory . $name_gen_logo));
+            Image::make($franchiseLogo)->resize(800,450)->save(public_path($directoryLogo . $name_gen_logo));
     
             $franchise->update([
                 'franchiseName' => $validatedData['franchiseName'],

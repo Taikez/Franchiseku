@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PusherController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FranchisorController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\FranchiseController;
 use App\Http\Controllers\EducationTransactionController;
 use App\Http\Controllers\FranchiseCategoryController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -30,6 +32,20 @@ use Laravel\Socialite\Facades\Socialite;
 Route::get('/aboutUs', function () {
     return view('aboutUs');
 })->name('aboutUs');
+
+Route::controller(GoogleAuthController::class)->group(function(){
+
+    Route::get('/auth/{provider}/redirect', 'redirect')->name('google.auth.redirect');
+    Route::get('/auth/{provider}/call-back', 'callback');
+
+});
+
+
+Route::controller(PusherController::class)->group(function(){
+    Route::get('/tesPusher', 'Index')->name('test.pusher');
+    Route::post('/broadcast', 'BroadcastPusher')->name('pusher.broadcast');
+    Route::post('/receive', 'ReceivePusher')->name('pusher.receive');
+});
 
 Route::controller(EducationTransactionController::class)->group(function(){
     Route::get('/testMidtrans', 'index')->name('testMidtrans');
@@ -69,18 +85,10 @@ Route::controller(AdminController::class)->group(function(){
     Route::post('/store/profile','storeProfile')->name('store.profile');
 });
 
-Route::controller(NewsCategoryController::class)->group(function(){
-    Route::get('/admin/all/news/category','AllNewsCategory')->middleware('admin')->name('all.news.category');
-    Route::get('/admin/add/news/category','AddNewsCategory')->middleware('admin')->name('add.news.category');
-    Route::post('/admin/post/news/category','PostNewsCategory')->middleware('admin')->name('post.news.category');
-    Route::get('/delete/news/{id}','DeleteNewsCategory')->middleware('admin')->name('delete.news.category');
-});
+
 
 Route::controller(NewsController::class)->group(function(){
-    Route::get('/admin/all/news','AllNews')->middleware('admin')->name('all.news');
-    Route::get('/admin/add/news','AddNews')->middleware('admin')->name('add.news');
     Route::get('/news/detail/{id}','NewsDetail')->name('news.detail');
-    Route::post('/admin/post/news','PostNews')->middleware('admin')->name('post.news');
     Route::get('/news','news')->name('news');
     Route::get('/news/category/{category}','NewsByCategory')->name('news.by.category');
     Route::get('/news/tags/{tags}','NewsByTags')->name('news.by.tags');
@@ -157,6 +165,22 @@ Route::middleware(['admin','auth'])->group(function(){
         Route::get('/admin/all/franchise/Request','AllFranchiseRequest')->name('all.franchise.request');
         Route::get('/admin/approve/franchise/{id}','ApproveFranchise')->name('approve.franchise');
         Route::get('/admin/reject/franchise/{id}','RejectFranchise')->name('reject.franchise');
+    });
+
+    Route::controller(NewsController::class)->group(function(){
+        Route::get('/admin/all/news','AllNews')->name('all.news');
+        Route::get('/admin/add/news','AddNews')->name('add.news');
+        Route::post('/admin/post/news','PostNews')->name('post.news');
+        Route::get('/delete/news/{id}','DeleteNews')->name('delete.news');
+        Route::get('/edit/news/{id}','EditNews')->name('edit.news');
+        Route::post('/update/news','UpdateNews')->name('update.news');
+    });
+
+    Route::controller(NewsCategoryController::class)->group(function(){
+        Route::get('/admin/all/news/category','AllNewsCategory')->middleware('admin')->name('all.news.category');
+        Route::get('/admin/add/news/category','AddNewsCategory')->middleware('admin')->name('add.news.category');
+        Route::post('/admin/post/news/category','PostNewsCategory')->middleware('admin')->name('post.news.category');
+        Route::get('/delete/news/category/{id}','DeleteNewsCategory')->middleware('admin')->name('delete.news.category');
     });
 });
 

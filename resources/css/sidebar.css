@@ -8,14 +8,16 @@
 #statusList,
 #categoryList,
 #priceList,
-#ratingList {
+#ratingList,
+#ownedFranchiseList {
     transition: 0.4s;
 }
 
 #statusList:hover,
 #categoryList:hover,
 #priceList:hover,
-#ratingList:hover {
+#ratingList:hover,
+#ownedFranchiseList:hover {
     background-color: rgb(247, 246, 246);
 }
 

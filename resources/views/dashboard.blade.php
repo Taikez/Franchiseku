@@ -260,7 +260,7 @@
                             @enderror
                         </div>
                         <div class="mb-3 mt-4 d-flex justify-content-end">
-                            <input type="submit" value="Send Message" class="submitBtn fs-5"
+                            <input type="submit" value="Send Message" id="sendEmailBtn" class="submitBtn fs-5"
                                 style="padding: .25rem 1rem; border-radius:5px;">
                         </div>
                     </form>

@@ -20,7 +20,7 @@
                             <i class="material-symbols-rounded" style="color:#015051;">mail</i>
                         </div>
                         <div class="col-lg-6 col-md-10 col-sm-12 me-n1">
-                            <p><span class="fw-bold me-3">Support:</span><br>FranchiseKuAdmin@gmail.com</p>
+                            <p><span class="fw-bold me-3">Support:</span><br>adm.franchiseku@gmail.com</p>
                         </div>
                     </div>
 

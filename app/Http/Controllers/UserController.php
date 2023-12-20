@@ -130,29 +130,44 @@ class UserController extends Controller
       } // end method   
 
     public function UpdatePassword(Request $request){
-        $validator = $request->validate([
+        $user = Auth::user();
+
+        if($user->password == ""){
+            $validator = $request->validate([
+            'password' => 'required|confirmed|min:8',
+            ], [
+                'password.required' => 'The new password is required.',
+                'password.confirmed' => 'The new password confirmation does not match.',
+                'password.min' => 'The new password must be at least 8 characters long.',
+            ]);
+
+            $user->password = $request->password;
+            $user->save();
+
+            return redirect()->route('dashboard')->with('password_change_success', true);
+        }else{
+            $validator = $request->validate([
             'old_password' => 'required|old_password',
             'password' => 'required|confirmed|min:8',
-        ], [
-            'old_password' => 'The current password is incorrect.',
-            'password.required' => 'The new password is required.',
-            'password.confirmed' => 'The new password confirmation does not match.',
-            'password.min' => 'The new password must be at least 8 characters long.',
-        ]);
-
+            ], [
+                'old_password' => 'The current password is incorrect.',
+                'password.required' => 'The new password is required.',
+                'password.confirmed' => 'The new password confirmation does not match.',
+                'password.min' => 'The new password must be at least 8 characters long.',
+            ]);
+            if (Hash::check($request->old_password, $user->password)) {
+                $user->password = Hash::make($request->password);
+                $user->save();
         
-        $user = Auth::user();
+                return redirect()->route('dashboard')->with('password_change_success', true);
+            } else {
+                return back()->with('old_password', 'Current password is incorrect.');
+            }
+        }
+        
 
         // dd(Hash::check($request->old_password, $user->password), $request->old_password, $user->password);
     
-        if (Hash::check($request->old_password, $user->password)) {
-            $user->password = Hash::make($request->password);
-            $user->save();
-    
-            return redirect()->route('welcome')->with('password_change_success', true);
-        } else {
-            return back()->with('old_password', 'Current password is incorrect.');
-        }
     } // end method
 
 

@@ -87,7 +87,7 @@
                     <div class="form-group mb-3">
                         <label for="old_password">{{ __('Old Password') }}</label>
                         <input id="old_password" type="password"
-                            class="form-control @error('old_password') is-invalid @enderror" name="old_password" required>
+                            class="form-control @error('old_password') is-invalid @enderror" name="old_password">
                         @error('old_password')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>

@@ -43,8 +43,7 @@
                              @elseif(Auth::user()->role === 'Franchisor')
 
                              @elseif(Auth::user()->role === 'User')
-                                 <li><a class="dropdown-item" href="{{ route('register.franchisor') }}">Become Our
-                                         Franchisor</a></li>
+                                
                              @endif
                          @endguest
                      </ul>

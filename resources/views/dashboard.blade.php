@@ -18,8 +18,9 @@
                         <span class="fw-bold" style="color: #015051; font-size: 20px">Look for an investment that suits
                             you</span>
                     </p>
-                    <button class="submitBtn rounded-pill fw-bold" data-aos="flip-right" data-aos-duration="800">Start
-                        Searching</button>
+                    <a href="{{ route('franchise') }}" class="btn btn-lg btn-success rounded-pill fw-bold px-4"
+                        data-aos="flip-right" data-aos-duration="800">Start
+                        Searching</a>
                 </div>
             </div>
             <div id="banner-right" class="col-lg-6 col-md-8 col-sm-12 text-center p-5" data-aos="fade-down-left"
@@ -39,31 +40,39 @@
                     <div class="alert alert-warning w-100">No news to be found!</div>
                 </div>
             @else
-                <div class="card mb-3 border-0 shadow-sm" style="background-color: #EFF6FE;" data-aos="fade"
-                    data-aos-duration="800">
-                    <div class="row">
-                        <div class="col-md-8 p-3">
-                            <div class="card-body">
-                                <h2 class="badge bg-secondary mb-4 fs-4 fw-light">
-                                    {{ $latestNews['category']['newsCategory'] }}</h2>
-                                <a href="{{ route('news.detail', $latestNews->id) }}" class="text-decoration-0">
-                                    <p class="card-title fs-1 fw-light news-title mb-4">{{ $latestNews->newsTitle }}</p>
-                                </a>
-                                <p class="card-text"><small class="text-body-secondary">Published
-                                        {{ Carbon\Carbon::parse($latestNews->created_at)->diffForHumans() }} </small></p>
-                                <p class="card-text">By: {{ $latestNews->newsAuthor }}</p>
-                                <a href="{{ route('news.detail', $latestNews->id) }}"">See More >></a>
+                <a href="{{ route('news.detail', $latestNews->id) }}">
+                    <div class="card mb-3 border-0 shadow-sm rounded" style="background-color: #EFF6FE;" data-aos="fade"
+                        data-aos-duration="800">
+                        <div class="row">
+                            <div class="col-md-5 p-5">
+                                <div class="card-body">
+                                    <a href="{{ route('news.detail', $latestNews->id) }}" class="text-decoration-0">
+                                        <h1 class="card-title fs-1 fw-bold news-title">{{ $latestNews->newsTitle }}
+                                        </h1>
+                                    </a>
+                                    <h2 class="badge bg-secondary mb-5 fs-6">
+                                        {{ $latestNews['category']['newsCategory'] }}</h2>
+                                    <p class="card-text">By {{ $latestNews->newsAuthor }}</p>
+                                    <p class="card-text"><small class="text-body-secondary">Published
+                                            {{ Carbon\Carbon::parse($latestNews->created_at)->diffForHumans() }} </small>
+                                    </p>
+                                    <div class="position-absolute bottom-0 mb-5 col-lg-4 col-md-4 col-sm-12">
+                                        <a href="{{ route('news.detail', $latestNews->id) }}"
+                                            class="btn btn-lg btn-success text-white fw-bold w-100">
+                                            Read This Article
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-4 d-flex align-items-center p-4">
-                                <a href="{{ route('news.detail', $latestNews->id) }}">
-                                    <img src="{{ asset($latestNews->newsImage) }}" class=" w-100 img-fluid rounded"
-                                        alt="...">
-                                </a>
+                            <div class="col-lg-7 col-md-7 p-5">
+                                <img src="{{ asset($latestNews->newsImage) }}" class=" w-100 img-fluid rounded"
+                                    alt="...">
+
                             </div>
+                        </div>
+                    </div>
+                </a>
             @endif
-        </div>
-        </div>
-        </div>
         </div>
     </section>
 
@@ -79,7 +88,6 @@
             </div>
 
             <div class="row mt-4">
-
                 @if ($franchiseCategories->count() == 0)
                     <div class="col-3 pb-3" data-aos="fade" data-aos-duration="800">
                         <div class="alert alert-warning w-100">No franchise categories to be found!</div>
@@ -252,7 +260,7 @@
                             @enderror
                         </div>
                         <div class="mb-3 mt-4 d-flex justify-content-end">
-                            <input type="submit" value="Send Message" class="submitBtn fs-5"
+                            <input type="submit" value="Send Message" id="sendEmailBtn" class="submitBtn fs-5"
                                 style="padding: .25rem 1rem; border-radius:5px;">
                         </div>
                     </form>

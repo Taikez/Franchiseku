@@ -62,6 +62,9 @@
                                  <li><a class="dropdown-item" href="{{ route('register.franchise') }}">Add Franchise</a>
                                  </li>
                                  <li><a class="dropdown-item" href="{{ route('my.franchise') }}">My Franchise</a></li>
+                                 <li><a class="dropdown-item" href="{{ route('proposal.franchise') }}">Franchise
+                                         Proposals</a>
+                                 </li>
                          </li>
                  </ul>
                  </li>

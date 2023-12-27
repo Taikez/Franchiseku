@@ -1,23 +1,17 @@
 @extends('layouts.app')
 
 @section('title')
-    Franchise | FranchiseKu
+    Education | FranchiseKu
 @endsection
 
 @section('main')
-    @vite('resources/css/franchise.css')
-    @vite('resources/js/franchise.js')
+    @vite('resources/css/education.css')
+    @vite('resources/js/education.js')
 
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12 p-5">
-                <h1 class="text-center fw-bold" data-aos="fade-down" data-aos-duration="800">Franchises</h1>
-                <p class="text-center text-secondary mb-4" data-aos="fade" data-aos-duration="800">Franchise Freedom, Success
-                    Awaits You!</p>
-                <div class="container-fluid w-100" data-aos="fade" data-aos-duration="800">
-                    <img src="{{ asset('frontendImg/franchiseBanner.png') }}" alt="Education Content Banner"
-                        class="img-fluid w-100">
-                </div>
+                <h1 class="text-center fw-bold" data-aos="fade-down" data-aos-duration="800">All Franchises</h1>
             </div>
         </div>
         <div class="row">
@@ -92,6 +86,9 @@
                                             {{ $item->franchiseCategory }}
                                         </span>
                                         <p class="mb-2">IDR {{ number_format($item->franchisePrice, 2) }}</p>
+                                        <p class="mb-2 text-muted" style="font-size: 12px;">
+                                            {{ $item->educationShortDesc }}
+                                        </p>
                                         <hr>
                                         <a href="{{ route('franchise.detail', $item->id) }}"
                                             class="d-flex justify-content-between">
@@ -108,13 +105,6 @@
                                 </div>
                             </div>
                         @endforeach
-                    </div>
-                    <div class="d-flex justify-content-center">
-                        <div class="btn btn-primary mt-3" data-aos="fade" data-aos-duration="800">
-                            <a href="{{ route('browse.all.franchise') }}">Browse
-                                All
-                                Franchise</a>
-                        </div>
                     </div>
                 </div>
             @endif

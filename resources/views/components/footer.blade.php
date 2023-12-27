@@ -55,23 +55,22 @@
             </div>
 
             <div class="col-lg-3 col-md-6 col-sm-12">
-                <p><a href="#" class="footer-link link-offset-2 link-underline link-underline-opacity-0">Franchise
+                <p><a href="{{ route('franchise') }}"
+                        class="footer-link link-offset-2 link-underline link-underline-opacity-0">Franchise
                         List</a></p>
-                <p><a href="#"
+                <p><a href="{{ route('education.index') }}"
                         class="footer-link link-offset-2 link-underline link-underline-opacity-0">Education</a></p>
-                <p><a href="#" class="footer-link link-offset-2 link-underline link-underline-opacity-0">Business
+                <p><a href="{{ route('news') }}"
+                        class="footer-link link-offset-2 link-underline link-underline-opacity-0">Business
                         News</a></p>
-                <p><a href="#"
-                        class="footer-link link-offset-2 link-underline link-underline-opacity-0">Wishlist</a></p>
             </div>
 
             <div class="col-lg-3 col-md-6 col-sm-12">
-                <p><a href="#" class="footer-link link-offset-2 link-underline link-underline-opacity-0">About
+                <p><a href="{{ route('aboutUs') }}"
+                        class="footer-link link-offset-2 link-underline link-underline-opacity-0">About
                         FranchiseKu</a></p>
                 <p><a href="#" class="footer-link link-offset-2 link-underline link-underline-opacity-0">Help
                         Center</a></p>
-                <p><a href="#" class="footer-link link-offset-2 link-underline link-underline-opacity-0">Community
-                        Forum</a></p>
             </div>
 
             <div>

@@ -231,7 +231,6 @@
                 </div>
 
                 <div class="col-md-6">
-                    @include('layouts.flashMessage')
                     <form action="{{ route('send.email') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('POST')

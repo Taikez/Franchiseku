@@ -56,6 +56,14 @@
                                     <div class="p-3">
                                         <h3>{{ $education->educationTitle }}</h3>
                                         <p class="mb-2 text-muted">By {{ $education->educationAuthor }}</p>
+                                        @if ($education->educationRating != null)
+                                            <div class="d-flex align-items-end">
+                                                @for ($i = 1; $i <= $education->educationRating; $i++)
+                                                    <div id="star" class="fs-3 fw-bold text-warning">★ </div>
+                                                @endfor
+                                                <p style="margin-bottom: 6px;">({{ $education->educationRating }})</p>
+                                            </div>
+                                        @endif
                                         <span class="badge bg-info mb-3">
                                             {{ $education->category->educationCategory }}
                                         </span>
@@ -67,7 +75,7 @@
                                         <a href="{{ route('education.detail', $education->id) }}"
                                             class="d-flex justify-content-between">
                                             <div>
-                                                Read More
+                                                View Content
                                             </div>
                                             <div>
                                                 <span class="material-symbols-rounded">

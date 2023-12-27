@@ -24,7 +24,10 @@
             <div id="right-content" class="col-lg-5 col-md-5 col-sm-12 py-5 px-3">
                 <div id="thumbnail-container" class="rounded" data-aos="fade" data-aos-duration="800">
                     @if (auth()->user() && $transactionStatus == true)
-                        <h1>User bought this content!</h1>
+                        <video width="640" height="360" controls>
+                            <source src="{{ asset($education->educationVideo) }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
                     @else
                         <img id="thumbnail" class="img-fluid rounded-3 opacity-50"
                             src="{{ asset($education->educationThumbnail) }}" alt="{{ $education->educationThumbnail }}">
@@ -42,20 +45,25 @@
                         {{ $education->educationAuthor }} |
                         {{ Carbon\Carbon::parse($education->created_at)->diffForHumans() }}
                     </h6>
+                    <div class="d-flex align-items-end">
+                        @for ($i = 1; $i <= $countingStars; $i++)
+                            <div id="star" class="fs-1 fw-bold">★ </div>
+                        @endfor
+                        <h5 class="mb-3 mx-2">({{ $averageRating }})</h5>
+                    </div>
                     <h3 class="fw-bold mt-3">Rp
                         {{ number_format($education->educationPrice, 2) }}</h3>
                     <h6 class="fw-light mt-3">Duration:
                         {{ $educationDuration }} minute(s)</h6>
                     <p class="text-muted mt-3">1000 people bought this</p>
                     <div class="text-center">
-                        @include('layouts.flashMessage')
                         <div class="row">
                             @if (auth()->user() && $transactionStatus == true)
                                 @include('modals.rateEducationContentModal')
                                 <div>
                                     <button type="button" id="rateEducationBtn"
                                         class="btn w-50 text-white rounded-pill mt-3 mb-2" data-bs-toggle="modal"
-                                        data-bs-target="#ratingModal">Rate
+                                        data-bs-target="#rateEducationModal">Rate
                                         Content</button>
                                 </div>
                             @else

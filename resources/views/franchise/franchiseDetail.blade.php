@@ -28,16 +28,27 @@
                     </div>
                 </div>
                 <div class="d-flex flex-column">
-                    @include('layouts.flashMessage')
                     @if (Auth::check() && Auth::user()->id == $franchise->franchisePIC)
                         @include('modals.editFranchiseModal')
                         <button type="button" id="editFranchiseBtn" class="btn btn-info w-100 text-white rounded-pill mb-3"
                             data-bs-toggle="modal" data-bs-target="#editFranchiseModal">Edit Franchise</button>
                     @else
-                        @include('modals.sendProposalModal')
-                        <button type="button" id="sendProposalBtn" class="btn btn-info w-100 text-white rounded-pill mb-3"
-                            data-bs-toggle="modal" data-bs-target="#sendProposalModal">Send Proposal</button>
-                        <a class="btn btn-warning text-white rounded-pill mb-3" href="/chat/{{$franchise->franchisePIC}}" target="_blank">Send Message</a>
+                        @if ($ratingFlag == true)
+                            @include('modals.rateFranchiseModal')
+                            <div>
+                                <button type="button" id="rateFranchiseBtn"
+                                    class="btn w-100 text-white rounded-pill mt-3 mb-2" data-bs-toggle="modal"
+                                    data-bs-target="#rateFranchiseModal">Rate
+                                    Franchise</button>
+                            </div>
+                        @else
+                            @include('modals.sendProposalModal')
+                            <button type="button" id="sendProposalBtn"
+                                class="btn btn-info w-100 text-white rounded-pill mb-3" data-bs-toggle="modal"
+                                data-bs-target="#sendProposalModal">Send Proposal</button>
+                            <a class="btn btn-warning text-white rounded-pill mb-3"
+                                href="/chat/{{ $franchise->franchisePIC }}" target="_blank">Send Message</a>
+                        @endif
                     @endif
                     <button type="button" id="downloadFranchiseReportBtn"
                         class="btn btn-light w-100 rounded-pill border border-1"
@@ -83,7 +94,7 @@
                 </div>
             @else
                 @foreach ($otherFranchise as $item)
-                    <div class="col-lg-4 col-md-6 col-sm-9 mb-3" data-aos="fade-down-left" data-aos-duration="1000">
+                    <div class="col-lg-3 col-md-6 col-sm-9 mb-3" data-aos="fade-down-left" data-aos-duration="1000">
                         <div class="fixed-height-box h-100 rounded border border-1 shadow-sm bg-white"
                             style="overflow: hidden">
                             <div class="container-fluid w-100 m-0 p-0" style="overflow: hidden; height: 15rem">

@@ -122,24 +122,7 @@ class FranchiseController extends Controller
             'created_at' => Carbon::now(),
         ]);
         
-        // $notification = array(
-        //     'message' => 'Franchise Submitted! Please wait for approval',
-        //     'alert-type' => 'success',
-        // ); 
-
-        // return redirect()->route('dashboard')->with($notification);
-
-
-        $response = [
-            'message' => 'Franchise registered successfully, please wait for approval',
-            'modal' => '#successModal', // Modal ID to trigger
-            ];
-
-        // Flash the data to the session
-        session()->flash('success_data', $response);        
-    
-        return  redirect()->route('dashboard')->with('successData', $response);
-
+        return redirect()->back()->with('success', 'Franchise registered successfully, please wait for your approval!');
     }
 
     public function ApproveFranchise($id){
@@ -181,12 +164,68 @@ class FranchiseController extends Controller
     }
    
 
-    public function Franchise(){
-        $allFranchise = Franchise::where('status','approved')->get();
+    public function Franchise(Request $request){
+        // GET PARAMETER VALUES
+        $categoryId = $request->input('category');
+        $minPrice = $request->input('minPrice');
+        $maxPrice = $request->input('maxPrice');
+        $rating = $request->input('rating');
+
+        $queryAllFranchise = Franchise::query()->where('status','approved');
+
+        if ($categoryId !== null) {
+            $queryAllFranchise->where('franchiseCategory', $categoryId);
+        }
+
+        if ($minPrice !== null) {
+            $queryAllFranchise->where('franchisePrice', '>=', $minPrice);
+        }
+
+        if ($maxPrice !== null) {
+            $queryAllFranchise->where('franchisePrice', '<=', $maxPrice);
+        }
+
+        if ($rating !== null) {
+            $queryAllFranchise->where('franchiseRating', $rating);
+        }
+
+        $allFranchise = $queryAllFranchise->paginate(12);
         $franchiseCategories = FranchiseCategory::all();
         $myFranchise = false;
 
         return view('franchise.franchise', compact('allFranchise','franchiseCategories', 'myFranchise'));
+    }
+
+    public function browseAllFranchise(Request $request){
+        // GET PARAMETER VALUES
+        $categoryId = $request->input('category');
+        $minPrice = $request->input('minPrice');
+        $maxPrice = $request->input('maxPrice');
+        $rating = $request->input('rating');
+
+        $queryAllFranchise = Franchise::query()->where('status','approved');
+
+        if ($categoryId !== null) {
+            $queryAllFranchise->where('franchise_category_id', $categoryId);
+        }
+
+        if ($minPrice !== null) {
+            $queryAllFranchise->where('franchisePrice', '>=', $minPrice);
+        }
+
+        if ($maxPrice !== null) {
+            $queryAllFranchise->where('franchisePrice', '<=', $maxPrice);
+        }
+
+        if ($rating !== null) {
+            $queryAllFranchise->where('franchiseRating', $rating);
+        }
+
+        $allFranchise = $queryAllFranchise->paginate(12);
+        $franchiseCategories = FranchiseCategory::all();
+        $myFranchise = false;
+
+        return view('franchise.allFranchise', compact('allFranchise','franchiseCategories', 'myFranchise'));
     }
 
     public function FranchiseByCategory($categoryId){
@@ -207,7 +246,7 @@ class FranchiseController extends Controller
         $franchise = Franchise::findOrFail($id);
         $franchisor = User::where('id', $franchise->franchisePIC)->first();
         $allFranchiseCategory = FranchiseCategory::orderBy('franchiseCategory','asc')->get();
-        $otherFranchise = Franchise::where('franchise_category_id', $franchise->franchise_category_id)->whereNot('id', $id)->limit(3)->get();
+        $otherFranchise = Franchise::where('franchise_category_id', $franchise->franchise_category_id)->where('status', 'Approved')->whereNot('id', $id)->limit(4)->get();
 
         // GET RATINGS 
         $ratings = FranchiseRating::where(['franchiseId' => $id, 'rating' => 5])->limit(5)->get();
@@ -219,7 +258,14 @@ class FranchiseController extends Controller
         
         else
         {
-            return view('franchise.franchiseDetail', compact('franchise', 'otherFranchise', 'ratings','franchisor', 'allFranchiseCategory'));
+            // GET PROPOSAL STATUS
+            $franchiseProposal = FranchiseProposal::where(['franchise_id' => $id,'user_id' => $user->id])->first();
+            $ratingFlag = false;
+
+            if($franchiseProposal->status == 'Approved')
+                $ratingFlag = true;
+
+            return view('franchise.franchiseDetail', compact('franchise', 'otherFranchise', 'ratings','franchisor', 'allFranchiseCategory', 'ratingFlag'));
         }
     }
 
@@ -582,5 +628,59 @@ class FranchiseController extends Controller
 
         $message = 'You have succesfully rejected the proposal!';
         return redirect()->back()->with('success', $message);
+    }
+
+    public function rateFranchise(Request $request, $franchiseId)
+    {
+        if ($request->isMethod('POST')) {
+            if (!Auth::check()) {
+                $message = "Login to rate this franchise!";
+                return redirect()->back()->with('error', $message);
+            } else {
+                // VALIDATE FOR WHEN USER ALREADY RATED CONTENT
+                $ratingCount = FranchiseRating::where([
+                    'userId' => Auth::user()->id,
+                    'franchiseId' => $franchiseId,
+                ])->count();
+                if ($ratingCount > 0) {
+                    $message = "You have already rated this franchise!";
+                    return redirect()->back()->with('error', $message);
+                } else {
+                    // DO SOME VALIDATION HERE YEA
+                    if ($request->rating == null || $request->rating == "") {
+                        $message = "You haven't given this franchise a rating!";
+                        return redirect()->back()->with('error', $message);
+                    } elseif (
+                        $request->ratingComment == null ||
+                        $request->ratingComment == ""
+                    ) {
+                        $message = "Give the franchise a comment first!";
+                        return redirect()->back()->with('error', $message);
+                    } else {
+                        // STORE THE RATING
+                        $rating = new FranchiseRating();
+                        $rating->userId = Auth::user()->id;
+                        $rating->franchiseId = $franchiseId;
+                        $rating->rating = $request->rating;
+                        $rating->comment = $request->ratingComment;
+                        $rating->save();
+
+                        // CALCULATE AVERAGE RATING AND STORE IT
+                        $averageRating = FranchiseRating::calculateAverageRating(
+                            $franchiseId
+                        );
+
+                        $franchise = Franchise::findOrFail(
+                            $franchiseId
+                        );
+                        $franchise->franchiseRating = $averageRating;
+                        $franchise->save();
+
+                        $message = 'Rating submitted successfully.';
+                        return redirect()->back()->with('success', $message);
+                    }
+                }
+            }
+        }
     }
 }

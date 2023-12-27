@@ -40,14 +40,12 @@ class MailController extends Controller
                     ->subject('We have received your email!');
             });
             
-            $message = "Email sent successfully!";
-            return redirect()->back()->with('success', $message);
+            return redirect()->route('dashboard')->with('success', 'Email sent successfully!');
         }
 
         else
         {
-            $message = "You are not connected to the internet!";
-            return redirect()->back()->with('error', $message);
+            return redirect()->route('dashboard')->with('error', 'You are not connected to the internet!');
         }
     }
 

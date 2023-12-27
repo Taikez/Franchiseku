@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('franchisePICName');
             $table->string('franchiseReport')->nullable();
             $table->string('status');
+            $table->decimal('franchiseRating', 3, 2)->nullable();
             $table->text('franchiseDesc')->nullable();
             $table->timestamps();
 

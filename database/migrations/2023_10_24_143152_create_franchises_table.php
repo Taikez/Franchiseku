@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('franchiseReport')->nullable();
             $table->string('status');
             $table->decimal('franchiseRating', 3, 2)->nullable();
+            $table->text('franchiseDesc')->nullable();
             $table->timestamps();
 
             // Define the foreign key constraint with a different name for the column

@@ -52,10 +52,6 @@ Route::controller(EducationTransactionController::class)->group(function(){
 });
 
 
-Route::get('/admin/dashboard', function () {
-    return view('admin.admin_index');
-})->middleware(['auth', 'verified','admin'])->name('adminDashboard');
-
 Route::controller(UserController::class)->group(function(){
     Route::get('/', [UserController::class, 'userDashboard'])->name('dashboard');
     Route::get('/dashboard', [UserController::class, 'userDashboard'])->name('dashboard');
@@ -149,6 +145,10 @@ Route::middleware(['auth'])->group(function(){
 
 //education route for admin
 Route::middleware(['admin','auth'])->group(function(){
+    Route::controller(UserController::class)->group(function(){
+        Route::get('/admin/dashboard', 'AdminDashboard')->name('adminDashboard');
+    });
+
     Route::controller(EducationController::class)->group(function(){
         Route::get('/admin/all/education','AllEducation')->name('all.education');
         Route::get('/admin/add/education','AddEducation')->name('add.education');

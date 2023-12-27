@@ -117,6 +117,7 @@ class FranchiseController extends Controller
             'franchiseDescription' => $validatedData['franchiseDescription'],
             'franchisePrice' => $validatedData['franchisePrice'], 
             'franchiseReport' => $saveReportUrl,
+            'franchiseDesc' => $req->franchiseDesc,
             'franchisePIC' => $userId,
             'franchisePICName' => $username,
             'franchiseLogo' => $saveLogoUrl,

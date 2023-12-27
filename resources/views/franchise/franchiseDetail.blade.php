@@ -70,6 +70,7 @@
                 <div class="tab-pane fade show active" id="description">
                     <p>{{ $franchise->franchiseDescription }}
                     </p>
+                    <p>{!! $franchise->franchiseDesc !!}</p>
                 </div>
                 <div class="tab-pane fade" id="detail">
                     <ul class="list-group">

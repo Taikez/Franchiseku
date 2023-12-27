@@ -187,6 +187,30 @@ class UserController extends Controller
 
         return redirect()->route('login')->with('success', 'Your account has been deleted.');
     } //end method
+
+
+    public function AdminDashboard(){
+        return view('admin.admin_index');
+    }
+
+    public function calculateMonthlyUserIncrease(){
+        // Hitung tanggal awal dan akhir bulan lalu
+        $startDate = Carbon::now()->subMonth()->startOfMonth();
+        $endDate = Carbon::now()->subMonth()->endOfMonth();
+
+        // Ambil jumlah pengguna dari bulan lalu
+        $previousMonthUsers = User::whereBetween('created_at', [$startDate, $endDate])->count();
+
+        // Ambil jumlah pengguna sekarang
+        $currentUsers = User::count();
+
+        // Hitung peningkatan dan persentasenya
+        $increase = $currentUsers - $previousMonthUsers;
+        $percentageIncrease = ($previousMonthUsers > 0) ? (($increase / $previousMonthUsers) * 100) : 0;
+
+        // Tampilkan atau gunakan nilai persentase peningkatan
+        return "Persentase Peningkatan Pengguna dari Bulan Lalu: " . number_format($percentageIncrease, 2) . "%";
+    }
     
    
 }

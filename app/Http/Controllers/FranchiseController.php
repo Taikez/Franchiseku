@@ -44,6 +44,7 @@ class FranchiseController extends Controller
             'franchiseName' => 'required|string|max:255',
             'franchiseLocation' => 'required|string|max:255',
             'franchiseCategory' => 'required|string|max:20',
+            'franchiseDescription' => 'required|string',
             'franchisePrice' => 'required|integer',
             'franchiseReport' => 'required|file|mimes:pdf,doc,docx,xls,xlsx,zip',
             'franchiseLogo' => 'required|image|mimes:jpeg,jpg,png',
@@ -58,6 +59,8 @@ class FranchiseController extends Controller
             
             'franchiseCategory.required' => 'Franchise category is required.',
             
+            'franchiseDescription.required' => 'Franchise description is required',
+
             'franchisePrice.required' => 'Franchise price is required.',
             'franchisePrice.integer' => 'Franchise price must be an integer.',
             
@@ -111,6 +114,7 @@ class FranchiseController extends Controller
             'franchiseName' => $validatedData['franchiseName'],
             'franchiseLocation' => $validatedData['franchiseLocation'],
             'franchiseCategory' => $franchiseCategory,
+            'franchiseDescription' => $validatedData['franchiseDescription'],
             'franchisePrice' => $validatedData['franchisePrice'], 
             'franchiseReport' => $saveReportUrl,
             'franchisePIC' => $userId,
@@ -261,7 +265,7 @@ class FranchiseController extends Controller
             $franchiseProposal = FranchiseProposal::where(['franchise_id' => $id,'user_id' => $user->id])->first();
             $ratingFlag = false;
 
-            if($franchiseProposal->status == 'Approved')
+            if($franchiseProposal != null && $franchiseProposal->status == 'Approved')
                 $ratingFlag = true;
 
             return view('franchise.franchiseDetail', compact('franchise', 'otherFranchise', 'ratings','franchisor', 'allFranchiseCategory', 'ratingFlag'));

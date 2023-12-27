@@ -6,7 +6,7 @@
 
 
 @section('main')
-    <section class="registerFranchise d-flex align-items-center" id="registerFranchise">
+    <section class="registerFranchise d-flex align-items-center pb-5" id="registerFranchise">
         <div class="container bg-light bg-opacity-80 rounded mt-4 p-4" data-aos="fade-down" data-aos-duration="800">
             <div class="row d-flex align-items-center h-100">
                 <div class="col-md-6  p-4">
@@ -46,6 +46,16 @@
                                 @endforeach
                             </select>
                             @error('franchiseCategory')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="franchiseDescription">Franchise Description</label>
+                            <div class="col-12 text-center">
+                                <textarea name="franchiseDescription" id="franchiseDescription" cols="30" rows="5"
+                                    class="border border-2 rounded w-100"></textarea>
+                            </div>
+                            @error('franchiseDescription')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

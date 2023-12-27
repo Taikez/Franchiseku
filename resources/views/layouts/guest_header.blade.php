@@ -40,7 +40,8 @@
                          @else
                              @if (Auth::user()->role === 'Admin')
                                  <li><a class="dropdown-item" href="{{ route('adminDashboard') }}">Admin Page</a></li>
-                             @endguest
+                             @endif
+                         @endguest
                      </ul>
                  </li>
 

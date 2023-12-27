@@ -1,4 +1,5 @@
 @vite('resources/css/sidebar.css')
+@vite('resources/js/sidebar.js')
 <div class="col-lg-3 col-md-3 col-sm-3 mb-3">
     <div class="accordion" id="accordionPanelsStayOpen" data-aos="fade" data-aos-duration="800">
         <a href="{{ route('education.index') }}" id="resetFilterButton"

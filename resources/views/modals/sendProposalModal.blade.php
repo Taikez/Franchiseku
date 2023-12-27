@@ -14,7 +14,7 @@
                                 class="text-secondary" style="font-size: 11px">.pdf, .doc,
                                 .docx, .xls, .xlsx</span></label>
                         <input class="form-control" type="file" id="proposalFile" name="proposalFile"
-                            value="{{ old('proposalFile') }}">
+                            value="{{ old('proposalFile') }}" accept=".pdf,.doc,.docx,.xls,.xlsx">
                         @error('proposalFile')
                             <span class="text-danger" style="font-size: 12px;">{{ $message }}</span>
                         @enderror

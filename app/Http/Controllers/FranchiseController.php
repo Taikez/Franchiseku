@@ -531,4 +531,55 @@ class FranchiseController extends Controller
             compact('franchiseProposals')
         );
     }
+
+    public function franchiseProposalRequest(Request $request)
+    {
+        $franchisorId = Auth::user()->id;
+        $ownedFranchises = Franchise::where(['franchisePIC' => $franchisorId])->get();
+        $ownedFranchiseIds = $ownedFranchises->pluck('id')->toArray();
+        $queryFranchiseProposals = FranchiseProposal::query()->whereIn('franchise_id', $ownedFranchiseIds)->where('status', 'Requested')->orderBy('created_at','desc');
+
+        $franchise = $request->input('franchise');
+        $startDate = $request->input('startDate');
+        $endDate = $request->input('endDate');
+
+        if($franchise !== null)
+        {
+            $queryFranchiseProposals->where('franchise_id', $request->input('franchise'));
+        }
+
+        if ($startDate !== null) 
+        {
+            $queryFranchiseProposals->where('created_at', '>=', $startDate);
+        }
+
+        if ($endDate !== null) 
+        {
+            $queryFranchiseProposals->where('created_at', '<=', $endDate);
+        }
+
+        $franchiseProposals = $queryFranchiseProposals->paginate(10);
+
+        return view('franchise.franchiseProposalRequests', compact('franchiseProposals', 'ownedFranchises'));
+    }
+
+    public function approveFranchiseProposal($id){
+        $franchiseProposal = FranchiseProposal::findOrFail($id);
+
+        $franchiseProposal->status = 'Approved';
+        $franchiseProposal->save();
+
+        $message = 'You have succesfully approved the proposal!';
+        return redirect()->back()->with('success', $message);
+    }
+
+    public function rejectFranchiseProposal($id){
+        $franchiseProposal = FranchiseProposal::findOrFail($id);
+
+        $franchiseProposal->status = 'Rejected';
+        $franchiseProposal->save();
+
+        $message = 'You have succesfully rejected the proposal!';
+        return redirect()->back()->with('success', $message);
+    }
 }

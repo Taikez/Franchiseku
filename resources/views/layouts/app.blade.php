@@ -110,7 +110,7 @@
         }
 
         // capture scroll position
-        $('a#franchise-category-btn').on('click', function(e) {
+        $('#franchise-category-btn').on('click', function(e) {
             e.preventDefault();
             var scrollPosition = $(window).scrollTop();
             localStorage.setItem('scrollPosition', scrollPosition);

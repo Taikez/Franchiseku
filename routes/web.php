@@ -133,6 +133,9 @@ Route::controller(FranchiseController::class)->group(function(){
     Route::post('/franchise/edit/{id}','editFranchise')->middleware('franchisor')->name('edit.franchise');
     Route::get('/franchise/history','historyFranchise')->name('history.franchise');
     Route::post('/franchise/history/search', 'searchHistory')->name('history.franchise.search');
+    Route::get('/franchise/proposal/requests','franchiseProposalRequest')->middleware('franchisor')->name('proposal.franchise');
+    Route::get('/franchise/proposal/approve/{id}','approveFranchiseProposal')->middleware('franchisor')->name('approve.franchise.proposal');
+    Route::get('/franchise/proposal/reject/{id}','rejectFranchiseProposal')->middleware('franchisor')->name('reject.franchise.proposal');
 });
 
 

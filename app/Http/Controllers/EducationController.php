@@ -18,8 +18,6 @@ use Illuminate\Support\Facades\File;
 
 class EducationController extends Controller
 {
-    //
-
     public function AllEducation()
     {
         $educations = EducationContent::all();
@@ -160,35 +158,8 @@ class EducationController extends Controller
     public function index(Request $request)
     {
         $educationCategories = EducationCategory::all();
-
-        // GET PARAMETER VALUES
-        $categoryId = $request->input('category');
-        $minPrice = $request->input('minPrice');
-        $maxPrice = $request->input('maxPrice');
-        $rating = $request->input('rating');
-
-        // FILTER DATA
-        $queryEducation = EducationContent::query();
-
-        if ($categoryId !== null) {
-            $queryEducation->where('education_category_id', $categoryId);
-        }
-
-        if ($minPrice !== null) {
-            $queryEducation->where('educationPrice', '>=', $minPrice);
-        }
-
-        if ($maxPrice !== null) {
-            $queryEducation->where('educationPrice', '<=', $maxPrice);
-        }
-
-        if ($rating !== null) {
-            $queryEducation->where('educationRating', $rating);
-        }
-
-        // FETCH FILTERED DATA
-        $educations = $queryEducation->limit(9)->get();
-
+        $educations = EducationContent::all()->take(9);
+        
         return view(
             'educationContent',
             compact('educationCategories', 'educations')
@@ -225,7 +196,7 @@ class EducationController extends Controller
         }
 
         // FETCH FILTERED DATA
-        $educations = $queryEducation->paginate(9);
+        $educations = $queryEducation->paginate(12);
 
         return view(
             'allEducationContent',
@@ -252,32 +223,18 @@ class EducationController extends Controller
     {
         // GET EDUCATION CONTENT
         $education = EducationContent::findOrFail($id);
-        $videoPublicPath = EducationContent::where('id', $id)->pluck(
-            'educationVideo'
-        );
-        $otherEducations = EducationContent::where(
-            'education_category_id',
-            $education->education_category_id
-        )
-            ->whereNot('id', $id)
-            ->limit(4)
-            ->get();
-        $countingStars = $education->educationRating;
+        $videoPublicPath = EducationContent::where('id', $id)->pluck('educationVideo');
+        $otherEducations = EducationContent::where('education_category_id', $education->education_category_id)->whereNot('id', $id)->limit(4)->get();
+        $averageRating = $education->educationRating;
+        $countingStars = floor($averageRating);
 
         // GET VIDEO DURATION
         $videoPath = public_path($videoPublicPath);
-        $duration = shell_exec(
-            "ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 '{$videoPath}'"
-        );
+        $duration = shell_exec("ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 '{$videoPath}'");
         $educationDuration = round(floatval($duration) / 60, 2);
 
         // GET RATINGS
-        $ratings = EducationContentRating::where([
-            'educationContentId' => $id,
-            'rating' => 5,
-        ])
-            ->limit(5)
-            ->get();
+        $ratings = EducationContentRating::where(['educationContentId' => $id,'rating' => 5,])->limit(5)->get();
 
         //GET USER
         $user = Auth::user();
@@ -339,6 +296,7 @@ class EducationController extends Controller
                 'education',
                 'educationDuration',
                 'otherEducations',
+                'averageRating',
                 'countingStars',
                 'ratings',
                 'snapToken',
@@ -352,9 +310,7 @@ class EducationController extends Controller
         if ($request->isMethod('POST')) {
             if (!Auth::check()) {
                 $message = "Login to rate this content!";
-                return redirect()
-                    ->back()
-                    ->with('error', $message);
+                return redirect()->back()->with('error', $message);
             } else {
                 // VALIDATE FOR WHEN USER ALREADY RATED CONTENT
                 $ratingCount = EducationContentRating::where([
@@ -363,24 +319,18 @@ class EducationController extends Controller
                 ])->count();
                 if ($ratingCount > 0) {
                     $message = "You have already rated this product!";
-                    return redirect()
-                        ->back()
-                        ->with('error', $message);
+                    return redirect()->back()->with('error', $message);
                 } else {
                     // DO SOME VALIDATION HERE YEA
                     if ($request->rating == null || $request->rating == "") {
                         $message = "You haven't given this content a rating!";
-                        return redirect()
-                            ->back()
-                            ->with('warning', $message);
+                        return redirect()->back()->with('error', $message);
                     } elseif (
                         $request->ratingComment == null ||
                         $request->ratingComment == ""
                     ) {
                         $message = "Give the content a comment first!";
-                        return redirect()
-                            ->back()
-                            ->with('warning', $message);
+                        return redirect()->back()->with('error', $message);
                     } else {
                         // STORE THE RATING
                         $rating = new EducationContentRating();
@@ -402,9 +352,7 @@ class EducationController extends Controller
                         $education->save();
 
                         $message = 'Rating submitted successfully.';
-                        return redirect()
-                            ->back()
-                            ->with('success', $message);
+                        return redirect()->back()->with('success', $message);
                     }
                 }
             }

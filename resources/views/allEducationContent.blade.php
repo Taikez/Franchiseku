@@ -30,9 +30,7 @@
             </div>
         </div>
         <div class="row">
-            <div id="education-vertical-menu" class="col-lg-3 col-md-3 col-sm-3 mb-3">
-                @include('components.education-sidebar')
-            </div>
+            @include('components.education-sidebar')
             @if ($educations->count() == 0)
                 <div class="col-lg-9 pb-3" data-aos="fade-down-right" data-aos-duration="800">
                     <div class="alert alert-warning w-100">No education content to be found!</div>
@@ -52,6 +50,14 @@
                                     <div class="p-3">
                                         <h3>{{ $education->educationTitle }}</h3>
                                         <p class="mb-2 text-muted">By {{ $education->educationAuthor }}</p>
+                                        @if ($education->educationRating != null)
+                                            <div class="d-flex align-items-end">
+                                                @for ($i = 1; $i <= $education->educationRating; $i++)
+                                                    <div id="star" class="fs-3 fw-bold text-warning">★ </div>
+                                                @endfor
+                                                <p style="margin-bottom: 6px;">({{ $education->educationRating }})</p>
+                                            </div>
+                                        @endif
                                         <span class="badge bg-info mb-3">
                                             {{ $education->category->educationCategory }}
                                         </span>
@@ -63,7 +69,7 @@
                                         <a href="{{ route('education.detail', $education->id) }}"
                                             class="d-flex justify-content-between">
                                             <div>
-                                                Read More
+                                                View Content
                                             </div>
                                             <div>
                                                 <span class="material-symbols-rounded">

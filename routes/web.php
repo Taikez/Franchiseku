@@ -116,13 +116,13 @@ Route::controller(EducationCategoryController::class)->group(function(){
 
 Route::controller(FranchisorController::class)->group(function(){
     Route::post('/admin/store/franchisor','StoreFranchisor')->name('store.franchisor');
-    Route::get('/register/franchisor','RegisterFranchisor')->name('register.franchisor');
     Route::get('/admin/all/franchisor','AllFranchisor')->middleware('admin')->name('all.franchisor');
 });
 
 Route::controller(FranchiseController::class)->group(function(){
     Route::get('/admin/all/franchise','AllFranchise')->name('all.franchise');
     Route::get('/franchise','Franchise')->name('franchise');
+    Route::get('/franchise/all','browseAllFranchise')->name('browse.all.franchise');
     Route::post('/franchise/search', 'search')->name('franchise.search');
     Route::get('/franchise/detail/{id}','detail')->name('franchise.detail');
     Route::get('franchise/myFranchise','MyFranchise')->middleware('franchisor')->name('my.franchise');
@@ -136,6 +136,7 @@ Route::controller(FranchiseController::class)->group(function(){
     Route::get('/franchise/proposal/requests','franchiseProposalRequest')->middleware('franchisor')->name('proposal.franchise');
     Route::get('/franchise/proposal/approve/{id}','approveFranchiseProposal')->middleware('franchisor')->name('approve.franchise.proposal');
     Route::get('/franchise/proposal/reject/{id}','rejectFranchiseProposal')->middleware('franchisor')->name('reject.franchise.proposal');
+    Route::post('/franchise/{id}/rate', 'rateFranchise')->name('franchise.rate');
 });
 
 

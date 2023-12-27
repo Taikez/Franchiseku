@@ -47,22 +47,22 @@
                 aria-labelledby="panelsStayOpen-headingTwo">
                 <div class="accordion-body">
                     <div id="priceList" class="row d-flex align-items-center">
-                        <a href="{{ route('education.index', ['minPrice' => 0, 'maxPrice' => 50000] + request()->except(['minPrice', 'maxPrice'])) }}"
+                        <a href="{{ route('education.all', ['minPrice' => 0, 'maxPrice' => 50000] + request()->except(['minPrice', 'maxPrice'])) }}"
                             class="w-100 bg-transparent border-0 text-start fs-6 p-3">IDR
                             0.00 - IDR 50,000.00</a>
                     </div>
                     <div id="priceList" class="row d-flex align-items-center">
-                        <a href="{{ route('education.index', ['minPrice' => 50000, 'maxPrice' => 150000] + request()->except(['minPrice', 'maxPrice'])) }}"
+                        <a href="{{ route('education.all', ['minPrice' => 50000, 'maxPrice' => 150000] + request()->except(['minPrice', 'maxPrice'])) }}"
                             class="w-100 bg-transparent border-0 text-start fs-6 p-3">IDR
                             50,000.00 - IDR 150,000.00</a>
                     </div>
                     <div id="priceList" class="row d-flex align-items-center">
-                        <a href="{{ route('education.index', ['minPrice' => 150000, 'maxPrice' => 250000] + request()->except(['minPrice', 'maxPrice'])) }}"
+                        <a href="{{ route('education.all', ['minPrice' => 150000, 'maxPrice' => 250000] + request()->except(['minPrice', 'maxPrice'])) }}"
                             class="w-100 bg-transparent border-0 text-start fs-6 p-3">IDR
                             150,000.00 - IDR 250,000.00</a>
                     </div>
                     <div id="priceList" class="row d-flex align-items-center">
-                        <a href="{{ route('education.index', ['minPrice' => 250000] + request()->except(['minPrice', 'maxPrice'])) }}"
+                        <a href="{{ route('education.all', ['minPrice' => 250000] + request()->except(['minPrice', 'maxPrice'])) }}"
                             class="w-100 bg-transparent border-0 text-start fs-6 p-3">Exceeds IDR 250,000.00</a>
                     </div>
                 </div>

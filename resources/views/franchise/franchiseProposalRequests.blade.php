@@ -20,7 +20,6 @@
             @else
                 @include('components.franchise-proposal-request-sidebar')
                 <div class="col-9">
-                    @include('layouts.flashMessage')
                     <table id="datatable" class="table table-bordered dt-responsive nowrap"
                         style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>

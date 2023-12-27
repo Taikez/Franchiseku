@@ -1,16 +1,16 @@
-<div class="modal fade" id="rateEducationModal" tabindex="-1" aria-labelledby="rateEducationModalLabel" aria-hidden="true">
+<div class="modal fade" id="rateFranchiseModal" tabindex="-1" aria-labelledby="rateFranchiseModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="rateEducationModalLabel">Rate Our Content</h5>
+                <h5 class="modal-title" id="rateFranchiseModalLabel">Rate Franchise</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body d-flex align-items-center justify-content-center">
-                <form action="{{ route('education.rate', $education->id) }}" method="POST">
+                <form action="{{ route('franchise.rate', $franchise->id) }}" method="POST">
                     @csrf
                     <div class="container-fluid">
                         <div class="row">
-                            <h4 class="text-center">{{ $education->educationTitle }}</h4>
+                            <h4 class="text-center">{{ $franchise->franchiseName }}</h4>
                         </div>
                         <div class="row">
                             <div class="col-12 d-flex justify-content-center align-items-center mb-5">
@@ -36,7 +36,7 @@
                         </div>
                         <div class="row">
                             <div class="col-12 text-center">
-                                <input type="submit" id="rateEducationBtn"
+                                <input type="submit" id="rateFranchiseBtn"
                                     class="btn rounded rounded-pill w-100 text-white" onclick="showLoading()"
                                     value="Submit">
                             </div>

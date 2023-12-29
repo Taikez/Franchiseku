@@ -13,6 +13,8 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use App\Models\User;
+use Mail;
+use App\Mail\SendMail;
 
 
 class FranchiseController extends Controller
@@ -44,7 +46,7 @@ class FranchiseController extends Controller
             'franchiseName' => 'required|string|max:255',
             'franchiseLocation' => 'required|string|max:255',
             'franchiseCategory' => 'required|string|max:20',
-            'franchiseDescription' => 'required|string',
+            'franchiseDesc' => 'required|string',
             'franchisePrice' => 'required|integer',
             'franchiseReport' => 'required|file|mimes:pdf,doc,docx,xls,xlsx,zip',
             'franchiseLogo' => 'required|image|mimes:jpeg,jpg,png',
@@ -59,7 +61,7 @@ class FranchiseController extends Controller
             
             'franchiseCategory.required' => 'Franchise category is required.',
             
-            'franchiseDescription.required' => 'Franchise description is required',
+            'franchiseDesc.required' => 'Franchise description is required',
 
             'franchisePrice.required' => 'Franchise price is required.',
             'franchisePrice.integer' => 'Franchise price must be an integer.',
@@ -114,7 +116,7 @@ class FranchiseController extends Controller
             'franchiseName' => $validatedData['franchiseName'],
             'franchiseLocation' => $validatedData['franchiseLocation'],
             'franchiseCategory' => $franchiseCategory,
-            'franchiseDescription' => $validatedData['franchiseDescription'],
+            'franchiseDesc' => $validatedData['franchiseDesc'],
             'franchisePrice' => $validatedData['franchisePrice'], 
             'franchiseReport' => $saveReportUrl,
             'franchiseDesc' => $req->franchiseDesc,
@@ -263,7 +265,7 @@ class FranchiseController extends Controller
         else
         {
             // GET PROPOSAL STATUS
-            $franchiseProposal = FranchiseProposal::where(['franchise_id' => $id,'user_id' => $user->id])->first();
+            $franchiseProposal = FranchiseProposal::where(['franchise_id' => $id,'user_id' => $user->id, 'status' => 'Approved'])->first();
             $ratingFlag = false;
 
             if($franchiseProposal != null && $franchiseProposal->status == 'Approved')
@@ -333,6 +335,19 @@ class FranchiseController extends Controller
                     'created_at' => Carbon::now(),
                 ]);
                 
+                // send message to user
+                $data = [
+                    'recipient' => $user->email,
+                    'fromName' => $user->name,
+                    'message' => 'We have received your proposal and have informed our fellow Franchisor. Any further updates will be emailed to you as soon as possible! Thank you for your patience.'
+                ];
+
+                Mail::send('emails.user-notification-via-email', ['data' => $data], function($message) use ($data) {
+                    $message->to($data['recipient'])
+                        ->from('adm.franchiseku@gmail.com', 'FranchiseKu Admin')
+                        ->subject('We have received your proposal for ' . $franchiseProposal->franchise->franchiseName . '!');
+                });
+
                 $message = 'Proposal sent successfully';
                 return redirect()->back()->with('success', $message);
             }
@@ -360,6 +375,7 @@ class FranchiseController extends Controller
             'franchisePrice' => 'required|integer',
             'franchiseReport' => 'file|mimes:pdf,doc,docx,xls,xlsx,zip',
             'franchiseLogo' => 'image|mimes:jpeg,jpg,png',
+            'franchiseDesc' => 'required|string'
         ], 
         [
             'franchiseName.required' => 'Franchise name is required.',
@@ -381,6 +397,7 @@ class FranchiseController extends Controller
             'franchiseLogo.image' => 'Franchise logo must be an image.',
             'franchiseLogo.mimes' => 'Franchise logo must be in JPEG, JPG, or PNG format.',
        
+            'franchiseDesc.required' => 'Franchise Description '
         ]);
 
         //get franchise category name
@@ -615,20 +632,52 @@ class FranchiseController extends Controller
     }
 
     public function approveFranchiseProposal($id){
-        $franchiseProposal = FranchiseProposal::findOrFail($id);
+    $user = Auth::user();
+    $franchiseProposal = FranchiseProposal::findOrFail($id);
 
-        $franchiseProposal->status = 'Approved';
-        $franchiseProposal->save();
+    $franchiseProposal->status = 'Approved';
+    $franchiseProposal->save();
 
-        $message = 'You have succesfully approved the proposal!';
-        return redirect()->back()->with('success', $message);
-    }
+    $otherFranchiseProposal = FranchiseProposal::whereNot('id', $id);
+    $otherFranchiseProposal->delete();
+
+    // send message to user
+    $data = [
+        'recipient' => $franchiseProposal->proposerEmail,
+        'fromName' => $franchiseProposal->proposerName,
+        'message' => 'Our fellow franchisor from ' . $franchiseProposal->franchise->franchiseName . ' has accepted your proposal! We welcome you as one of our investors! Thank you for your collaboration.'
+    ];
+
+    Mail::send('emails.user-notification-via-email', ['data' => $data, 'franchiseProposal' => $franchiseProposal], function($message) use ($data, $franchiseProposal) {
+        $message->to($data['recipient'])
+            ->from('adm.franchiseku@gmail.com', 'FranchiseKu Admin')
+            ->subject('Your proposal to ' . $franchiseProposal->franchise->franchiseName . ' has been accepted!');
+    });
+
+    $message = 'You have successfully approved the proposal!';
+    return redirect()->back()->with('success', $message);
+}
+
 
     public function rejectFranchiseProposal($id){
+        $user = Auth::user();
         $franchiseProposal = FranchiseProposal::findOrFail($id);
 
         $franchiseProposal->status = 'Rejected';
         $franchiseProposal->save();
+
+        // send message to user
+        $data = [
+            'recipient' => $franchiseProposal->proposerEmail,
+            'fromName' => $franchiseProposal->proposerName,
+            'message' => 'Unfortunately, our fellow franchisor from ' . $franchiseProposal->franchise->franchiseName . ' has rejected your proposal! We are very sorry to hear this. Thank you for your patience.'
+        ];
+
+        Mail::send('emails.user-notification-via-email', ['data' => $data, 'franchiseProposal' => $franchiseProposal], function($message) use ($data, $franchiseProposal) {
+            $message->to($data['recipient'])
+                ->from('adm.franchiseku@gmail.com', 'FranchiseKu Admin')
+                ->subject('Your proposal to ' . $franchiseProposal->franchise->franchiseName . ' has been rejected!');
+        });
 
         $message = 'You have succesfully rejected the proposal!';
         return redirect()->back()->with('success', $message);

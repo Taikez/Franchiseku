@@ -4,7 +4,7 @@
     @vite('resources/css/franchise.css')
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12 imageContainer p-4">
+            <div class="col-lg-6 col-md-6 col-sm-12 imageContainer p-4" data-aos="fade-down-right" data-aos-duration="800">
                 <img class="img-fluid rounded" src="{{ asset($franchise->franchiseLogo) }}" alt="">
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 rightContainer">
@@ -57,7 +57,7 @@
             </div>
         </div>
 
-        <div class="container my-5">
+        <div class="container my-5" data-aos="fade" data-aos-duration="800">
             <ul class="nav nav-tabs" id="myTabs">
                 <li class="nav-item">
                     <a class="nav-link active" id="description-tab" data-bs-toggle="tab" href="#description">Description</a>
@@ -68,8 +68,6 @@
             </ul>
             <div class="tab-content mt-2">
                 <div class="tab-pane fade show active" id="description">
-                    <p>{{ $franchise->franchiseDescription }}
-                    </p>
                     <p>{!! $franchise->franchiseDesc !!}</p>
                 </div>
                 <div class="tab-pane fade" id="detail">
@@ -77,7 +75,8 @@
                         <li class="list-group-item"><b>Franchise Name : </b>{{ $franchise->franchiseName }} </li>
                         <li class="list-group-item"><b>Franchise Location : </b>{{ $franchise->franchiseLocation }} </li>
                         <li class="list-group-item"><b>Franchise Category : </b>{{ $franchise->franchiseCategory }} </li>
-                        <li class="list-group-item"><b>Franchise Price : </b>{{ $franchise->franchisePrice }} </li>
+                        <li class="list-group-item"><b>Franchise Price :
+                            </b>IDR {{ number_format($franchise->franchisePrice, 2, '.', ',') }} </li>
 
                         <li class="list-group-item"><b>Franchisor Name : </b>{{ $franchisor->name }} </li>
                         <li class="list-group-item"><b>Franchisor Email : </b>{{ $franchisor->email }} </li>

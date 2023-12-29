@@ -98,10 +98,9 @@
                          History
                      </a>
                      <ul class="dropdown-menu" aria-labelledby="navbarFranchise">
-                         <li><a class="dropdown-item" href="{{ route('history.franchise') }}">Franchise History</a>
+                         <li><a class="dropdown-item" href="{{ route('history.franchise') }}">Franchise</a>
                          </li>
-                         <li><a class="dropdown-item" href="{{ route('history.education') }}">Education Content
-                                 History</a>
+                         <li><a class="dropdown-item" href="{{ route('history.education') }}">Education Content</a>
                          </li>
                      </ul>
                  </li>

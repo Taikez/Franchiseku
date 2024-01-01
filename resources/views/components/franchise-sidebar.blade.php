@@ -102,5 +102,25 @@
                 </div>
             </div>
         </div>
+        <div class="accordion-item mb-3 border-2 rounded">
+            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false"
+                    aria-controls="panelsStayOpen-collapseFour">
+                    <h5>Procurement Status</h5>
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse"
+                aria-labelledby="panelsStayOpen-headingOne">
+                <div class="accordion-body">
+                    <div id="procurementList" class="row d-flex align-items-center">
+                        <a href="{{ route('browse.all.franchise', ['isPurchased' => 1] + request()->except('isPurchased')) }}"
+                            class="w-100 bg-transparent border-0 text-start fs-6 p-3">Purchased</a>
+                        <a href="{{ route('browse.all.franchise', ['isPurchased' => 0] + request()->except('isPurchased')) }}"
+                            class="w-100 bg-transparent border-0 text-start fs-6 p-3">Not Purchased</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

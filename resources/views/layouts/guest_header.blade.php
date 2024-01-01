@@ -71,10 +71,6 @@
                  <a class="nav-link fs-5 text-start" href="{{ route('aboutUs') }}">About Us</a>
              </li>
 
-             <li class="nav-item">
-                 <a class="nav-link fs-5 text-start" href="#">Subscribe</a>
-             </li>
-
              @guest
                  <div id="loginRegisterBtn" class="button-group d-flex">
                      <li class="nav-item">

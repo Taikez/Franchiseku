@@ -45,12 +45,14 @@
                         {{ $education->educationAuthor }} |
                         {{ Carbon\Carbon::parse($education->created_at)->diffForHumans() }}
                     </h6>
-                    <div class="d-flex align-items-end">
-                        @for ($i = 1; $i <= $countingStars; $i++)
-                            <div id="star" class="fs-1 fw-bold">★ </div>
-                        @endfor
-                        <h5 class="mb-3 mx-2">({{ $averageRating }})</h5>
-                    </div>
+                    @if ($countingStars > 0)
+                        <div class="d-flex align-items-end">
+                            @for ($i = 1; $i <= $countingStars; $i++)
+                                <div id="star" class="fs-1 fw-bold">★ </div>
+                            @endfor
+                            <h5 class="mb-3 mx-2">({{ $averageRating }})</h5>
+                        </div>
+                    @endif
                     <h3 class="fw-bold mt-3">Rp
                         {{ number_format($education->educationPrice, 2) }}</h3>
                     <h6 class="fw-light mt-3">Duration:

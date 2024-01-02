@@ -88,7 +88,6 @@
                                     src="{{ url('upload/no_image.jpg') }}" alt="Card image cap">
                             </div>
                         </div>
-
                         <div class="form-group mb-3">
                             <label for="franchiseDesc" class="col-sm-4 col-form-label">Franchise Description</label>
                             <textarea class="form-control @error('franchiseDesc') is-invalid @enderror" name="franchiseDesc" id="franchiseDesc"
@@ -97,7 +96,6 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-
                         <button type="submit" class="btn btn-lg p-4 pt-1 pb-1 btn-primary rounded mt-4">Register
                             Franchise</button>
                     </form>

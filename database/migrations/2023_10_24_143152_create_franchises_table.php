@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('status');
             $table->decimal('franchiseRating', 3, 2)->nullable();
             $table->text('franchiseDesc')->nullable();
+            $table->integer('isBought')->default(0);
+            $table->string('boughtBy')->nullable();
             $table->timestamps();
 
             // Define the foreign key constraint with a different name for the column

@@ -22,7 +22,7 @@
                     <div class="mb-3">
                         <div class="col-12 text-center">
                             <label for="proposalDescription" class="form-label">Proposal Description <span
-                                    class="text-secondary" style="font-size: 10px;">(optional)</span></label>
+                                    class="text-danger" style="font-size: 10px;">*</span></label>
                             <textarea id="proposalDescription" name="proposalDescription" value="{{ old('proposalDescription') }}" cols="30"
                                 rows="5" class="border border-2 rounded mb-3 w-100"></textarea>
                             @error('proposalDescription')

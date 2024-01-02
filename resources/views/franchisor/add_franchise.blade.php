@@ -7,7 +7,7 @@
 
 @section('main')
     <section class="registerFranchise d-flex align-items-center" id="registerFranchise">
-        <div class="container bg-light bg-opacity-80 rounded mt-4 p-4">
+        <div class="container bg-light bg-opacity-80 rounded mt-4 p-4" data-aos="fade-down" data-aos-duration="800">
             <div class="row d-flex align-items-center h-100">
                 <div class="col-md-6  p-4">
                     <h1 class="fs-1 text-primary mb-5 fw-bold ">Register Franchise</h1>
@@ -89,8 +89,15 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-lg p-4 pt-1 pb-1 btn-primary rounded mt-4">Register
-                            Franchise</button>
+                         <div class="form-group mb-3">
+                            <label for="franchiseDesc" class="col-sm-4 col-form-label">Franchise Description</label>
+                            <textarea class="form-control @error('franchiseDesc') is-invalid @enderror"  name="franchiseDesc" id="franchiseDesc" cols="30" rows="10"></textarea>
+                            @error('franchiseDesc')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <button type="submit" class="btn btn-lg p-4 pt-1 pb-1 btn-primary rounded mt-4">Register Franchise</button>
                     </form>
                 </div>
             </div>

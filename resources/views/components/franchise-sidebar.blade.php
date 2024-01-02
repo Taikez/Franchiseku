@@ -28,7 +28,7 @@
                     @endif
                     @foreach ($franchiseCategories as $item)
                         <div id="categoryList" class="row d-flex align-items-center">
-                            <a href="{{ route('franchise', ['category' => $item->id] + request()->except('category')) }}"
+                            <a href="{{ route('browse.all.franchise', ['category' => $item->id] + request()->except('category')) }}"
                                 class="w-100 bg-transparent border-0 text-start fs-6 p-3">{{ $item->franchiseCategory }}</a>
                         </div>
                     @endforeach
@@ -47,23 +47,23 @@
                 aria-labelledby="panelsStayOpen-headingTwo">
                 <div class="accordion-body">
                     <div id="priceList" class="row d-flex align-items-center">
-                        <a href="{{ route('education.index', ['minPrice' => 0, 'maxPrice' => 50000] + request()->except(['minPrice', 'maxPrice'])) }}"
+                        <a href="{{ route('browse.all.franchise', ['minPrice' => 0, 'maxPrice' => 50000000] + request()->except(['minPrice', 'maxPrice'])) }}"
                             class="w-100 bg-transparent border-0 text-start fs-6 p-3">IDR
-                            0.00 - IDR 50,000.00</a>
+                            0.00 - IDR 50,000,000.00</a>
                     </div>
                     <div id="priceList" class="row d-flex align-items-center">
-                        <a href="{{ route('education.index', ['minPrice' => 50000, 'maxPrice' => 150000] + request()->except(['minPrice', 'maxPrice'])) }}"
+                        <a href="{{ route('browse.all.franchise', ['minPrice' => 50000000, 'maxPrice' => 150000000] + request()->except(['minPrice', 'maxPrice'])) }}"
                             class="w-100 bg-transparent border-0 text-start fs-6 p-3">IDR
-                            50,000.00 - IDR 150,000.00</a>
+                            50,000,000.00 - IDR 150,000,000.00</a>
                     </div>
                     <div id="priceList" class="row d-flex align-items-center">
-                        <a href="{{ route('education.index', ['minPrice' => 150000, 'maxPrice' => 250000] + request()->except(['minPrice', 'maxPrice'])) }}"
+                        <a href="{{ route('browse.all.franchise', ['minPrice' => 150000000, 'maxPrice' => 250000000] + request()->except(['minPrice', 'maxPrice'])) }}"
                             class="w-100 bg-transparent border-0 text-start fs-6 p-3">IDR
-                            150,000.00 - IDR 250,000.00</a>
+                            150,000,000.00 - IDR 250,000,000.00</a>
                     </div>
                     <div id="priceList" class="row d-flex align-items-center">
-                        <a href="{{ route('education.index', ['minPrice' => 250000] + request()->except(['minPrice', 'maxPrice'])) }}"
-                            class="w-100 bg-transparent border-0 text-start fs-6 p-3">Exceeds IDR 250,000.00</a>
+                        <a href="{{ route('browse.all.franchise', ['minPrice' => 250000000] + request()->except(['minPrice'])) }}"
+                            class="w-100 bg-transparent border-0 text-start fs-6 p-3">Exceeds IDR 250,000,000.00</a>
                     </div>
                 </div>
             </div>
@@ -80,23 +80,23 @@
                 aria-labelledby="panelsStayOpen-headingThree">
                 <div class="accordion-body">
                     <div id="ratingList" class="row d-flex align-items-center">
-                        <a href="{{ route('education.all', ['rating' => 1]) }}"
+                        <a href="{{ route('browse.all.franchise', ['rating' => 1]) }}"
                             class="w-100 bg-transparent border-0 text-start fs-6 p-3">1 Star</a>
                     </div>
                     <div id="ratingList" class="row d-flex align-items-center">
-                        <a href="{{ route('education.all', ['rating' => 2]) }}"
+                        <a href="{{ route('browse.all.franchise', ['rating' => 2]) }}"
                             class="w-100 bg-transparent border-0 text-start fs-6 p-3">2 Star</a>
                     </div>
                     <div id="ratingList" class="row d-flex align-items-center">
-                        <a href="{{ route('education.all', ['rating' => 3]) }}"
+                        <a href="{{ route('browse.all.franchise', ['rating' => 3]) }}"
                             class="w-100 bg-transparent border-0 text-start fs-6 p-3">3 Star</a>
                     </div>
                     <div id="ratingList" class="row d-flex align-items-center">
-                        <a href="{{ route('education.all', ['rating' => 4]) }}"
+                        <a href="{{ route('browse.all.franchise', ['rating' => 4]) }}"
                             class="w-100 bg-transparent border-0 text-start fs-6 p-3">4 Star</a>
                     </div>
                     <div id="ratingList" class="row d-flex align-items-center">
-                        <a href="{{ route('education.all', ['rating' => 5]) }}"
+                        <a href="{{ route('browse.all.franchise', ['rating' => 5]) }}"
                             class="w-100 bg-transparent border-0 text-start fs-6 p-3">5 Star</a>
                     </div>
                 </div>

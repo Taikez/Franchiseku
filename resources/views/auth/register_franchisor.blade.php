@@ -76,7 +76,7 @@
                                 </div>
 
                                 <div class="text-center justify-end mb-3">
-                                    <button class="inputBtn" type="submit">{{ __('Register') }}</button>
+                                    <button class="inputBtn mt-4 mb-3 w-100" type="submit">{{ __('Register') }}</button>
 
                                     <p>Already have an account?
                                         <a class="text-md text-success" href="{{ route('login') }}">
@@ -84,7 +84,8 @@
                                         </a>
                                     </p>
 
-                                    <a href="{{route('register')}}" class="text-decoration-none fs-5" >Register as User</a>
+                                    <a href="{{ route('register') }}">Register as
+                                        User</a>
                                 </div>
                             </form>
                         </div>

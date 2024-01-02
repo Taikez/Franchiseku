@@ -22,11 +22,11 @@
                 <div class="accordion-body">
                     <div id="statusList" class="row d-flex align-items-center">
                         <a href="{{ route('history.franchise', ['status' => 'Requested'] + request()->except(['status'])) }}"
-                            class="w-100 bg-transparent border-0 text-start fs-6 p-3">Proposal Sent</a>
+                            class="w-100 bg-transparent border-0 text-start fs-6 p-3">Proposal Requested</a>
                     </div>
                     <div id="statusList" class="row d-flex align-items-center">
                         <a href="{{ route('history.franchise', ['status' => 'Approved'] + request()->except(['status'])) }}"
-                            class="w-100 bg-transparent border-0 text-start fs-6 p-3">Proposal Approved</a>
+                            class="w-100 bg-transparent border-0 text-start fs-6 p-3">Proposal Accepted</a>
                     </div>
                     <div id="statusList" class="row d-flex align-items-center">
                         <a href="{{ route('history.franchise', ['status' => 'Rejected'] + request()->except(['status'])) }}"

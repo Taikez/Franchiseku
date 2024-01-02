@@ -18,7 +18,7 @@ class FranchiseRating extends Model
         return $this->belongsTo(User::class, 'userId');
     }
 
-    public function educationContent()
+    public function franchise()
     {
         return $this->belongsTo(Franchise::class, 'franchiseId');
     }

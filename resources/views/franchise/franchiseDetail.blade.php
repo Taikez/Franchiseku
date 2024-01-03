@@ -50,9 +50,9 @@
                                 href="/chat/{{ $franchise->franchisePIC }}" target="_blank">Send Message</a>
                         @endif
                     @endif
-                    <button type="button" id="downloadFranchiseReportBtn"
+                    <a href="{{asset($franchise->franchiseReport)}}"
                         class="btn btn-light w-100 rounded-pill border border-1"
-                        download="{{ $franchise->franchiseName }} - Report">Download Franchise Report</button>
+                        download="{{ $franchise->franchiseName }}-Report">Download Franchise Report</a>
                 </div>
             </div>
         </div>

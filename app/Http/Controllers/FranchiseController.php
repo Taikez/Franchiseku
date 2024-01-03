@@ -261,9 +261,11 @@ class FranchiseController extends Controller
             // GET PROPOSAL STATUS
             $franchiseProposal = FranchiseProposal::where(['franchise_id' => $id,'user_id' => $user->id])->first();
             $ratingFlag = false;
+            $boughtBy = User::findOrFail($franchiseProposal->user_id)->first();
 
-            if($franchiseProposal->status == 'Approved')
+            if($franchiseProposal != null && $franchiseProposal->status == 'Approved'){
                 $ratingFlag = true;
+            } 
 
             return view('franchise.franchiseDetail', compact('franchise', 'otherFranchise', 'ratings','franchisor', 'allFranchiseCategory', 'ratingFlag'));
         }

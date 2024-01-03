@@ -47,7 +47,7 @@
                                             <td>Rp {{ number_format($item->educationPrice, 2, ',', '.') }}</td>
 
                                             <td>
-                                                <a href="#" class="btn btn-info btn-sm" title="Edit data"
+                                                <a href="{{route('edit.education',$item->id)}}" class="btn btn-info btn-sm" title="Edit data"
                                                     id="edit">
                                                     <i class="fas fa-edit"></i>
                                                 </a>

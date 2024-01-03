@@ -42,7 +42,6 @@
                                  <li><a class="dropdown-item" href="{{ route('adminDashboard') }}">Admin Page</a></li>
                              @endif
                          @endguest
-
                      </ul>
                  </li>
 
@@ -72,10 +71,6 @@
                  <a class="nav-link fs-5 text-start" href="{{ route('aboutUs') }}">About Us</a>
              </li>
 
-             <li class="nav-item">
-                 <a class="nav-link fs-5 text-start" href="#">Subscribe</a>
-             </li>
-
              @guest
                  <div id="loginRegisterBtn" class="button-group d-flex">
                      <li class="nav-item">
@@ -99,10 +94,9 @@
                          History
                      </a>
                      <ul class="dropdown-menu" aria-labelledby="navbarFranchise">
-                         <li><a class="dropdown-item" href="{{ route('history.franchise') }}">Franchise History</a>
+                         <li><a class="dropdown-item" href="{{ route('history.franchise') }}">Franchise</a>
                          </li>
-                         <li><a class="dropdown-item" href="{{ route('history.education') }}">Education Content
-                                 History</a>
+                         <li><a class="dropdown-item" href="{{ route('history.education') }}">Education Content</a>
                          </li>
                      </ul>
                  </li>

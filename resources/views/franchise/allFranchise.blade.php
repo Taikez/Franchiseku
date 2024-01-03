@@ -71,6 +71,15 @@
                                                         </span>
                                                     @endif
                                                 @endif
+                                                @if ($item->isBought == 1)
+                                                    <span class="badge bg-info mb-3">
+                                                        Purchased
+                                                    </span>
+                                                @else
+                                                    <span class="badge bg-success mb-3">
+                                                        Available
+                                                    </span>
+                                                @endif
                                             </div>
                                         </div>
                                         <p class="mb-2 text-muted">By {{ $item->franchisePICName }}</p>

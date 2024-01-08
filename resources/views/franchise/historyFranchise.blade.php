@@ -5,8 +5,6 @@
 @endsection
 
 @section('main')
-    @vite('resources/js/history.js')
-
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12 p-5">

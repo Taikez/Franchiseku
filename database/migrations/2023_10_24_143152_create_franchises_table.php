@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('franchiseLogo');
             $table->string('franchisePIC');
             $table->string('franchisePICName');
-            $table->integer('isBought')->default(0);
             $table->string('franchiseReport')->nullable();
             $table->string('status');
             $table->decimal('franchiseRating', 3, 2)->nullable();

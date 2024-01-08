@@ -17,7 +17,6 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/auth.css', 'resources/sass/app.scss'])
-
     <!-- Other Fonts (if any) -->
 
 </head>

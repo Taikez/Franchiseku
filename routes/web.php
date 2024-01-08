@@ -153,6 +153,8 @@ Route::middleware(['admin','auth'])->group(function(){
         Route::get('/admin/all/education','AllEducation')->name('all.education');
         Route::get('/admin/add/education','AddEducation')->name('add.education');
         Route::post('/admin/post/education','PostEducation')->name('post.education');
+        Route::get('/admin/edit/education/{id}','EditEducation')->name('edit.education');
+        Route::post('/admin/push/education','UpdateEducation')->name('update.education');
     });
 
     Route::controller(FranchiseCategoryController::class)->group(function(){

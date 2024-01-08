@@ -6,7 +6,6 @@
 
 @section('main')
     @vite('resources/css/franchise.css')
-    @vite('resources/js/franchise.js')
 
     <div class="container-fluid">
         <div class="row">

@@ -27,15 +27,9 @@ class EducationController extends Controller
 
     public function AddEducation()
     {
-        $educationCategories = EducationCategory::orderBy(
-            'educationCategory',
-            'ASC'
-        )->get();
+        $educationCategories = EducationCategory::orderBy('educationCategory','ASC')->get();
 
-        return view(
-            'admin.education.add_education',
-            compact('educationCategories')
-        );
+        return view('admin.education.add_education',compact('educationCategories'));
     } // end method
 
     public function storeVideo(Request $req)
@@ -405,4 +399,82 @@ class EducationController extends Controller
             compact('educationTransactions')
         );
     }
+
+    public function EditEducation($id){
+        $education = EducationContent::findOrFail($id);
+         $educationCategories = EducationCategory::orderBy(
+            'educationCategory',
+            'ASC'
+        )->get();
+        return view('admin.education.edit_education',compact('education', 'educationCategories'));
+    }
+
+    public function UpdateEducation(Request $req){
+        $id = $req->id;
+        
+        $customMessages = [
+            'educationTitle.required' => 'Education Title is Required!',
+            'educationDesc.required' => 'Education Description is Required!',
+            'educationShortDesc.required' => 'Education Short Description is Required!',
+            'educationAuthor.required' => 'Education Author is Required!',
+            'educationPrice.required' => 'Education Price is Required!',
+            'educationPrice.integer' => 'Education Price must be an integer!',
+            'educationCategory.required' => 'Education Category is Required!',
+            'educationThumbnail.image' => 'Education Thumbnail must be a valid image file.',
+            'educationThumbnail.mimes' => 'Education Thumbnail must be in one of the allowed image formats (jpeg, png, jpg, gif).',
+            'educationVideo.mimes' => 'Education Video must be in one of the allowed formats (mp4, mov, avi, mkv, wmv).',
+        ];
+
+        $validatedData = $req->validate([
+            'educationTitle' => 'required|string|max:255',
+            'educationDesc' => 'required|string',
+            'educationShortDesc' => 'required|string|max:255',
+            'educationAuthor' => 'required|string|max:255',
+            'educationCategory' => 'required|string|max:255',
+            'educationPrice' => 'required|integer',
+            'educationThumbnail' => 'image|mimes:jpeg,png,jpg,gif',
+            'educationVideo' => 'mimes:mp4,mov,avi,mkv,wmv',
+        ], $customMessages);
+
+        $education = EducationContent::findOrFail($id);
+
+        // Update fields that are required
+        $education->educationTitle = $validatedData['educationTitle'];
+        $education->educationCategory = $validatedData['educationCategory'];
+        $education->education_category_id = $validatedData['educationCategory'];
+        $education->educationShortDesc = $validatedData['educationShortDesc'];
+        $education->educationDesc = $validatedData['educationDesc'];
+        $education->educationAuthor = $validatedData['educationAuthor'];
+        $education->educationPrice = $validatedData['educationPrice'];
+
+        // Update thumbnail if provided
+        if ($req->hasFile('educationThumbnail')) {
+            $image = $req->file('educationThumbnail');
+            $name_gen_img = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+            $directory = 'upload/education/';
+            $save_url_img = $directory . $name_gen_img;
+            $education->educationThumbnail = $save_url_img;
+            Image::make($image)->resize(800, 450)->save(public_path($directory . $name_gen_img));
+        }
+
+        // Update video if provided
+        if ($req->hasFile('educationVideo')) {
+            $video = $req->file('educationVideo');
+            $name_gen_vid = hexdec(uniqid()) . '.' . $video->getClientOriginalExtension();
+            $directory = 'upload/education/';
+            $save_url_vid = $directory . $name_gen_vid;
+            $education->educationVideo = $save_url_vid;
+            $video->move(public_path($directory), $name_gen_vid);
+        }
+
+        $education->save();
+
+        $notification = [
+            'message' => 'Education Updated Successfully',
+            'alert-type' => 'success',
+        ];
+
+        return redirect()->route('all.education')->with($notification);
+    }
+
 }

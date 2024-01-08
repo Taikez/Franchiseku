@@ -62,6 +62,7 @@
                                          Proposals</a>
                                  </li>
                          </li>
+
                  </ul>
                  </li>
                  @endif
@@ -87,6 +88,9 @@
                  @php
                      $user = Auth::user();
                  @endphp
+                 <li class="nav-item">
+                     <a class="nav-link fs-5 text-start" href="/chat">Chat</a>
+                 </li>
                  <li class="nav-item dropdown">
                      <a class="nav-link dropdown-toggle fs-5 text-start" href="{{ route('franchise') }}"
                          id="navbarFranchise" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"

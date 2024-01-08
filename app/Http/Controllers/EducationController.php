@@ -223,9 +223,11 @@ class EducationController extends Controller
         $countingStars = floor($averageRating);
 
         // GET VIDEO DURATION
-        $videoPath = public_path($videoPublicPath);
-        $duration = shell_exec("ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 '{$videoPath}'");
-        $educationDuration = round(floatval($duration) / 60, 2);
+        $videoPath = public_path($videoPublicPath[0]);
+        $getID3 = new \getID3;
+        $file = $getID3->analyze($videoPath);
+        $duration_seconds = $file['playtime_seconds'];
+        $educationDuration = round(floatval($duration_seconds) / 60, 1);
 
         // GET RATINGS
         $ratings = EducationContentRating::where(['educationContentId' => $id,'rating' => 5,])->limit(5)->get();
@@ -233,57 +235,68 @@ class EducationController extends Controller
         //GET USER
         $user = Auth::user();
 
+        // GET TRANSACTION COUNT
+        $transactionCount = EducationTransaction::where(['education_id'=>$education->id, 'transaction_status'=>'settlement'])->get()->count();
+
         //GET USER TRANSACTION
-        $transaction = EducationTransaction::where(['userId'=> $user->id,'education_id'=>$education->id])->get();
-        $transactionStatusMessage = '';
-        if($transaction->isEmpty()){
-            $transactionStatus = false;
-            $transactionStatusMessage = 'Please buy the education first';
-        }else{
-            if($transaction[$transaction->count()-1]->transaction_status == 'settlement'){
-                $transactionStatus = true;
-                $transactionStatusMessage = 'Payment Success';
-            }else{
-                $transactionStatus = false;
-                $transactionStatusMessage = 'Please complete payment first';
-            }
-        }
+        if (!Auth::check()) {
+            $transaction = null;
+            $snapToken = null;
+            $transactionStatus = null;
+        } else {
+            $transaction = EducationTransaction::where(['userId'=> $user->id,'education_id'=>$education->id])->get();
+            $buttonMessage = '';
 
-        //GET SNAP TOKEN
-        // Set your Merchant Server Key
-        \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-        \Midtrans\Config::$isProduction = false;
-        // Set sanitization on (default)
-        \Midtrans\Config::$isSanitized = true;
-        // Set 3DS transaction for credit card to true
-        \Midtrans\Config::$is3ds = false;
+            //GET SNAP TOKEN
+            // Set your Merchant Server Key
+            \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+            // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+            \Midtrans\Config::$isProduction = false;
+            // Set sanitization on (default)
+            \Midtrans\Config::$isSanitized = true;
+            // Set 3DS transaction for credit card to true
+            \Midtrans\Config::$is3ds = false;
 
-        $params = [
-            'transaction_details' => [
-                'order_id' => rand(),
-                'gross_amount' => $education->educationPrice,
-            ],
-            'customer_details' => [
-                'first_name' => $user->name,
-                'last_name' => '',
-                'email' => $user->email,
-                'phone' => $user->phoneNumber,
-            ],
-            'item_details' => [
-                [
-                    'id' => 'a1',
-                    'price' => $education->educationPrice,
-                    'quantity' => 1,
-                    'name' => $education->educationTitle,
+            $params = [
+                'transaction_details' => [
+                    'order_id' => rand(),
+                    'gross_amount' => $education->educationPrice,
                 ],
-            ],
-        ];
+                'customer_details' => [
+                    'first_name' => $user->name,
+                    'last_name' => '',
+                    'email' => $user->email,
+                    'phone' => $user->phoneNumber,
+                ],
+                'item_details' => [
+                    [
+                        'id' => 'a1',
+                        'price' => $education->educationPrice,
+                        'quantity' => 1,
+                        'name' => $education->educationTitle,
+                    ],
+                ],
+            ];
 
-        $snapToken = \Midtrans\Snap::getSnapToken($params);
+            if($transaction->isEmpty()){
+                $transactionStatus = false;
+                $snapToken = \Midtrans\Snap::getSnapToken($params);
+                $buttonMessage = 'Purchase Content';
+                
+            }else{
+                if($transaction[$transaction->count()-1]->transaction_status == 'settlement'){
+                    $transactionStatus = true;
+                } else if($transaction[$transaction->count()-1]->transaction_status == 'pending') {
+                    $transactionStatus = false;
+                    $buttonMessage = 'Finish Payment';
+                } else {
+                    $transactionStatus = false;
+                }
+                $snapToken = $transaction[0]->snap_token;
+            }
 
-        //get transaction status
-        
+            //get transaction status
+        }
 
         return view('educationDetail',
             compact(
@@ -294,7 +307,10 @@ class EducationController extends Controller
                 'countingStars',
                 'ratings',
                 'snapToken',
-                'transactionStatus'
+                'transaction',
+                'transactionStatus',
+                'transactionCount',
+                'buttonMessage'
             )
         );
     }

@@ -45,12 +45,16 @@ body {
 }
 
 #pay-button,
+#finish-pay-button,
+#loginToPurchaseBtn,
 #rateEducationBtn {
     background-color: #01a7a3;
     transition: background-color 0.3s ease;
 }
 
 #pay-button:hover,
+#finish-pay-button:hover,
+#loginToPurchaseBtn:hover,
 #rateEducationBtn:hover {
     background-color: #1cc5c2;
 }

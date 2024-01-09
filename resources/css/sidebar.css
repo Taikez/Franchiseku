@@ -9,7 +9,8 @@
 #categoryList,
 #priceList,
 #ratingList,
-#ownedFranchiseList {
+#ownedFranchiseList,
+#procurementList {
     transition: 0.4s;
 }
 
@@ -17,7 +18,8 @@
 #categoryList:hover,
 #priceList:hover,
 #ratingList:hover,
-#ownedFranchiseList:hover {
+#ownedFranchiseList:hover
+#procurementList:hover {
     background-color: rgb(247, 246, 246);
 }
 

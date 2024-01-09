@@ -57,10 +57,17 @@
                         {{ number_format($education->educationPrice, 2) }}</h3>
                     <h6 class="fw-light mt-3">Duration:
                         {{ $educationDuration }} minute(s)</h6>
-                    <p class="text-muted mt-3">1000 people bought this</p>
+                    <p class="text-muted mt-3">{{ $transactionCount }} people bought this</p>
                     <div class="text-center">
                         <div class="row">
-                            @if (auth()->user() && $transactionStatus == true)
+                            @if (!auth()->user())
+                                <div>
+                                    <button type="button" id="loginToPurchaseBtn"
+                                        class="btn w-50 text-white rounded-pill mt-3 mb-2"
+                                        href="{{ route('login') }}">Login to Purchase
+                                        Content</button>
+                                </div>
+                            @elseif (auth()->user() && $transactionStatus == true)
                                 @include('modals.rateEducationContentModal')
                                 <div>
                                     <button type="button" id="rateEducationBtn"
@@ -195,9 +202,7 @@
         <input type="hidden" name="educationId" id="educationId" value="{{ $education->id }}">
     </form>
 
-
     <script type="text/javascript">
-        // For example trigger on button clicked, or any time you need
         var payButton = document.getElementById('pay-button');
         payButton.addEventListener('click', function() {
             // Trigger snap popup. @TODO: Replace TRANSACTION_TOKEN_HERE with your transaction token
@@ -219,12 +224,11 @@
                 },
                 onClose: function() {
                     /* You may add your own implementation here */
-                    alert('you closed the popup without finishing the payment');
+                    alert('You closed the popup without finishing the payment');
                 }
             })
             // customer will be redirected after completing payment pop-up
         });
-
 
         function sendResponseToForm(result) {
             var value = document.getElementById('paymentJSONCallback').value;

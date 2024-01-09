@@ -5,7 +5,6 @@
 @endsection
 
 @section('main')
-
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12 p-5">
@@ -39,7 +38,7 @@
                 <div class="col-lg-8 mx-5">
                     <div class="row">
                         @foreach ($franchiseProposals as $franchiseProposal)
-                            <div class="fixed-height-box h-100 rounded border border-1 shadow-sm bg-white p-4 px-5 mx-3"
+                            <div class="fixed-height-box h-100 rounded border border-1 shadow-sm bg-white p-4 px-5 mx-3 mb-5"
                                 style="overflow: hidden">
                                 <h3 class="fw-bold">{{ $franchiseProposal->franchise->franchiseName }}</h3>
                                 <hr class="mb-5">

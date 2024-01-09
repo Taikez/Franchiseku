@@ -281,7 +281,7 @@ class EducationController extends Controller
         ];
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
-
+        // dd($snapToken);
         //get transaction status
         
 

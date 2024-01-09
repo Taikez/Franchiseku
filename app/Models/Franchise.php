@@ -15,4 +15,9 @@ class Franchise extends Model
     {
         return $this->belongsTo(FranchiseCategory::class, 'franchise_category_id', 'id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'boughtBy');
+    }
 }

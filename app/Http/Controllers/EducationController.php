@@ -318,7 +318,7 @@ class EducationController extends Controller
         if ($request->isMethod('POST')) {
             if (!Auth::check()) {
                 $message = "Login to rate this content!";
-                return redirect()->back()->with('error', $message);
+                return redirect('login')->with('error', $message);
             } else {
                 // VALIDATE FOR WHEN USER ALREADY RATED CONTENT
                 $ratingCount = EducationContentRating::where([
@@ -370,7 +370,7 @@ class EducationController extends Controller
     public function historyEducation(Request $request) {
         if (!Auth::check()) {
             $message = "Login to view history!";
-            return redirect()->back()->with('error', $message);
+            return redirect('login')->with('error', $message);
         } else {
             //get user
             $user = Auth::user();

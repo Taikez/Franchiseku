@@ -127,6 +127,7 @@ Route::controller(FranchiseController::class)->group(function(){
     Route::get('/dashboard/registerFranchise','RegisterFranchise')->middleware('franchisor')->name('dashboard.register.franchise');
     Route::post('/send/proposal/{id}','sendProposal')->name('send.proposal');
     Route::post('/franchise/edit/{id}','editFranchise')->middleware('franchisor')->name('edit.franchise');
+    Route::get('/franchise/delete/{id}','deleteFranchise')->name('delete.franchise');
     Route::get('/franchise/history','historyFranchise')->name('history.franchise');
     Route::post('/franchise/history/search', 'searchHistory')->name('history.franchise.search');
     Route::get('/franchise/proposal/requests','franchiseProposalRequest')->middleware('franchisor')->name('proposal.franchise');

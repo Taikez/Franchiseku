@@ -158,9 +158,8 @@ class FranchiseController extends Controller
 
         $allFranchise = Franchise::where('franchisePIC',$userId)->orderBy('created_at','desc')->get();
         $franchiseCategories = FranchiseCategory::all();
-        $myFranchise = true;
 
-        return view('franchise.franchise', compact('allFranchise','franchiseCategories', 'myFranchise'));
+        return view('franchisor.owned-franchise', compact('allFranchise','franchiseCategories'));
     }
     
 
@@ -205,9 +204,8 @@ class FranchiseController extends Controller
 
         $allFranchise = $queryAllFranchise->paginate(12);
         $franchiseCategories = FranchiseCategory::all();
-        $myFranchise = false;
 
-        return view('franchise.franchise', compact('allFranchise','franchiseCategories', 'myFranchise'));
+        return view('franchise.franchise', compact('allFranchise','franchiseCategories'));
     }
 
     public function browseAllFranchise(Request $request){
@@ -242,18 +240,16 @@ class FranchiseController extends Controller
 
         $allFranchise = $queryAllFranchise->paginate(12);
         $franchiseCategories = FranchiseCategory::all();
-        $myFranchise = false;
 
-        return view('franchise.allFranchise', compact('allFranchise','franchiseCategories', 'myFranchise'));
+        return view('franchise.allFranchise', compact('allFranchise','franchiseCategories'));
     }
 
     public function FranchiseByCategory($categoryId){
         $franchise = Franchise::where('franchiseCategoryId', $categoryId)->latest()->limit(4)->get();
         $categories = FranchiseCategory::all();
         $latestFranchise = Franchise::latest()->limit(4)->get();
-        $myFranchise = false;
 
-        return view('franchise.franchise', compact('categories','latestFranchise','franchise', 'myFranchise'));
+        return view('franchise.franchise', compact('categories','latestFranchise','franchise'));
     }
 
     public function detail($id)
@@ -558,6 +554,38 @@ class FranchiseController extends Controller
         
         $message = 'Franchise updated successfully!';
         return redirect()->back()->with('success', $message);
+    }
+
+    public function deleteFranchise($id) {
+        $franchise = Franchise::findOrFail($id);
+        $franchiseProposals = FranchiseProposal::where('franchise_id', $id)->get();
+
+        if($franchise->isBought == 1) {
+            $message = 'Unable to delete franchise! Franchise has been bought.';
+            return redirect(route('my.franchise'))->with('error', $message);
+        } else {
+            // send email notification to proposer 
+            foreach($franchiseProposals as $franchiseProposal) {
+                $data = [
+                    'recipient' => $franchiseProposal->proposerEmail,
+                    'fromName' => $franchiseProposal->proposerName,
+                    'message' => 'Unfortunatey, our fellow franchisor from ' . $franchiseProposal->franchise->franchiseName . ' has deleted their franchise. We have automatically deleted your proposal, our deepest condolences.'
+                ];
+        
+                Mail::send('emails.user-notification-via-email', ['data' => $data, 'franchiseProposal' => $franchiseProposal], function($message) use ($data, $franchiseProposal) {
+                    $message->to($data['recipient'])
+                        ->from('adm.franchiseku@gmail.com', 'FranchiseKu Admin')
+                        ->subject('Your proposal to ' . $franchiseProposal->franchise->franchiseName . ' has been deleted!');
+                });
+                
+                $franchiseProposal->delete();
+            }
+    
+            $franchise->delete();
+    
+            $message = "Franchise has been deleted!";
+            return redirect('my.franchise')->with($message);
+        }
     }
 
     public function historyFranchise(Request $request){

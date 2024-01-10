@@ -1,501 +1,186 @@
-<?php
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-namespace App\Http\Controllers;
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>@yield('title')</title>
 
-use App\Models\EducationTransaction;
-use Illuminate\Http\Request;
-use App\Models\Education;
-use App\Models\EducationContent;
-use App\Models\EducationCategory;
-use App\Models\EducationContentRating;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
-use FFMpeg\FFMpeg;
-use FFMpeg\Coordinate\TimeCode;
-use Auth;
-use Illuminate\Support\Facades\File;
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700;800&family=Poppins:wght@100;200;300;400;500;600;700;800&family=Roboto:wght@100;300;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-class EducationController extends Controller
-{
-    public function AllEducation()
-    {
-        $educations = EducationContent::all();
+    <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
 
-        return view('admin.education.all_education', compact('educations'));
-    } // end method
+    {{-- Toaster --}}
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
 
-    public function AddEducation()
-    {
-        $educationCategories = EducationCategory::orderBy('educationCategory','ASC')->get();
+    <!-- Bootstrap Css -->
+    {{-- <link href="{{asset('backend/assets/css/bootstrap.min.css')}}" id="bootstrap-style" rel="stylesheet" type="text/css" /> --}}
 
-        return view('admin.education.add_education',compact('educationCategories'));
-    } // end method
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-    public function storeVideo(Request $req)
-    {
-        $video = $req->file('educationVideo');
-        $name_gen_vid =
-            hexdec(uniqid()) . '.' . $video->getClientOriginalExtension();
-        //resize image
+    @vite(['resources/css/app.css', 'resources/css/header.css', 'resources/css/footer.css', 'resources/js/app.js', 'resources/sass/app.scss'])
 
-        //specify desired directory path
-        $directory = 'upload/education/';
+    {{-- icon --}}
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="{{ asset('frontend/assets/css/fontawesome-all.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,100,0,-25" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-        $save_url_vid = $directory . $name_gen_vid;
+    {{-- AOS --}}
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-        dd($directory, $name_gen_vid, 'public');
+    {{-- google api --}}
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+</head>
 
-        //store video
-        EducationContent::updateOrCreate([
-            'educationVideo' => $save_url_vid,
-        ]);
-    }
+<body class="font-sans antialiased" onload="hideLoading();">
+    <div class="loading spinner-overlay">
+        <div class="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div class="min-h-screen bg-gray-100">
+        @include('layouts.guest_header')
 
-    public function PostEducation(Request $req)
-    {
-        $uploadedFiles = $req->file('educationVideo');
+        @vite('resources/css/auth.css')
+        <!-- Page Heading -->
+        @if (isset($header))
+            <header class="bg-white shadow">
+                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    {{ $header }}
+                </div>
+            </header>
+        @endif
 
-        // $this->storeVideo($req);
-        // dd($req);
+        <!-- Page Content -->
+        @yield('main') <!-- This is where the content will be injected -->
 
-        $customMessages = [
-            'educationTitle.required' => 'Education Title is Required!',
-            'educationDesc.required' => 'Education Description is Required!',
-            'educationShortDesc.required' =>
-                'Education Short Description is Required!',
-            'educationAuthor.required' => 'Education Author is Required!',
-            'educationPrice.required' => 'Education Price is Required!',
-            'educationPrice.integer' => 'Education Price must be an integer!',
-            'educationCategory.required' => 'Education Category is Required!',
-            // 'educationVideo.required' => 'Education Video is Required!',
-            'educationVideo.mimes' =>
-                'Education Video must be in one of the allowed formats (mp4, mov, avi, mkv, wmv).',
-            'educationThumbnail.required' => 'Education Thumbnail is Required!',
-            'educationThumbnail.image' =>
-                'Education Thumbnail must be a valid image file.',
-            'educationThumbnail.mimes' =>
-                'Education Thumbnail must be in one of the allowed image formats (jpeg, png, jpg, gif).',
-        ];
 
-        $validatedData = $req->validate(
-            [
-                'educationTitle' => 'required|string|max:255',
-                'educationDesc' => 'required|string',
-                'educationShortDesc' => 'required|string|max:255',
-                'educationAuthor' => 'required|string|max:255',
-                'educationCategory' => 'required|string|max:255',
-                'educationPrice' => 'required|integer',
-                'educationThumbnail' => 'required|image|mimes:jpeg,png,jpg,gif',
-                'educationVideo' => 'required|mimes:mp4,mov,avi,mkv,wmv',
-            ],
-            $customMessages
-        );
+        @include('components.footer')
+    </div>
 
-        //get category name
-        $education = EducationCategory::findOrFail(
-            $validatedData['educationCategory']
-        );
 
-        $image = $req->file('educationThumbnail');
-        $video = $req->file('educationVideo');
-        $name_gen_img =
-            hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
-        $name_gen_vid =
-            hexdec(uniqid()) . '.' . $video->getClientOriginalExtension();
 
-        //resize image
+    <script>
+        var baseUrl = "{{ asset('') }}";
 
-        //specify desired directory path
-        $directory = 'upload/education/';
+        // loading spinner
+        let fadeTarget = document.querySelector(".loading");
 
-        $save_url_img = $directory . $name_gen_img;
-        $save_url_vid = $directory . $name_gen_vid;
-
-        // Create the directory if it doesn't exist
-        if (!File::isDirectory($directory)) {
-            File::makeDirectory($directory);
+        function showLoading() {
+            fadeTarget.style.display = "block";
         }
 
-        //store image
-        Image::make($image)
-            ->resize(800, 450)
-            ->save(public_path($directory . $name_gen_img));
-
-        //store video
-        // $video->storeAs($directory,$name_gen_vid,'public');
-        $video->move(public_path($directory), $name_gen_vid);
-
-        EducationContent::insert([
-            'educationTitle' => $validatedData['educationTitle'],
-            'educationCategory' => $education->educationCategory,
-            'education_category_id' => $validatedData['educationCategory'],
-            'educationShortDesc' => $validatedData['educationShortDesc'],
-            'educationDesc' => $validatedData['educationDesc'],
-            'educationAuthor' => $validatedData['educationAuthor'],
-            'educationPrice' => $validatedData['educationPrice'],
-            'educationVideo' => $save_url_vid,
-            'educationThumbnail' => $save_url_img,
-            'created_at' => Carbon::now(),
-        ]);
-
-        $notification = [
-            'message' => 'Education Added Successfully',
-            'alert-type' => 'success',
-        ];
-
-        return redirect()
-            ->route('all.education')
-            ->with($notification);
-    } // end method
-
-    public function index(Request $request)
-    {
-        $educationCategories = EducationCategory::all();
-        $educations = EducationContent::all()->take(9);
-        
-        return view(
-            'educationContent',
-            compact('educationCategories', 'educations')
-        );
-    }
-
-    public function userAllEducation(Request $request)
-    {
-        $educationCategories = EducationCategory::all();
-
-        // GET PARAMETER VALUES
-        $categoryId = $request->input('category');
-        $minPrice = $request->input('minPrice');
-        $maxPrice = $request->input('maxPrice');
-        $rating = $request->input('rating');
-
-        // FILTER DATA
-        $queryEducation = EducationContent::query();
-
-        if ($categoryId !== null) {
-            $queryEducation->where('education_category_id', $categoryId);
-        }
-
-        if ($minPrice !== null) {
-            $queryEducation->where('educationPrice', '>=', $minPrice);
-        }
-
-        if ($maxPrice !== null) {
-            $queryEducation->where('educationPrice', '<=', $maxPrice);
-        }
-
-        if ($rating !== null) {
-            $queryEducation->where('educationRating', $rating);
-        }
-
-        // FETCH FILTERED DATA
-        $educations = $queryEducation->paginate(12);
-
-        return view(
-            'allEducationContent',
-            compact('educationCategories', 'educations')
-        );
-    }
-
-    public function search(Request $request)
-    {
-        $educationCategories = EducationCategory::all();
-        $educations = EducationContent::where(
-            'educationTitle',
-            'like',
-            '%' . $request->searchValue . '%'
-        )->paginate(9);
-
-        return view(
-            'educationContent',
-            compact('educationCategories', 'educations')
-        );
-    }
-
-    public function detail($id)
-    {
-        // GET EDUCATION CONTENT
-        $education = EducationContent::findOrFail($id);
-        $videoPublicPath = EducationContent::where('id', $id)->pluck('educationVideo');
-        $otherEducations = EducationContent::where('education_category_id', $education->education_category_id)->whereNot('id', $id)->limit(4)->get();
-        $averageRating = $education->educationRating;
-        $countingStars = floor($averageRating);
-
-        // GET VIDEO DURATION
-        $videoPath = public_path($videoPublicPath[0]);
-        $getID3 = new \getID3;
-        $file = $getID3->analyze($videoPath);
-        $duration_seconds = $file['playtime_seconds'];
-        $educationDuration = round(floatval($duration_seconds) / 60, 1);
-
-        // GET RATINGS
-        $ratings = EducationContentRating::where(['educationContentId' => $id,'rating' => 5,])->limit(5)->get();
-
-        //GET USER
-        $user = Auth::user();
-
-        // GET TRANSACTION COUNT
-        $transactionCount = EducationTransaction::where(['education_id'=>$education->id, 'transaction_status'=>'settlement'])->get()->count();
-
-        //GET USER TRANSACTION
-        if (!Auth::check()) {
-            $transaction = null;
-            $snapToken = null;
-            $transactionStatus = null;
-        } else {
-            $transaction = EducationTransaction::where(['userId'=> $user->id,'education_id'=>$education->id])->get();
-            $buttonMessage = '';
-
-            //GET SNAP TOKEN
-            // Set your Merchant Server Key
-            \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-            // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-            \Midtrans\Config::$isProduction = false;
-            // Set sanitization on (default)
-            \Midtrans\Config::$isSanitized = true;
-            // Set 3DS transaction for credit card to true
-            \Midtrans\Config::$is3ds = false;
-
-            $params = [
-                'transaction_details' => [
-                    'order_id' => rand(),
-                    'gross_amount' => $education->educationPrice,
-                ],
-                'customer_details' => [
-                    'first_name' => $user->name,
-                    'last_name' => '',
-                    'email' => $user->email,
-                    'phone' => $user->phoneNumber,
-                ],
-                'item_details' => [
-                    [
-                        'id' => 'a1',
-                        'price' => $education->educationPrice,
-                        'quantity' => 1,
-                        'name' => $education->educationTitle,
-                    ],
-                ],
-            ];
-
-            if($transaction->isEmpty()){
-                $transactionStatus = false;
-                $snapToken = \Midtrans\Snap::getSnapToken($params);
-                $buttonMessage = 'Purchase Content';
-                
-            }else{
-                if($transaction[$transaction->count()-1]->transaction_status == 'settlement'){
-                    $transactionStatus = true;
-                } else if($transaction[$transaction->count()-1]->transaction_status == 'pending') {
-                    $transactionStatus = false;
-                } else {
-                    $transactionStatus = false;
+        function hideLoading() {
+            fadeTarget.style.display = "none";
+            let fadeEffect = setInterval(() => {
+                if (!fadeTarget.style.opacity) {
+                    fadeTarget.style.opacity = 1;
                 }
-                $snapToken = $transaction[0]->snap_token;
-            }
 
-            //get transaction status
-        }
-
-        return view('educationDetail',
-            compact(
-                'education',
-                'educationDuration',
-                'otherEducations',
-                'averageRating',
-                'countingStars',
-                'ratings',
-                'snapToken',
-                'transaction',
-                'transactionStatus',
-                'transactionCount',
-            )
-        );
-    }
-
-    public function rateEducation(Request $request, $educationContentId)
-    {
-        if ($request->isMethod('POST')) {
-            if (!Auth::check()) {
-                $message = "Login to rate this content!";
-                return redirect()->back()->with('error', $message);
-            } else {
-                // VALIDATE FOR WHEN USER ALREADY RATED CONTENT
-                $ratingCount = EducationContentRating::where([
-                    'userId' => Auth::user()->id,
-                    'educationContentId' => $educationContentId,
-                ])->count();
-                if ($ratingCount > 0) {
-                    $message = "You have already rated this product!";
-                    return redirect()->back()->with('error', $message);
+                if (fadeTarget.style.opacity > 0) {
+                    fadeTarget.style.opacity -= 0.1;
                 } else {
-                    // DO SOME VALIDATION HERE YEA
-                    if ($request->rating == null || $request->rating == "") {
-                        $message = "You haven't given this content a rating!";
-                        return redirect()->back()->with('error', $message);
-                    } elseif (
-                        $request->ratingComment == null ||
-                        $request->ratingComment == ""
-                    ) {
-                        $message = "Give the content a comment first!";
-                        return redirect()->back()->with('error', $message);
-                    } else {
-                        // STORE THE RATING
-                        $rating = new EducationContentRating();
-                        $rating->userId = Auth::user()->id;
-                        $rating->educationContentId = $educationContentId;
-                        $rating->rating = $request->rating;
-                        $rating->comment = $request->ratingComment;
-                        $rating->save();
-
-                        // CALCULATE AVERAGE RATING AND STORE IT
-                        $averageRating = EducationContentRating::calculateAverageRating(
-                            $educationContentId
-                        );
-
-                        $education = EducationContent::findOrFail(
-                            $educationContentId
-                        );
-                        $education->educationRating = $averageRating;
-                        $education->save();
-
-                        $message = 'Rating submitted successfully.';
-                        return redirect()->back()->with('success', $message);
-                    }
+                    clearInterval(fadeEffect);
+                    fadeTarget.style.display = "none";
                 }
-            }
-        }
-    }
-
-    public function historyEducation(Request $request) {
-        if (!Auth::check()) {
-            $message = "Login to view history!";
-            return redirect()->back()->with('error', $message);
-        } else {
-            //get user
-            $user = Auth::user();
-
-            // get parameter values
-            $status = $request->input('status');
-            $startDate = $request->input('startDate');
-            $endDate = $request->input('endDate');
-
-            // filter data
-            // $queryEducationTransaction = EducationTransaction::query()->where('userId', $user->id)->orderBy('created_at','desc');
-            $latestEducationTransactions = EducationTransaction::query()
-                ->selectRaw('MAX(id) as id')
-                ->where('userId', $user->id)
-                ->groupBy('education_id');
-
-            $queryEducationTransaction = EducationTransaction::query()
-                ->whereIn('id', $latestEducationTransactions);
-            if ($status !== null) {
-                $queryEducationTransaction->where('transaction_status', $status);
-            }
-
-            if ($startDate !== null) {
-                $queryEducationTransaction->where('created_at', '>=', $startDate);
-            }
-
-            if ($endDate !== null) {
-                $queryEducationTransaction->where('created_at', '<=', $endDate);
-            }
-
-            // fetch filtered data
-            $educationTransactions = $queryEducationTransaction->paginate(4);
-
-            return view('historyEducation', compact('educationTransactions'));
-        }
-    }
-
-    public function searchHistory(Request $request) {
-        $educationTransactions = EducationTransaction::whereHas(
-            'educationContent', function ($query) use ($request) {
-                $query->where('educationTitle', 'like', '%' . $request->searchValue . '%');
-            }
-        )->paginate(4);
-
-        return view(
-            'historyEducation',
-            compact('educationTransactions')
-        );
-    }
-
-    public function EditEducation($id){
-        $education = EducationContent::findOrFail($id);
-         $educationCategories = EducationCategory::orderBy(
-            'educationCategory',
-            'ASC'
-        )->get();
-        return view('admin.education.edit_education',compact('education', 'educationCategories'));
-    }
-
-    public function UpdateEducation(Request $req){
-        $id = $req->id;
-        
-        $customMessages = [
-            'educationTitle.required' => 'Education Title is Required!',
-            'educationDesc.required' => 'Education Description is Required!',
-            'educationShortDesc.required' => 'Education Short Description is Required!',
-            'educationAuthor.required' => 'Education Author is Required!',
-            'educationPrice.required' => 'Education Price is Required!',
-            'educationPrice.integer' => 'Education Price must be an integer!',
-            'educationCategory.required' => 'Education Category is Required!',
-            'educationThumbnail.image' => 'Education Thumbnail must be a valid image file.',
-            'educationThumbnail.mimes' => 'Education Thumbnail must be in one of the allowed image formats (jpeg, png, jpg, gif).',
-            'educationVideo.mimes' => 'Education Video must be in one of the allowed formats (mp4, mov, avi, mkv, wmv).',
-        ];
-
-        $validatedData = $req->validate([
-            'educationTitle' => 'required|string|max:255',
-            'educationDesc' => 'required|string',
-            'educationShortDesc' => 'required|string|max:255',
-            'educationAuthor' => 'required|string|max:255',
-            'educationCategory' => 'required|string|max:255',
-            'educationPrice' => 'required|integer',
-            'educationThumbnail' => 'image|mimes:jpeg,png,jpg,gif',
-            'educationVideo' => 'mimes:mp4,mov,avi,mkv,wmv',
-        ], $customMessages);
-
-        $education = EducationContent::findOrFail($id);
-
-        // Update fields that are required
-        $education->educationTitle = $validatedData['educationTitle'];
-        $education->educationCategory = $validatedData['educationCategory'];
-        $education->education_category_id = $validatedData['educationCategory'];
-        $education->educationShortDesc = $validatedData['educationShortDesc'];
-        $education->educationDesc = $validatedData['educationDesc'];
-        $education->educationAuthor = $validatedData['educationAuthor'];
-        $education->educationPrice = $validatedData['educationPrice'];
-
-        // Update thumbnail if provided
-        if ($req->hasFile('educationThumbnail')) {
-            $image = $req->file('educationThumbnail');
-            $name_gen_img = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
-            $directory = 'upload/education/';
-            $save_url_img = $directory . $name_gen_img;
-            $education->educationThumbnail = $save_url_img;
-            Image::make($image)->resize(800, 450)->save(public_path($directory . $name_gen_img));
+            }, 100);
         }
 
-        // Update video if provided
-        if ($req->hasFile('educationVideo')) {
-            $video = $req->file('educationVideo');
-            $name_gen_vid = hexdec(uniqid()) . '.' . $video->getClientOriginalExtension();
-            $directory = 'upload/education/';
-            $save_url_vid = $directory . $name_gen_vid;
-            $education->educationVideo = $save_url_vid;
-            $video->move(public_path($directory), $name_gen_vid);
-        }
+        // capture scroll position
+        $('#franchise-category-btn').on('click', function(e) {
+            e.preventDefault();
+            var scrollPosition = $(window).scrollTop();
+            localStorage.setItem('scrollPosition', scrollPosition);
+            window.location.href = $(this).attr('href');
+        });
 
-        $education->save();
+        $(document).ready(function() {
+            // restore scroll position
+            var storedScrollPosition = localStorage.getItem('scrollPosition');
+            if (storedScrollPosition !== null) {
+                $(window).scrollTop(storedScrollPosition);
+                localStorage.removeItem('scrollPosition');
+            }
+        });
 
-        $notification = [
-            'message' => 'Education Updated Successfully',
-            'alert-type' => 'success',
-        ];
+        $(document).ready(function() {
+            $('#image').change(function(e) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#showImage').attr('src', e.target.result);
+                    console.log(e.target.result);
+                }
 
-        return redirect()->route('all.education')->with($notification);
-    }
+                reader.readAsDataURL(e.target.files['0']);
+            });
+        });
+    </script>
 
-}
+    {{-- Toaster --}}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        @if (Session::has('success'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.success("{{ session('success') }}");
+        @endif
+
+        @if (Session::has('error'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.error("{{ session('error') }}");
+        @endif
+
+        @if (Session::has('info'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.info("{{ session('info') }}");
+        @endif
+
+        @if (Session::has('warning'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.warning("{{ session('warning') }}");
+        @endif
+    </script>
+    <!-- @TODO: replace SET_YOUR_CLIENT_KEY_HERE with your client key -->
+    <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
+        data-client-key="SB-Mid-client-J4Z-FHwjy3wgTgEs"></script>
+    <!-- Note: replace with src="https://app.midtrans.com/snap/snap.js" for Production environment -->
+
+</body>
+
+</html>

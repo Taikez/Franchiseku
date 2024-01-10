@@ -40,38 +40,45 @@
                     </div>
                 </div>
                 <div class="d-flex flex-column">
-                    @if (Auth::check() && Auth::user()->id == $franchise->franchisePIC)
-                        @include('modals.editFranchiseModal')
-                        <button type="button" id="editFranchiseBtn" class="btn btn-info w-100 text-white rounded-pill mb-3"
-                            data-bs-toggle="modal" data-bs-target="#editFranchiseModal">Edit Franchise</button>
-                    @else
-                        @if ($franchise->isBought != 1 && Auth::check())
-                            @include('modals.sendProposalModal')
-                            <button type="button" id="sendProposalBtn"
-                                class="btn btn-info w-100 text-white rounded-pill mb-3" data-bs-toggle="modal"
-                                data-bs-target="#sendProposalModal">Send Proposal</button>
-                            <a class="btn btn-warning text-white rounded-pill mb-3"
-                                href="/chat/{{ $franchise->franchisePIC }}" target="_blank">Send Message</a>
-                            <a id="downloadFranchiseReportBtn" class="btn btn-light w-100 rounded-pill border border-1"
-                                href="{{ asset($franchise->franchiseReport) }}"
-                                download="Report {{ $franchise->franchiseName }}-{{ $franchise->franchiseReport }}">Download
-                                Franchise Report</a>
+                    @if (Auth::check())
+                        @if (Auth::user()->id == $franchise->franchisePIC)
+                            @if ($franchise->isBought != 1)
+                                @include('modals.editFranchiseModal')
+                                <button type="button" id="editFranchiseBtn"
+                                    class="btn btn-info w-100 text-white rounded-pill mb-3" data-bs-toggle="modal"
+                                    data-bs-target="#editFranchiseModal">Edit Franchise</button>
+                            @else
+                                <p>Bought by <br> <b>{{ $franchise->user->email }}</b></p>
+                            @endif
                         @else
-                            @if (Auth::check() && Auth::user()->id == $franchise->boughtBy)
-                                @include('modals.rateFranchiseModal')
-                                <div>
-                                    <button type="button" id="rateFranchiseBtn"
-                                        class="btn w-100 text-white rounded-pill mt-3 mb-2" data-bs-toggle="modal"
-                                        data-bs-target="#rateFranchiseModal">Rate
-                                        Franchise</button>
-                                </div>
-                                <a id="downloadFranchiseReportBtn" class="btn btn-light w-100 rounded-pill border border-1"
-                                    href="{{ asset($franchise->franchiseReport) }}"
-                                    download="Report {{ $franchise->franchiseName }}-{{ $franchise->franchiseReport }}">Download
-                                    Franchise Report</a>
+                            @if ($franchise->isBought != 1)
+                                @include('modals.sendProposalModal')
+                                <button type="button" id="sendProposalBtn"
+                                    class="btn btn-info w-100 text-white rounded-pill mb-3" data-bs-toggle="modal"
+                                    data-bs-target="#sendProposalModal">Send Proposal</button>
+                                <a class="btn btn-warning text-white rounded-pill mb-3"
+                                    href="/chat/{{ $franchise->franchisePIC }}" target="_blank">Send Message</a>
+                            @else
+                                @if (Auth::user()->id == $franchise->boughtBy)
+                                    @include('modals.rateFranchiseModal')
+                                    <div>
+                                        <button type="button" id="rateFranchiseBtn"
+                                            class="btn w-100 text-white rounded-pill mt-3 mb-2" data-bs-toggle="modal"
+                                            data-bs-target="#rateFranchiseModal">Rate
+                                            Franchise</button>
+                                    </div>
+                                @endif
                             @endif
                         @endif
+                    @else
+                        <a id="loginToSendProposal" href="{{ route('login') }}"
+                            class="btn btn-info w-100 text-white rounded-pill mb-3">Login to send proposal to
+                            franchise</button>
                     @endif
+                    <a id="downloadFranchiseReportBtn" class="btn btn-light w-100 rounded-pill border border-1"
+                        href="{{ asset($franchise->franchiseReport) }}"
+                        download="Report {{ $franchise->franchiseName }}-{{ $franchise->franchiseReport }}">Download
+                        Franchise Report</a>
                 </div>
             </div>
         </div>

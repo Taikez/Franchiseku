@@ -22,9 +22,9 @@
             </div>
 
             <div id="right-content" class="col-lg-5 col-md-5 col-sm-12 py-5 px-3">
-                <div id="thumbnail-container" class="rounded" data-aos="fade" data-aos-duration="800">
+                <div id="thumbnail-container" class="rounded text-center" data-aos="fade" data-aos-duration="800">
                     @if (auth()->user() && $transactionStatus == true)
-                        <video width="640" height="360" controls>
+                        <video width="90%" controls>
                             <source src="{{ asset($education->educationVideo) }}" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
@@ -62,10 +62,9 @@
                         <div class="row">
                             @if (!auth()->user())
                                 <div>
-                                    <button type="button" id="loginToPurchaseBtn"
-                                        class="btn w-50 text-white rounded-pill mt-3 mb-2"
+                                    <a id="loginToPurchaseBtn" class="btn w-50 text-white rounded-pill mt-3 mb-2"
                                         href="{{ route('login') }}">Login to Purchase
-                                        Content</button>
+                                        Content</a>
                                 </div>
                             @elseif (auth()->user() && $transactionStatus == true)
                                 @include('modals.rateEducationContentModal')

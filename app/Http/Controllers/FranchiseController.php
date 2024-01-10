@@ -33,102 +33,110 @@ class FranchiseController extends Controller
 
 
     public function RegisterFranchise(){
-        $user = Auth::user();
-        $allFranchiseCategory = FranchiseCategory::orderBy('franchiseCategory','asc')->get();
-        return view("franchisor.add_franchise", compact('user','allFranchiseCategory'));
+         if (!Auth::check()) {
+                $message = "Login to view history!";
+                return redirect()->back()->with('error', $message);
+        } else {
+            $user = Auth::user();
+            $allFranchiseCategory = FranchiseCategory::orderBy('franchiseCategory','asc')->get();
+            return view("franchisor.add_franchise", compact('user','allFranchiseCategory'));
+        }
     }
 
     public function StoreFranchise(Request $req){
-        // dd($req->all());
+         if (!Auth::check()) {
+                $message = "Login to add franchise!";
+                return redirect()->back()->with('error', $message);
+        } else {
+            // Validate the form data
+            $validatedData = $req->validate([
+                'franchiseName' => 'required|string|max:255',
+                'franchiseLocation' => 'required|string|max:255',
+                'franchiseCategory' => 'required|string|max:20',
+                'franchiseDesc' => 'required|string',
+                'franchisePrice' => 'required|integer',
+                'franchiseReport' => 'required|file|mimes:pdf,doc,docx,xls,xlsx,zip',
+                'franchiseLogo' => 'required|image|mimes:jpeg,jpg,png',
+            ], [
+                'franchiseName.required' => 'Franchise name is required.',
+                'franchiseName.string' => 'Franchise name must be a string.',
+                'franchiseName.max' => 'Franchise name should not exceed 255 characters.',
+                
+                'franchiseLocation.required' => 'Franchise location is required.',
+                'franchiseLocation.string' => 'Franchise location must be a string.',
+                'franchiseLocation.max' => 'Franchise location should not exceed 255 characters.',
+                
+                'franchiseCategory.required' => 'Franchise category is required.',
+                
+                'franchiseDesc.required' => 'Franchise description is required',
 
-        // Validate the form data
-        $validatedData = $req->validate([
-            'franchiseName' => 'required|string|max:255',
-            'franchiseLocation' => 'required|string|max:255',
-            'franchiseCategory' => 'required|string|max:20',
-            'franchiseDesc' => 'required|string',
-            'franchisePrice' => 'required|integer',
-            'franchiseReport' => 'required|file|mimes:pdf,doc,docx,xls,xlsx,zip',
-            'franchiseLogo' => 'required|image|mimes:jpeg,jpg,png',
-        ], [
-            'franchiseName.required' => 'Franchise name is required.',
-            'franchiseName.string' => 'Franchise name must be a string.',
-            'franchiseName.max' => 'Franchise name should not exceed 255 characters.',
-            
-            'franchiseLocation.required' => 'Franchise location is required.',
-            'franchiseLocation.string' => 'Franchise location must be a string.',
-            'franchiseLocation.max' => 'Franchise location should not exceed 255 characters.',
-            
-            'franchiseCategory.required' => 'Franchise category is required.',
-            
-            'franchiseDesc.required' => 'Franchise description is required',
-
-            'franchisePrice.required' => 'Franchise price is required.',
-            'franchisePrice.integer' => 'Franchise price must be an integer.',
-            
-            'franchiseReport.required' => 'Franchise report is required.',
-            'franchiseReport.file' => 'Franchise report must be a file.',
-            'franchiseReport.mimes' => 'Franchise report must be in PDF, Word, Excel, or ZIP format.',
-            
-            'franchiseLogo.required' => 'Franchise logo is required.',
-            'franchiseLogo.image' => 'Franchise logo must be an image.',
-            'franchiseLogo.mimes' => 'Franchise logo must be in JPEG, JPG, or PNG format.',
-       
-        ]);
-
-        // dd($validatedData);
-
-        $franchiseReport = $req->file('franchiseReport');
-        $name_gen_report = hexdec(uniqid()). '.' . $franchiseReport->getClientOriginalExtension();
-        $directoryReport = 'upload/FranchiseReport/';
-        $saveReportUrl = $directoryReport . $name_gen_report; 
-
-        $franchiseLogo = $req->file('franchiseLogo');
-        $name_gen_logo = hexdec(uniqid()). '.' . $franchiseLogo->getClientOriginalExtension();
-        $directory = 'upload/FranchiseLogo/';
-        $saveLogoUrl = $directory . $name_gen_logo; 
-
-
-        //get user
-        $userId = Auth::id();
-        $username = Auth::user()->name;
-
-         // Create the directory if it doesn't exist
-        if (!File::isDirectory($directoryReport)) {
-            File::makeDirectory($directoryReport);
-        }
-
-          // Create the directory if it doesn't exist
-        if (!File::isDirectory($directory)) {
-            File::makeDirectory($directory);
-        }
-
-        //save to directory
-        $franchiseReport->move($directoryReport, $name_gen_report);
-
-        //store image
-        Image::make($franchiseLogo)->resize(800,450)->save(public_path($directory . $name_gen_logo));
-
-        //get franchise category name
-        $franchiseCategory = FranchiseCategory::findOrFail($validatedData['franchiseCategory'])->franchiseCategory;
-
-        Franchise::insert([
-            'franchiseName' => $validatedData['franchiseName'],
-            'franchiseLocation' => $validatedData['franchiseLocation'],
-            'franchiseCategory' => $franchiseCategory,
-            'franchiseDesc' => $validatedData['franchiseDesc'],
-            'franchisePrice' => $validatedData['franchisePrice'], 
-            'franchiseReport' => $saveReportUrl,
-            'franchiseDesc' => $req->franchiseDesc,
-            'franchisePIC' => $userId,
-            'franchisePICName' => $username,
-            'franchiseLogo' => $saveLogoUrl,
-            'franchise_category_id' => $validatedData['franchiseCategory'],
-            'status' => 'Requested',
-            'created_at' => Carbon::now(),
-        ]);
+                'franchisePrice.required' => 'Franchise price is required.',
+                'franchisePrice.integer' => 'Franchise price must be an integer.',
+                
+                'franchiseReport.required' => 'Franchise report is required.',
+                'franchiseReport.file' => 'Franchise report must be a file.',
+                'franchiseReport.mimes' => 'Franchise report must be in PDF, Word, Excel, or ZIP format.',
+                
+                'franchiseLogo.required' => 'Franchise logo is required.',
+                'franchiseLogo.image' => 'Franchise logo must be an image.',
+                'franchiseLogo.mimes' => 'Franchise logo must be in JPEG, JPG, or PNG format.',
         
-        return redirect()->back()->with('success', 'Franchise registered successfully, please wait for your approval!');
+            ]);
+
+            // dd($validatedData);
+
+            $franchiseReport = $req->file('franchiseReport');
+            $name_gen_report = hexdec(uniqid()). '.' . $franchiseReport->getClientOriginalExtension();
+            $directoryReport = 'upload/FranchiseReport/';
+            $saveReportUrl = $directoryReport . $name_gen_report; 
+
+            $franchiseLogo = $req->file('franchiseLogo');
+            $name_gen_logo = hexdec(uniqid()). '.' . $franchiseLogo->getClientOriginalExtension();
+            $directory = 'upload/FranchiseLogo/';
+            $saveLogoUrl = $directory . $name_gen_logo; 
+
+
+            //get user
+            $userId = Auth::id();
+            $username = Auth::user()->name;
+
+            // Create the directory if it doesn't exist
+            if (!File::isDirectory($directoryReport)) {
+                File::makeDirectory($directoryReport);
+            }
+
+            // Create the directory if it doesn't exist
+            if (!File::isDirectory($directory)) {
+                File::makeDirectory($directory);
+            }
+
+            //save to directory
+            $franchiseReport->move($directoryReport, $name_gen_report);
+
+            //store image
+            Image::make($franchiseLogo)->resize(800,450)->save(public_path($directory . $name_gen_logo));
+
+            //get franchise category name
+            $franchiseCategory = FranchiseCategory::findOrFail($validatedData['franchiseCategory'])->franchiseCategory;
+
+            Franchise::insert([
+                'franchiseName' => $validatedData['franchiseName'],
+                'franchiseLocation' => $validatedData['franchiseLocation'],
+                'franchiseCategory' => $franchiseCategory,
+                'franchiseDesc' => $validatedData['franchiseDesc'],
+                'franchisePrice' => $validatedData['franchisePrice'], 
+                'franchiseReport' => $saveReportUrl,
+                'franchiseDesc' => $req->franchiseDesc,
+                'franchisePIC' => $userId,
+                'franchisePICName' => $username,
+                'franchiseLogo' => $saveLogoUrl,
+                'franchise_category_id' => $validatedData['franchiseCategory'],
+                'status' => 'Requested',
+                'created_at' => Carbon::now(),
+            ]);
+            
+            return redirect()->back()->with('success', 'Franchise registered successfully, please wait for your approval!');
+        }
     }
 
     public function ApproveFranchise($id){

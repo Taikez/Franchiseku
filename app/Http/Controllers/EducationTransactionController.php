@@ -46,16 +46,15 @@ class EducationTransactionController extends Controller
     public function PostTransaction(Request $req)
     {
         $json = json_decode($req->paymentJSON);
+     
         //get user
-        // dd($json);
         $user = Auth::user();
-
         $pdfUrl = isset($json->pdf_url) ? $json->pdf_url : null;
-        $paymentCode = isset($json->payment_code) ? $json->payment_code : null;
-
+        
         //get education
         // $education = Education::findOrFail($json->education_id);
 
+        $paymentCode = isset($json->payment_code) ? $json->payment_code : null;
         EducationTransaction::insert([
             'paymentType' => $json->payment_type,
             'transaction_id' => $json->transaction_id,
@@ -74,14 +73,26 @@ class EducationTransactionController extends Controller
             'email' => $user->email,
             'created_at' => Carbon::now(),
         ]);
-
+      
         //nanti munculin success modal
-        $notification = [
-            'message' => 'Payment Success',
-            'alert-type' => 'success',
-        ];
-        return redirect()
-            ->back()
-            ->with($notification);
+        $message = '';
+        if($json->transaction_status == 'settlement') {
+            $message = 'Payment success! Enjoy your education content!';
+            return redirect()->back()->with('success', $message);
+
+        } else if($json->transaction_status == 'pending') {
+            $message = 'Payment pending! Please finish your payment!';
+            return redirect()->back()->with('warning', $message);
+
+        } else if($json->transaction_status == 'expire') {
+            $message = 'Payment expired! Please retry your payment!';
+            return redirect()->back()->with('error', $message);
+            
+        } else if($json->transaction_status == 'failure') {
+            $message = 'Payment failed! Please retry your payment!';
+            return redirect()->back()->with('error', $message);
+            
+        }
+
     }
 }

@@ -6,7 +6,7 @@ node_modules
 /public/upload
 /storage/*.key
 /vendor
-.env
+/.env
 .env.backup
 .env.production
 .phpunit.result.cache

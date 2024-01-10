@@ -94,6 +94,8 @@ Route::controller(EducationController::class)->group(function(){
     Route::get('/education', 'index')->name('education.index');
     Route::get('/education/all', 'userAllEducation')->name('education.all');
     Route::post('/education/search', 'search')->name('education.search');
+    Route::get('/education/owned', 'ownedEducation')->name('education.owned');
+    Route::post('/education/owned/search', 'ownedEducationSearch')->name('education.owned.search');
     Route::get('/education/detail/{id}','detail')->name('education.detail');
     Route::get('/education/ratingView', 'ratingView');
     Route::post('/education/{id}/rate', 'rateEducation')->name('education.rate');

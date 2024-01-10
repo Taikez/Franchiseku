@@ -62,7 +62,8 @@
                                                         <i class="fas fa-book-reader text-white"></i>
                                                     </a>
                                                     <a href="{{ route('delete.franchise', $item->id) }}"
-                                                        class="btn btn-danger btn-sm" title="Delete News" id="delete">
+                                                        class="btn btn-danger btn-sm" title="Delete Franchise"
+                                                        id="delete">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </a>
                                                 </td>

@@ -62,10 +62,9 @@
                         <div class="row">
                             @if (!auth()->user())
                                 <div>
-                                    <button type="button" id="loginToPurchaseBtn"
-                                        class="btn w-50 text-white rounded-pill mt-3 mb-2"
+                                    <a id="loginToPurchaseBtn" class="btn w-50 text-white rounded-pill mt-3 mb-2"
                                         href="{{ route('login') }}">Login to Purchase
-                                        Content</button>
+                                        Content</a>
                                 </div>
                             @elseif (auth()->user() && $transactionStatus == true)
                                 @include('modals.rateEducationContentModal')

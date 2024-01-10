@@ -318,7 +318,7 @@ class EducationController extends Controller
         if ($request->isMethod('POST')) {
             if (!Auth::check()) {
                 $message = "Login to rate this content!";
-                return redirect()->back()->with('error', $message);
+                return redirect('login')->with('error', $message);
             } else {
                 // VALIDATE FOR WHEN USER ALREADY RATED CONTENT
                 $ratingCount = EducationContentRating::where([
@@ -370,7 +370,7 @@ class EducationController extends Controller
     public function historyEducation(Request $request) {
         if (!Auth::check()) {
             $message = "Login to view history!";
-            return redirect()->back()->with('error', $message);
+            return redirect('login')->with('error', $message);
         } else {
             //get user
             $user = Auth::user();
@@ -498,4 +498,69 @@ class EducationController extends Controller
         return redirect()->route('all.education')->with($notification);
     }
 
+    public function ownedEducation(Request $request) {
+        if(!Auth::check()) {
+            $message = "You have to login to view owned education content";
+            return redirect()->route('login')->with($message);
+
+        } else {
+            $educationCategories = EducationCategory::all();
+
+            // GET PARAMETER VALUES
+            $categoryId = $request->input('category');
+            $minPrice = $request->input('minPrice');
+            $maxPrice = $request->input('maxPrice');
+            $rating = $request->input('rating');
+
+            $user = Auth::user();
+            $educationTransaction = EducationTransaction::where(['userId' => $user->id, 'transaction_status' => 'settlement'])->get();
+            
+            $educationIds = [];
+            foreach ($educationTransaction as $transaction) {
+                $educationIds[] = $transaction->education_id;
+            }
+            
+            // FILTER DATA
+            $queryOwnedEducation = EducationContent::query()->whereIn('id', $educationIds);
+            
+            if ($categoryId !== null) {
+                $queryOwnedEducation->where('education_category_id', $categoryId);
+            }
+
+            if ($minPrice !== null) {
+                $queryOwnedEducation->where('educationPrice', '>=', $minPrice);
+            }
+
+            if ($maxPrice !== null) {
+                $queryOwnedEducation->where('educationPrice', '<=', $maxPrice);
+            }
+
+            if ($rating !== null) {
+                $queryOwnedEducation->where('educationRating', $rating);
+            }
+
+            $ownedEducations = $queryOwnedEducation->paginate(12);
+            return view('ownedEducationContent', compact('educationCategories', 'ownedEducations'));
+        }
+    }
+    
+    public function ownedEducationSearch(Request $request) {
+        $user = Auth::user();
+        $educationCategories = EducationCategory::all();
+        $educationTransaction = EducationTransaction::where(['userId' => $user->id, 'transaction_status' => 'settlement'])->get();
+            
+        $educationIds = [];
+        foreach ($educationTransaction as $transaction) {
+            $educationIds[] = $transaction->education_id;
+        }
+
+        $ownedEducations = EducationContent::where(
+            'educationTitle',
+            'like',
+            '%' . $request->searchValue . '%'
+        )->whereIn('id', $educationIds)
+        ->paginate(9);
+
+        return view('ownedEducationContent', compact('educationCategories', 'ownedEducations'));
+    }
 }

@@ -94,6 +94,8 @@ Route::controller(EducationController::class)->group(function(){
     Route::get('/education', 'index')->name('education.index');
     Route::get('/education/all', 'userAllEducation')->name('education.all');
     Route::post('/education/search', 'search')->name('education.search');
+    Route::get('/education/owned', 'ownedEducation')->name('education.owned');
+    Route::post('/education/owned/search', 'ownedEducationSearch')->name('education.owned.search');
     Route::get('/education/detail/{id}','detail')->name('education.detail');
     Route::get('/education/ratingView', 'ratingView');
     Route::post('/education/{id}/rate', 'rateEducation')->name('education.rate');
@@ -127,6 +129,7 @@ Route::controller(FranchiseController::class)->group(function(){
     Route::get('/dashboard/registerFranchise','RegisterFranchise')->middleware('franchisor')->name('dashboard.register.franchise');
     Route::post('/send/proposal/{id}','sendProposal')->name('send.proposal');
     Route::post('/franchise/edit/{id}','editFranchise')->middleware('franchisor')->name('edit.franchise');
+    Route::get('/franchise/delete/{id}','deleteFranchise')->name('delete.franchise');
     Route::get('/franchise/history','historyFranchise')->name('history.franchise');
     Route::post('/franchise/history/search', 'searchHistory')->name('history.franchise.search');
     Route::get('/franchise/proposal/requests','franchiseProposalRequest')->middleware('franchisor')->name('proposal.franchise');

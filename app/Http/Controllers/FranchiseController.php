@@ -158,9 +158,8 @@ class FranchiseController extends Controller
 
         $allFranchise = Franchise::where('franchisePIC',$userId)->orderBy('created_at','desc')->get();
         $franchiseCategories = FranchiseCategory::all();
-        $myFranchise = true;
 
-        return view('franchise.franchise', compact('allFranchise','franchiseCategories', 'myFranchise'));
+        return view('franchisor.my_franchise', compact('allFranchise','franchiseCategories'));
     }
     
 
@@ -205,12 +204,11 @@ class FranchiseController extends Controller
 
         $allFranchise = $queryAllFranchise->paginate(12);
         $franchiseCategories = FranchiseCategory::all();
-        $myFranchise = false;
 
-        return view('franchise.franchise', compact('allFranchise','franchiseCategories', 'myFranchise'));
+        return view('franchise.franchise', compact('allFranchise','franchiseCategories'));
     }
 
-    public function browseAllFranchise(Request $request){
+    public function browseAllFranchise(Request $request) {
         // GET PARAMETER VALUES
         $categoryId = $request->input('category');
         $minPrice = $request->input('minPrice');
@@ -242,22 +240,19 @@ class FranchiseController extends Controller
 
         $allFranchise = $queryAllFranchise->paginate(12);
         $franchiseCategories = FranchiseCategory::all();
-        $myFranchise = false;
 
-        return view('franchise.allFranchise', compact('allFranchise','franchiseCategories', 'myFranchise'));
+        return view('franchise.allFranchise', compact('allFranchise','franchiseCategories'));
     }
 
-    public function FranchiseByCategory($categoryId){
+    public function FranchiseByCategory($categoryId) {
         $franchise = Franchise::where('franchiseCategoryId', $categoryId)->latest()->limit(4)->get();
         $categories = FranchiseCategory::all();
         $latestFranchise = Franchise::latest()->limit(4)->get();
-        $myFranchise = false;
 
-        return view('franchise.franchise', compact('categories','latestFranchise','franchise', 'myFranchise'));
+        return view('franchise.franchise', compact('categories','latestFranchise','franchise'));
     }
 
-    public function detail($id)
-    {
+    public function detail($id) {
         // GET USER
         $user = Auth::user();
 
@@ -270,40 +265,44 @@ class FranchiseController extends Controller
         // GET RATINGS 
         $ratings = FranchiseRating::where(['franchiseId' => $id, 'rating' => 5])->limit(5)->get();
 
-        if($franchise->status != 'Approved' && $user->id != $franchise->franchisePIC)
-        {
+        if($franchise->status != 'Approved' && $user->id != $franchise->franchisePIC) {
             abort(404);
         }
         
-        else
-        {
+        else {
             return view('franchise.franchiseDetail', compact('franchise', 'otherFranchise', 'ratings','franchisor', 'allFranchiseCategory'));
         }
     }
 
-    public function sendProposal(Request $request, $franchiseId)
-    {
+    public function sendProposal(Request $request, $franchiseId) {
         // get user
         $user = Auth::user(); 
 
-        if(!Auth::check())
-        {
+        if(!Auth::check()) {
             $message = "Login to send a proposal!";
             return redirect()->back()->with('error', $message);
         }
 
-        else
-        {
+        else {
             // validation for when user has sent a proposal before
-            $franchiseProposalBasedOnUser = FranchiseProposal::where(['user_id' => $user->id, 'franchise_id' => $franchiseId]);
-            if($franchiseProposalBasedOnUser->count() > 0)
-            {
-                $message = 'You have already sent a proposal to this franchise!';
-                return redirect()->back()->with('error', $message);
+            $franchiseProposalBasedOnUser = FranchiseProposal::where([
+                ['user_id', '=', $user->id],
+                ['franchise_id', '=', $franchiseId],
+                ['status', '<>', 'Rejected'],
+            ]);
+
+            if($franchiseProposalBasedOnUser->count() > 0) {
+                if($franchiseProposalBasedOnUser->status === 'Approved') {
+                    $message = 'Your proposal has already been approved by the franchisor!';
+                    return redirect()->back()->with('error', $message);
+
+                } else {
+                    $message = 'You have already sent a proposal to this franchise!';
+                    return redirect()->back()->with('error', $message);
+                }
             }
             
-            else
-            {
+            else {
                 $customMessages = [
                     'proposalFile.required' => 'Proposal is Required!',
                     'proposalFile.mimes' => 'Proposal must be in one of the allowed file formats above.',
@@ -321,8 +320,7 @@ class FranchiseController extends Controller
                 $directory = 'upload/franchiseProposal/';
                 $save_url_proposal = $directory . $name_gen_proposal;
                 
-                if (!File::isDirectory($directory)) 
-                {
+                if (!File::isDirectory($directory)) {
                     File::makeDirectory($directory);
                 }
         
@@ -341,8 +339,30 @@ class FranchiseController extends Controller
                     'created_at' => Carbon::now(),
                 ]);
                 
-                // send message to user
                 $franchise = Franchise::find($franchiseId);
+                $franchisor = $franchise->franchisor;
+
+                // send message to franchisor
+                $data = [
+                    'recipient' => $franchisor->email,
+                    'fromName' => $franchisor->name,
+                    'userEmail' => $user->email,
+                    'link' => route('proposal.franchise'),
+                ];
+
+                // Mail::send('emails.user-notification-via-email', ['data' => $data], function($message) use ($data, $franchise) {
+                //     $message->to($data['recipient'])
+                //         ->from('adm.franchiseku@gmail.com', 'FranchiseKu Admin')
+                //         ->subject('You have a proposal request!');
+                // });
+
+                Mail::send('emails.notify-franchisor-via-email', ['data' => $data], function ($message) use ($data, $franchise) {
+                    $message->to($data['recipient'])
+                        ->from('adm.franchiseku@gmail.com', 'FranchiseKu Admin')
+                        ->subject('You have a proposal request!');
+                });
+
+                // send message to proposer
                 $data = [
                     'recipient' => $user->email,
                     'fromName' => $user->name,
@@ -361,203 +381,234 @@ class FranchiseController extends Controller
         }
     }
 
-    public function deleteFile($directory)
-    {
-        if (file_exists(public_path($directory))) 
-        {
+    public function deleteFile($directory) {
+        if (file_exists(public_path($directory))) {
              unlink(public_path($directory));
         }
     }
 
-    public function editFranchise(Request $req, $franchiseId)
-    {
+    public function editFranchise(Request $req, $franchiseId) {
         // Find franchise
         $franchise = Franchise::find($franchiseId);
 
-        // Validate data
-        $validatedData = $req->validate([
-            'franchiseName' => 'required|string|max:255',
-            'franchiseLocation' => 'required|string|max:255',
-            'franchiseCategory' => 'required|string|max:20',
-            'franchisePrice' => 'required|integer',
-            'franchiseReport' => 'file|mimes:pdf,doc,docx,xls,xlsx,zip',
-            'franchiseLogo' => 'image|mimes:jpeg,jpg,png',
-            'franchiseDesc' => 'required|string'
-        ], 
-        [
-            'franchiseName.required' => 'Franchise name is required.',
-            'franchiseName.string' => 'Franchise name must be a string.',
-            'franchiseName.max' => 'Franchise name should not exceed 255 characters.',
+        if($franchise->isBought == 1) {
+            $message = "Unable to edit! Franchise has been bought!";
+            return redirect(route('franchise.detail'))->with('success', $message);
+
+        } else {
+            // Validate data
+            $validatedData = $req->validate([
+                'franchiseName' => 'required|string|max:255',
+                'franchiseLocation' => 'required|string|max:255',
+                'franchiseCategory' => 'required|string|max:20',
+                'franchisePrice' => 'required|integer',
+                'franchiseReport' => 'file|mimes:pdf,doc,docx,xls,xlsx,zip',
+                'franchiseLogo' => 'image|mimes:jpeg,jpg,png',
+                'franchiseDesc' => 'required|string'
+            ], 
+            [
+                'franchiseName.required' => 'Franchise name is required.',
+                'franchiseName.string' => 'Franchise name must be a string.',
+                'franchiseName.max' => 'Franchise name should not exceed 255 characters.',
+                
+                'franchiseLocation.required' => 'Franchise location is required.',
+                'franchiseLocation.string' => 'Franchise location must be a string.',
+                'franchiseLocation.max' => 'Franchise location should not exceed 255 characters.',
+                
+                'franchiseCategory.required' => 'Franchise category is required.',
+                
+                'franchisePrice.required' => 'Franchise price is required.',
+                'franchisePrice.integer' => 'Franchise price must be an integer.',
+    
+                'franchiseReport.file' => 'Franchise report must be a file.',
+                'franchiseReport.mimes' => 'Franchise report must be in PDF, Word, Excel, or ZIP format.',
+    
+                'franchiseLogo.image' => 'Franchise logo must be an image.',
+                'franchiseLogo.mimes' => 'Franchise logo must be in JPEG, JPG, or PNG format.',
             
-            'franchiseLocation.required' => 'Franchise location is required.',
-            'franchiseLocation.string' => 'Franchise location must be a string.',
-            'franchiseLocation.max' => 'Franchise location should not exceed 255 characters.',
-            
-            'franchiseCategory.required' => 'Franchise category is required.',
-            
-            'franchisePrice.required' => 'Franchise price is required.',
-            'franchisePrice.integer' => 'Franchise price must be an integer.',
-
-            'franchiseReport.file' => 'Franchise report must be a file.',
-            'franchiseReport.mimes' => 'Franchise report must be in PDF, Word, Excel, or ZIP format.',
-
-            'franchiseLogo.image' => 'Franchise logo must be an image.',
-            'franchiseLogo.mimes' => 'Franchise logo must be in JPEG, JPG, or PNG format.',
-       
-            'franchiseDesc.required' => 'Franchise Description '
-        ]);
-
-        //get franchise category name
-        $franchiseCategory = FranchiseCategory::findOrFail($validatedData['franchiseCategory'])->franchiseCategory;
-
-        // get franchise report & logo
-        $franchiseReport = $req->file('franchiseReport');
-        $franchiseLogo = $req->file('franchiseLogo');
-       
-        //get user
-        $userId = Auth::id();
-        $username = Auth::user()->name;
-
-        // edit without franchise report & logo
-        if($franchiseReport == null && $franchiseLogo == null)
-        {
-            // update database without franchise report & logo
-            $franchise->update([
-                'franchiseName' => $validatedData['franchiseName'],
-                'franchiseLocation' => $validatedData['franchiseLocation'],
-                'franchiseCategory' => $franchiseCategory,
-                'franchisePrice' => $validatedData['franchisePrice'], 
-                'franchisePIC' => $userId,
-                'franchisePICName' => $username,
-                'franchise_category_id' => $validatedData['franchiseCategory'],
-                'status' => 'Requested',
-                'created_at' => Carbon::now(),
+                'franchiseDesc.required' => 'Franchise Description '
             ]);
-        }
-
-        // edit without franchise report
-        else if($franchiseReport == null)
-        {
-            // delete old logo
-            $currentLogoUrl = $franchise->franchiseLogo;
-            $this->deleteFile($currentLogoUrl);
+    
+            //get franchise category name
+            $franchiseCategory = FranchiseCategory::findOrFail($validatedData['franchiseCategory'])->franchiseCategory;
+    
+            // get franchise report & logo
+            $franchiseReport = $req->file('franchiseReport');
+            $franchiseLogo = $req->file('franchiseLogo');
             
-            // Update franchise logo
-            $name_gen_logo = hexdec(uniqid()). '.' . $franchiseLogo->getClientOriginalExtension();
-            $directoryLogo = 'upload/FranchiseLogo/';
-            $saveLogoUrl = $directoryLogo . $name_gen_logo; 
-
-            // create logo directory if it doesn't exist
-            if (!File::isDirectory($directoryLogo)) {
-                File::makeDirectory($directoryLogo);
-            }
-          
-            //save logo to directory
-            Image::make($franchiseLogo)->resize(800,450)->save(public_path($directoryLogo . $name_gen_logo));
-
-            // update database without franchise report
-            $franchise->update([
-                'franchiseName' => $validatedData['franchiseName'],
-                'franchiseLocation' => $validatedData['franchiseLocation'],
-                'franchiseCategory' => $franchiseCategory,
-                'franchisePrice' => $validatedData['franchisePrice'], 
-                'franchisePIC' => $userId,
-                'franchisePICName' => $username,
-                'franchiseLogo' => $saveLogoUrl,
-                'franchise_category_id' => $validatedData['franchiseCategory'],
-                'status' => 'Requested',
-                'created_at' => Carbon::now(),
-            ]);
-        }
-
-        // edit without franchise logo
-        else if($franchiseLogo == null)
-        {
-            // delete old report
-            $currentReportUrl = $franchise->franchiseReport;
-            $this->deleteFile($currentReportUrl);
-
-            // update franchise report
-            $name_gen_report = hexdec(uniqid()). '.' . $franchiseReport->getClientOriginalExtension();
-            $directoryReport = 'upload/FranchiseReport/';
-            $saveReportUrl = $directoryReport . $name_gen_report; 
-
-            // create report directory if it doesn't exist
-            if (!File::isDirectory($directoryReport)) {
-                File::makeDirectory($directoryReport);
-            }
-
-            //save to directory
-            $franchiseReport->move($directoryReport, $name_gen_report);
-
-            $franchise->update([
-                'franchiseName' => $validatedData['franchiseName'],
-                'franchiseLocation' => $validatedData['franchiseLocation'],
-                'franchiseCategory' => $franchiseCategory,
-                'franchisePrice' => $validatedData['franchisePrice'], 
-                'franchisePIC' => $userId,
-                'franchisePICName' => $username,
-                'franchiseReport' => $saveReportUrl,
-                'franchise_category_id' => $validatedData['franchiseCategory'],
-                'status' => 'Requested',
-                'created_at' => Carbon::now(),
-            ]);
-        }
-
-        // edit with report and logo
-        else
-        {
-            // delete old logo
-            $currentLogoUrl = $franchise->franchiseLogo;
-            $this->deleteFile($currentLogoUrl);
-            
-            // Update franchise logo
-            $name_gen_logo = hexdec(uniqid()). '.' . $franchiseLogo->getClientOriginalExtension();
-            $directoryLogo = 'upload/FranchiseLogo/';
-            $saveLogoUrl = $directoryLogo . $name_gen_logo; 
-
-            // delete old report
-            $currentReportUrl = $franchise->franchiseReport;
-            $this->deleteFile($currentReportUrl);
-
-            // update franchise report
-            $name_gen_report = hexdec(uniqid()). '.' . $franchiseReport->getClientOriginalExtension();
-            $directoryReport = 'upload/FranchiseReport/';
-            $saveReportUrl = $directoryReport . $name_gen_report; 
-
-            // Create the directory if it doesn't exist
-            if (!File::isDirectory($directoryReport)) {
-                File::makeDirectory($directoryReport);
+            //get user
+            $userId = Auth::id();
+            $username = Auth::user()->name;
+    
+            // edit without franchise report & logo
+            if($franchiseReport == null && $franchiseLogo == null) {
+                // update database without franchise report & logo
+                $franchise->update([
+                    'franchiseName' => $validatedData['franchiseName'],
+                    'franchiseLocation' => $validatedData['franchiseLocation'],
+                    'franchiseCategory' => $franchiseCategory,
+                    'franchisePrice' => $validatedData['franchisePrice'], 
+                    'franchisePIC' => $userId,
+                    'franchisePICName' => $username,
+                    'franchise_category_id' => $validatedData['franchiseCategory'],
+                    'status' => 'Requested',
+                    'created_at' => Carbon::now(),
+                ]);
             }
     
-            // Create the directory if it doesn't exist
-            if (!File::isDirectory($directoryLogo)) {
-                File::makeDirectory($directoryLogo);
+            // edit without franchise report
+            else if($franchiseReport == null) {
+                // delete old logo
+                $currentLogoUrl = $franchise->franchiseLogo;
+                $this->deleteFile($currentLogoUrl);
+                
+                // Update franchise logo
+                $name_gen_logo = hexdec(uniqid()). '.' . $franchiseLogo->getClientOriginalExtension();
+                $directoryLogo = 'upload/FranchiseLogo/';
+                $saveLogoUrl = $directoryLogo . $name_gen_logo; 
+    
+                // create logo directory if it doesn't exist
+                if (!File::isDirectory($directoryLogo)) {
+                    File::makeDirectory($directoryLogo);
+                }
+                
+                //save logo to directory
+                Image::make($franchiseLogo)->resize(800,450)->save(public_path($directoryLogo . $name_gen_logo));
+    
+                // update database without franchise report
+                $franchise->update([
+                    'franchiseName' => $validatedData['franchiseName'],
+                    'franchiseLocation' => $validatedData['franchiseLocation'],
+                    'franchiseCategory' => $franchiseCategory,
+                    'franchisePrice' => $validatedData['franchisePrice'], 
+                    'franchisePIC' => $userId,
+                    'franchisePICName' => $username,
+                    'franchiseLogo' => $saveLogoUrl,
+                    'franchise_category_id' => $validatedData['franchiseCategory'],
+                    'status' => 'Requested',
+                    'created_at' => Carbon::now(),
+                ]);
             }
     
-            //save to directory
-            $franchiseReport->move($directoryReport, $name_gen_report);
+            // edit without franchise logo
+            else if($franchiseLogo == null) {
+                // delete old report
+                $currentReportUrl = $franchise->franchiseReport;
+                $this->deleteFile($currentReportUrl);
     
-            //store image
-            Image::make($franchiseLogo)->resize(800,450)->save(public_path($directoryLogo . $name_gen_logo));
+                // update franchise report
+                $name_gen_report = hexdec(uniqid()). '.' . $franchiseReport->getClientOriginalExtension();
+                $directoryReport = 'upload/FranchiseReport/';
+                $saveReportUrl = $directoryReport . $name_gen_report; 
     
-            $franchise->update([
-                'franchiseName' => $validatedData['franchiseName'],
-                'franchiseLocation' => $validatedData['franchiseLocation'],
-                'franchiseCategory' => $franchiseCategory,
-                'franchisePrice' => $validatedData['franchisePrice'], 
-                'franchiseReport' => $saveReportUrl,
-                'franchisePIC' => $userId,
-                'franchisePICName' => $username,
-                'franchiseLogo' => $saveLogoUrl,
-                'franchise_category_id' => $validatedData['franchiseCategory'],
-                'status' => 'Requested',
-                'created_at' => Carbon::now(),
-            ]);
-        }
+                // create report directory if it doesn't exist
+                if (!File::isDirectory($directoryReport)) {
+                    File::makeDirectory($directoryReport);
+                }
+    
+                //save to directory
+                $franchiseReport->move($directoryReport, $name_gen_report);
+    
+                $franchise->update([
+                    'franchiseName' => $validatedData['franchiseName'],
+                    'franchiseLocation' => $validatedData['franchiseLocation'],
+                    'franchiseCategory' => $franchiseCategory,
+                    'franchisePrice' => $validatedData['franchisePrice'], 
+                    'franchisePIC' => $userId,
+                    'franchisePICName' => $username,
+                    'franchiseReport' => $saveReportUrl,
+                    'franchise_category_id' => $validatedData['franchiseCategory'],
+                    'status' => 'Requested',
+                    'created_at' => Carbon::now(),
+                ]);
+            }
+    
+            // edit with report and logo
+            else {
+                // delete old logo
+                $currentLogoUrl = $franchise->franchiseLogo;
+                $this->deleteFile($currentLogoUrl);
+                
+                // Update franchise logo
+                $name_gen_logo = hexdec(uniqid()). '.' . $franchiseLogo->getClientOriginalExtension();
+                $directoryLogo = 'upload/FranchiseLogo/';
+                $saveLogoUrl = $directoryLogo . $name_gen_logo; 
+    
+                // delete old report
+                $currentReportUrl = $franchise->franchiseReport;
+                $this->deleteFile($currentReportUrl);
+    
+                // update franchise report
+                $name_gen_report = hexdec(uniqid()). '.' . $franchiseReport->getClientOriginalExtension();
+                $directoryReport = 'upload/FranchiseReport/';
+                $saveReportUrl = $directoryReport . $name_gen_report; 
+    
+                // Create the directory if it doesn't exist
+                if (!File::isDirectory($directoryReport)) {
+                    File::makeDirectory($directoryReport);
+                }
         
-        $message = 'Franchise updated successfully!';
-        return redirect()->back()->with('success', $message);
+                // Create the directory if it doesn't exist
+                if (!File::isDirectory($directoryLogo)) {
+                    File::makeDirectory($directoryLogo);
+                }
+        
+                //save to directory
+                $franchiseReport->move($directoryReport, $name_gen_report);
+        
+                //store image
+                Image::make($franchiseLogo)->resize(800,450)->save(public_path($directoryLogo . $name_gen_logo));
+        
+                $franchise->update([
+                    'franchiseName' => $validatedData['franchiseName'],
+                    'franchiseLocation' => $validatedData['franchiseLocation'],
+                    'franchiseCategory' => $franchiseCategory,
+                    'franchisePrice' => $validatedData['franchisePrice'], 
+                    'franchiseReport' => $saveReportUrl,
+                    'franchisePIC' => $userId,
+                    'franchisePICName' => $username,
+                    'franchiseLogo' => $saveLogoUrl,
+                    'franchise_category_id' => $validatedData['franchiseCategory'],
+                    'status' => 'Requested',
+                    'created_at' => Carbon::now(),
+                ]);
+            }
+            
+            $message = 'Franchise updated successfully!';
+            return redirect()->back()->with('success', $message);
+        }
+    }
+
+    public function deleteFranchise($id) {
+        $franchise = Franchise::findOrFail($id);
+        $franchiseProposals = FranchiseProposal::where('franchise_id', $id)->get();
+
+        if($franchise->isBought == 1) {
+            $message = 'Unable to delete franchise! Franchise has been bought.';
+            return redirect(route('my.franchise'))->with('error', $message);
+        } else {
+            // send email notification to proposer 
+            foreach($franchiseProposals as $franchiseProposal) {
+                $data = [
+                    'recipient' => $franchiseProposal->proposerEmail,
+                    'fromName' => $franchiseProposal->proposerName,
+                    'message' => 'Unfortunatey, our fellow franchisor from ' . $franchiseProposal->franchise->franchiseName . ' has deleted their franchise. We have automatically deleted your proposal, our deepest condolences.'
+                ];
+        
+                Mail::send('emails.user-notification-via-email', ['data' => $data, 'franchiseProposal' => $franchiseProposal], function($message) use ($data, $franchiseProposal) {
+                    $message->to($data['recipient'])
+                        ->from('adm.franchiseku@gmail.com', 'FranchiseKu Admin')
+                        ->subject('Your proposal to ' . $franchiseProposal->franchise->franchiseName . ' has been deleted!');
+                });
+                
+                $franchiseProposal->delete();
+            }
+    
+            $franchise->delete();
+    
+            $message = "Franchise has been deleted!";
+            return redirect('my.franchise')->with($message);
+        }
     }
 
     public function historyFranchise(Request $request){

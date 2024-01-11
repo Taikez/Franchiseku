@@ -32,15 +32,13 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle fs-5 text-start" href="#" id="navbarEducationContent"
                         role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                        Education Content
+                        Education
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarEducationContent">
-                        <li><a class="dropdown-item" href="{{ route('education.index') }}">Browse Education
-                                Contents</a>
+                        <li><a class="dropdown-item" href="{{ route('education.index') }}">Browse Education</a>
                         </li>
                         @if (Auth::check())
-                            <li><a class="dropdown-item" href="{{ route('education.owned') }}">Owned Education
-                                    Contents</a>
+                            <li><a class="dropdown-item" href="{{ route('education.owned') }}">My Education</a>
                             </li>
                         @endif
                     </ul>

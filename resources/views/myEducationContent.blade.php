@@ -17,7 +17,7 @@
         </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 mb-4 px-3">
-                <form action="{{ route('education.owned.search') }}" class="col-md-12" method="POST">
+                <form action="{{ route('my.education.search') }}" class="col-md-12" method="POST">
                     @csrf
                     <div class="input-group">
                         <div class="input-group-prepend">
@@ -32,42 +32,42 @@
         </div>
         <div class="row">
             @include('components.owned-education-sidebar')
-            @if ($ownedEducations->count() == 0)
+            @if ($myEducations->count() == 0)
                 <div class="col-lg-9 pb-3" data-aos="fade-down-right" data-aos-duration="800">
                     <div class="alert alert-warning w-100">No education content to be found!</div>
                 </div>
             @else
                 <div class="col-lg-9 pb-3">
                     <div class="row">
-                        @foreach ($ownedEducations as $ownedEducation)
+                        @foreach ($myEducations as $myEducation)
                             <div class="col-lg-3 col-md-6 col-sm-9 mb-3" data-aos="fade-down-left" data-aos-duration="1000">
                                 <div class="fixed-height-box h-100 rounded border border-1 shadow-sm bg-white"
                                     style="overflow: hidden">
                                     <div class="container-fluid w-100 m-0 p-0" style="overflow: hidden; height: 15rem">
-                                        <img src="{{ asset($ownedEducation->educationThumbnail) }}"
+                                        <img src="{{ asset($myEducation->educationThumbnail) }}"
                                             alt="Education Content Banner" class="img-fluid w-100"
                                             style="object-fit: cover; height: 100%; width: 100%;">
                                     </div>
                                     <div class="p-3">
-                                        <h3>{{ $ownedEducation->educationTitle }}</h3>
-                                        <p class="mb-2 text-muted">By {{ $ownedEducation->educationAuthor }}</p>
-                                        @if ($ownedEducation->educationRating != null)
+                                        <h3>{{ $myEducation->educationTitle }}</h3>
+                                        <p class="mb-2 text-muted">By {{ $myEducation->educationAuthor }}</p>
+                                        @if ($myEducation->educationRating != null)
                                             <div class="d-flex align-items-end">
-                                                @for ($i = 1; $i <= $ownedEducation->educationRating; $i++)
+                                                @for ($i = 1; $i <= $myEducation->educationRating; $i++)
                                                     <div id="star" class="fs-3 fw-bold text-warning">★ </div>
                                                 @endfor
-                                                <p style="margin-bottom: 6px;">({{ $ownedEducation->educationRating }})</p>
+                                                <p style="margin-bottom: 6px;">({{ $myEducation->educationRating }})</p>
                                             </div>
                                         @endif
                                         <span class="badge bg-info mb-3">
-                                            {{ $ownedEducation->category->educationCategory }}
+                                            {{ $myEducation->category->educationCategory }}
                                         </span>
-                                        <p class="mb-2">IDR {{ number_format($ownedEducation->educationPrice, 2) }}</p>
+                                        <p class="mb-2">IDR {{ number_format($myEducation->educationPrice, 2) }}</p>
                                         <p class="mb-2 text-muted" style="font-size: 12px;">
-                                            {{ $ownedEducation->educationShortDesc }}
+                                            {{ $myEducation->educationShortDesc }}
                                         </p>
                                         <hr>
-                                        <a href="{{ route('education.detail', $ownedEducation->id) }}"
+                                        <a href="{{ route('education.detail', $myEducation->id) }}"
                                             class="d-flex justify-content-between">
                                             <div>
                                                 View Content
@@ -84,7 +84,7 @@
                         @endforeach
                     </div>
                     <div class="mt-5">
-                        {{ $ownedEducations->links() }}
+                        {{ $myEducations->links() }}
                     </div>
                 </div>
             @endif

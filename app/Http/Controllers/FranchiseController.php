@@ -156,7 +156,9 @@ class FranchiseController extends Controller
         //get user
         $userId = Auth::id();
 
-        $allFranchise = Franchise::where('franchisePIC',$userId)->orderBy('created_at','desc')->get();
+        $allFranchise = Franchise::where('franchisePIC', $userId)
+                        ->orWhere('boughtBy', $userId)
+                        ->orderBy('created_at','desc')->get();
         $franchiseCategories = FranchiseCategory::all();
 
         return view('franchisor.my_franchise', compact('allFranchise','franchiseCategories'));

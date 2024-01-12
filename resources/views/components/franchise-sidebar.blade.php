@@ -9,7 +9,7 @@
             </span>
             Reset Filter
         </a>
-        <div class="accordion-item mb-3 border-2 rounded">
+        <div class="accordion-item mb-3 border border-2 rounded">
             <h2 class="accordion-header" id="panelsStayOpen-headingOne">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false"
@@ -35,7 +35,7 @@
                 </div>
             </div>
         </div>
-        <div class="accordion-item border-top mb-3 border-2 rounded">
+        <div class="accordion-item border-top mb-3 border border-2 rounded">
             <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
@@ -68,7 +68,7 @@
                 </div>
             </div>
         </div>
-        <div class="accordion-item border-top mb-3 border-2 rounded">
+        <div class="accordion-item border-top mb-3 border border-2 rounded">
             <h2 class="accordion-header" id="panelsStayOpen-headingThree">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
@@ -102,7 +102,7 @@
                 </div>
             </div>
         </div>
-        <div class="accordion-item mb-3 border-2 rounded">
+        <div class="accordion-item mb-3 border border-2 rounded">
             <h2 class="accordion-header" id="panelsStayOpen-headingOne">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false"
@@ -117,7 +117,7 @@
                         <a href="{{ route('browse.all.franchise', ['isPurchased' => 1] + request()->except('isPurchased')) }}"
                             class="w-100 bg-transparent border-0 text-start fs-6 p-3">Purchased</a>
                         <a href="{{ route('browse.all.franchise', ['isPurchased' => 0] + request()->except('isPurchased')) }}"
-                            class="w-100 bg-transparent border-0 text-start fs-6 p-3">Not Purchased</a>
+                            class="w-100 bg-transparent border-0 text-start fs-6 p-3">Available</a>
                     </div>
                 </div>
             </div>

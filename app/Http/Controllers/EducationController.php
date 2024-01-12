@@ -498,7 +498,7 @@ class EducationController extends Controller
         return redirect()->route('all.education')->with($notification);
     }
 
-    public function ownedEducation(Request $request) {
+    public function myEducation(Request $request) {
         if(!Auth::check()) {
             $message = "You have to login to view owned education content";
             return redirect()->route('login')->with($message);
@@ -539,12 +539,12 @@ class EducationController extends Controller
                 $queryOwnedEducation->where('educationRating', $rating);
             }
 
-            $ownedEducations = $queryOwnedEducation->paginate(12);
-            return view('ownedEducationContent', compact('educationCategories', 'ownedEducations'));
+            $myEducations = $queryOwnedEducation->paginate(12);
+            return view('myEducationContent', compact('educationCategories', 'myEducations'));
         }
     }
     
-    public function ownedEducationSearch(Request $request) {
+    public function myEducationSearch(Request $request) {
         $user = Auth::user();
         $educationCategories = EducationCategory::all();
         $educationTransaction = EducationTransaction::where(['userId' => $user->id, 'transaction_status' => 'settlement'])->get();
@@ -561,6 +561,6 @@ class EducationController extends Controller
         )->whereIn('id', $educationIds)
         ->paginate(9);
 
-        return view('ownedEducationContent', compact('educationCategories', 'ownedEducations'));
+        return view('myEducationContent', compact('educationCategories', 'myEducations'));
     }
 }

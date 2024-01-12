@@ -38,7 +38,7 @@
                         <li><a class="dropdown-item" href="{{ route('education.index') }}">Browse Education</a>
                         </li>
                         @if (Auth::check())
-                            <li><a class="dropdown-item" href="{{ route('education.owned') }}">My Education</a>
+                            <li><a class="dropdown-item" href="{{ route('my.education') }}">My Education</a>
                             </li>
                         @endif
                     </ul>
@@ -52,13 +52,17 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarFranchise">
                         <li><a class="dropdown-item" href="{{ route('franchise') }}">Browse Franchise</a>
                         </li>
-                        @if (Auth::check() && Auth::user()->role === 'Franchisor')
-                            <li><a class="dropdown-item" href="{{ route('register.franchise') }}">Add Franchise</a>
-                            </li>
-                            <li><a class="dropdown-item" href="{{ route('my.franchise') }}">My Franchise</a></li>
-                            <li><a class="dropdown-item" href="{{ route('proposal.franchise') }}">Franchise
-                                    Proposals</a>
-                            </li>
+                        @if (Auth::check())
+                            @if (Auth::user()->role === 'Franchisor')
+                                <li><a class="dropdown-item" href="{{ route('register.franchise') }}">Add Franchise</a>
+                                </li>
+                                <li><a class="dropdown-item" href="{{ route('proposal.franchise') }}">Franchise
+                                        Proposals</a>
+                                </li>
+                            @endif
+                            @if (Auth::user()->role === 'Franchisor' || Auth::user()->role === 'User')
+                                <li><a class="dropdown-item" href="{{ route('my.franchise') }}">My Franchise</a></li>
+                            @endif
                         @endif
                 </li>
             </ul>

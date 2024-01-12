@@ -11,17 +11,30 @@
                 <div class="col-md-12 p-5">
                     <h1 class="text-center fw-bold" data-aos="fade-down" data-aos-duration="800">Your Franchises
                     </h1>
-                    <h5 class="text-center fw-light text-secondary">View and delete your franchises here</h5>
+                    @if (Auth::user()->role === 'Franchisor')
+                        <h5 class="text-center fw-light text-secondary">View and delete your franchises here</h5>
+                    @else
+                        <h5 class="text-center fw-light text-secondary">View your franchises here</h5>
+                    @endif
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
                     @if ($allFranchise->count() == 0)
                         <div class="col-lg-12 p-5" data-aos="fade" data-aos-duration="800">
-                            <div class="alert alert-warning w-100 text-center">You currently have no franchises! Would you
-                                like to <a href="{{ route('register.franchise') }}" id="registerFranchiseLink"
-                                    class="link-primary">Register a
-                                    Franchise?</a></div>
+                            @if (Auth::user()->role === 'Franchisor')
+                                <div class="alert alert-warning w-100 text-center">You currently have no franchises! Would
+                                    you
+                                    like to <a href="{{ route('register.franchise') }}" id="registerFranchiseLink"
+                                        class="link-primary">Register a
+                                        Franchise?</a></div>
+                            @else
+                                <div class="alert alert-warning w-100 text-center">You currently have no franchises! Would
+                                    you
+                                    like to <a href="{{ route('browse.all.franchise') }}" id="buyFranchiseLink"
+                                        class="link-primary">Buy a
+                                        Franchise?</a></div>
+                            @endif
                         </div>
                     @else
                         <div class="card" data-aos="fade" data-aos-duration="800">
@@ -61,10 +74,12 @@
                                                         class="btn btn-info btn-sm" title="Detail Franchise">
                                                         <i class="fas fa-book-reader text-white"></i>
                                                     </a>
-                                                    <a href="{{ route('delete.franchise', $item->id) }}"
-                                                        class="btn btn-danger btn-sm" title="Delete Franchise"
-                                                        id="delete">
-                                                        <i class="fas fa-trash-alt"></i>
+                                                    @if (Auth::user()->role === 'Franchisor')
+                                                        <a href="{{ route('delete.franchise', $item->id) }}"
+                                                            class="btn btn-danger btn-sm" title="Delete Franchise"
+                                                            id="delete">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                    @endif
                                                     </a>
                                                 </td>
                                             </tr>

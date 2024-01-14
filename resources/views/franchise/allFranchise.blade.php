@@ -52,7 +52,7 @@
                                                 <h3>{{ $item->franchiseName }}</h3>
                                             </div>
                                             <div class="col-lg-4 col-md-4 col-sm-12 text-end">
-                                                @if ($item->isBought == 1)
+                                                @if ($item->isBought == 1 && Auth::user()->id == $item->boughtBy)
                                                     <span class="badge bg-info mb-3">
                                                         Purchased
                                                     </span>

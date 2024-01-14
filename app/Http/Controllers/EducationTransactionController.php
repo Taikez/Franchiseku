@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\EducationTransaction;
-use App\Models\Education;
+use App\Models\EducationContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Auth;
@@ -41,6 +41,46 @@ class EducationTransactionController extends Controller
 
         return view('testMidtrans', compact('snapToken'));
         // return $snapToken;
+    }
+
+    public function CreateTransaction(Request $req){
+        //GET USER
+        $user = Auth::user();
+        // GET EDUCATION CONTENT
+        $education = EducationContent::findOrFail($req->educationId); // nanti disesuaikan dgn param education id
+
+       //GET SNAP TOKEN
+            // Set your Merchant Server Key
+            \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+            // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+            \Midtrans\Config::$isProduction = false;
+            // Set sanitization on (default)
+            \Midtrans\Config::$isSanitized = true;
+            // Set 3DS transaction for credit card to true
+            \Midtrans\Config::$is3ds = false;
+
+            $params = [
+                'transaction_details' => [
+                    'order_id' => rand(),
+                    'gross_amount' => $education->educationPrice,
+                ],
+                'customer_details' => [
+                    'first_name' => $user->name,
+                    'last_name' => '',
+                    'email' => $user->email,
+                    'phone' => $user->phoneNumber,
+                ],
+                'item_details' => [
+                    [
+                        'id' => 'a1',
+                        'price' => $education->educationPrice,
+                        'quantity' => 1,
+                        'name' => $education->educationTitle,
+                    ],
+                ],
+            ];
+
+            $snapToken = \Midtrans\Snap::getSnapToken($params);
     }
 
     public function PostTransaction(Request $req)
@@ -94,5 +134,11 @@ class EducationTransactionController extends Controller
             
         }
 
+    }
+
+    public function transactionCallback(Request $req){
+        
+
+        return response;
     }
 }

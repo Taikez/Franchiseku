@@ -142,7 +142,10 @@ Route::controller(FranchiseController::class)->group(function(){
 Route::middleware(['auth'])->group(function(){
     Route::controller(EducationTransactionController::class)->group(function(){
         Route::get('/my/education/transaction','MyTransaction')->name('my.education.transaction');
+        Route::get('/education/transaction/{id}','GetEducationTransaction')->name('education.transaction');
+        Route::post('/education/transaction/create','CreateTransaction')->name('create.education.transaction');
         Route::post('/education/transaction/post','PostTransaction')->name('post.education.transaction');
+        Route::post('/education/transaction/callback','TransactionCallback')->name('callback.education.transaction');
     });
 });
 

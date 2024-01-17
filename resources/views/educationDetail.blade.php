@@ -76,8 +76,8 @@
                                 </div>
                             @else
                                 <div>
-                                    <button id="pay-button" class="btn w-50 text-white rounded-pill mt-3 mb-2">Purchase
-                                        Content</button>
+                                    {{-- <a id="pay-button" href="{{route('education.transaction', $education->id)}}" class="btn w-50 text-white rounded-pill mt-3 mb-2">Purchase Content</a> --}}
+                                    <a id="pay-button" class="btn w-50 text-white rounded-pill mt-3 mb-2">Purchase Content</a>
                                 </div>
                             @endif
                         </div>
@@ -194,48 +194,20 @@
 
     {{-- passing data untuk midtrans --}}
     {{-- Route belom dibikin, nnti insert ke table transaksi aja --}}
-    <form action="{{ route('post.education.transaction') }}" id="paymentForm" method="POST">
+    <form action="{{ route('create.education.transaction') }}" id="paymentForm" method="POST">
         @csrf
         <input type="hidden" name="paymentJSON" id="paymentJSONCallback" />
-        <input type="hidden" name="snapToken" id="snapToken" value="{{ $snapToken }}">
         <input type="hidden" name="educationId" id="educationId" value="{{ $education->id }}">
     </form>
 
-    <script type="text/javascript">
-        var payButton = document.getElementById('pay-button');
+    <script>
+         var payButton = document.getElementById('pay-button');
+        console.log('snapToken  = ' + $('#snapToken').val());
+
         payButton.addEventListener('click', function() {
-            // Trigger snap popup. @TODO: Replace TRANSACTION_TOKEN_HERE with your transaction token
-            window.snap.pay('{{ $snapToken }}', {
-                onSuccess: function(result) {
-                    /* You may add your own implementation here */
-                    console.log(result);
-                    sendResponseToForm(result)
-                },
-                onPending: function(result) {
-                    /* You may add your own implementation here */
-                    console.log(result);
-                    sendResponseToForm(result)
-                },
-                onError: function(result) {
-                    /* You may add your own implementation here */
-                    console.log(result);
-                    sendResponseToForm(result)
-                },
-                onClose: function() {
-                    /* You may add your own implementation here */
-                    alert('You closed the popup without finishing the payment');
-                }
-            })
-            // customer will be redirected after completing payment pop-up
+             $('#paymentForm').submit();
         });
-
-        function sendResponseToForm(result) {
-            var value = document.getElementById('paymentJSONCallback').value;
-            var jsonData = JSON.stringify(result);
-
-            $("#paymentJSONCallback").val(jsonData);
-            // alert(value); 
-            $('#paymentForm').submit();
-        }
     </script>
+
+
 @endsection

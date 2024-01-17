@@ -44,7 +44,7 @@ body {
     text-align: center;
 }
 
-#pay-button,
+#pay-button,#paymentButton,
 #finish-pay-button,
 #loginToPurchaseBtn,
 #rateEducationBtn {
@@ -52,7 +52,7 @@ body {
     transition: background-color 0.3s ease;
 }
 
-#pay-button:hover,
+#pay-button:hover,#paymentButton:hover,
 #finish-pay-button:hover,
 #loginToPurchaseBtn:hover,
 #rateEducationBtn:hover {

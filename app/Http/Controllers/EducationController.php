@@ -247,42 +247,9 @@ class EducationController extends Controller
             $transaction = EducationTransaction::where(['userId'=> $user->id,'education_id'=>$education->id])->get();
             $buttonMessage = '';
 
-            //GET SNAP TOKEN
-            // Set your Merchant Server Key
-            \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-            // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-            \Midtrans\Config::$isProduction = false;
-            // Set sanitization on (default)
-            \Midtrans\Config::$isSanitized = true;
-            // Set 3DS transaction for credit card to true
-            \Midtrans\Config::$is3ds = false;
-
-            $params = [
-                'transaction_details' => [
-                    'order_id' => rand(),
-                    'gross_amount' => $education->educationPrice,
-                ],
-                'customer_details' => [
-                    'first_name' => $user->name,
-                    'last_name' => '',
-                    'email' => $user->email,
-                    'phone' => $user->phoneNumber,
-                ],
-                'item_details' => [
-                    [
-                        'id' => 'a1',
-                        'price' => $education->educationPrice,
-                        'quantity' => 1,
-                        'name' => $education->educationTitle,
-                    ],
-                ],
-            ];
-
             if($transaction->isEmpty()){
                 $transactionStatus = false;
-                $snapToken = \Midtrans\Snap::getSnapToken($params);
                 $buttonMessage = 'Purchase Content';
-                
             }else{
                 if($transaction[$transaction->count()-1]->transaction_status == 'settlement'){
                     $transactionStatus = true;
@@ -305,7 +272,6 @@ class EducationController extends Controller
                 'averageRating',
                 'countingStars',
                 'ratings',
-                'snapToken',
                 'transaction',
                 'transactionStatus',
                 'transactionCount',

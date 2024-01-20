@@ -146,6 +146,7 @@ Route::middleware(['auth'])->group(function(){
         Route::post('/education/transaction/create','CreateTransaction')->name('create.education.transaction');
         Route::post('/education/transaction/post','PostTransaction')->name('post.education.transaction');
         Route::post('/education/transaction/callback','TransactionCallback')->name('callback.education.transaction');
+        Route::put('/education/transaction/midtransCallback','MidtransCallback')->name('midtrans.callback');
     });
 });
 

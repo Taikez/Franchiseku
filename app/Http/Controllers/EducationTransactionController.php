@@ -210,4 +210,19 @@ class EducationTransactionController extends Controller
         }
         
     }
+
+    public function MidtransCallback(Request $req){
+        dd($req);
+        $transaction = EducationTransaction::where('transaction_id',$req->transaction_id)->get();
+
+        $paymentCode = isset($req->payment_code) ? $req->payment_code : null;
+        $pdfUrl = isset($req->pdf_url) ? $req->pdf_url : null;
+        $transaction->update([
+            'transaction_status' => $req->transaction_status,
+            'paymentCode' => $paymentCode,
+            'pdf_url' => $pdfUrl,
+            'updated_at' => $req->transaction_time,
+        ]);
+
+    }
 }

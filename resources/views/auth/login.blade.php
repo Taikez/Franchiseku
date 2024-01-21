@@ -48,7 +48,7 @@
                                     <input id="email" class="form-control" type="email" name="email"
                                         placeholder="Enter your email" value="{{ old('email') }}" required autofocus
                                         autocomplete="username">
-                                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                                    <x-input-error :messages="$errors->get('email')" class="mt-2 text-danger" />
                                 </div>
 
                                 <!-- Password -->
@@ -56,7 +56,7 @@
                                     <label for="password" class="form-label">{{ __('Password') }}</label>
                                     <input id="password" class="form-control" type="password" name="password"
                                         placeholder="Enter your password" required autocomplete="current-password">
-                                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                                    <x-input-error :messages="$errors->get('password')" class="mt-2 text-danger" />
                                 </div>
 
                                 <!-- Remember Me -->
@@ -67,7 +67,9 @@
 
                                 <div class="mb-3">
                                     {{-- nanti baru di edit  --}}
-                                    <a class="btn btn-light" href="/auth/google/redirect"> <img src="https://img.icons8.com/color/16/000000/google-logo.png"> Login with google</a>
+                                    <a class="btn btn-light" href="/auth/google/redirect"> <img
+                                            src="https://img.icons8.com/color/16/000000/google-logo.png"> Login with
+                                        google</a>
                                 </div>
 
 

@@ -97,7 +97,9 @@
                         <div class="buttonGroup d-grid gap-2 d-md-block">
                             @foreach ($franchiseCategories as $franchiseCategory)
                                 <a href="{{ route('dashboard', ['category' => $franchiseCategory->id] + request()->except('category')) }}"
-                                    id="franchise-category-btn" class="btn btn-light border" data-aos="fade-right"
+                                    id="franchise-category-btn-{{ $franchiseCategory->id }}"
+                                    class="franchise-category-btn btn btn-light border rounded-pill" data-aos="fade-right"
+                                    style="padding: 0.75rem 5rem;"
                                     data-aos-duration="800">{{ $franchiseCategory->franchiseCategory }}</a>
                             @endforeach
                         </div>
@@ -216,10 +218,9 @@
             </div>
         </div>
     </section>
-
     <section id="contact-us" class="contact-us" style="min-height: 60vh" data-aos="fade-up-left"
         data-aos-duration="800">
-        <div class="container mt-5 mb-5 p-4 rounded contact-us-div">
+        <div id="contact-us-scroll" class="container mt-5 mb-5 p-4 rounded contact-us-div">
             <div class="row d-flex align-items-center">
                 <div class="col-md-6 mx-auto d-flex flex-column justify-content-between p-4" style="height: 35vh;">
                     <h1 class="fs-3 fw-normal text-light">Have a

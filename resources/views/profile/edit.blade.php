@@ -70,6 +70,9 @@
                         <label for="phoneNumber">Phone Number</label>
                         <input type="text" name="phoneNumber" id="phoneNumber" class="form-control"
                             value="{{ old('phoneNumber', $user->phoneNumber) }}">
+                            @error('phoneNumber')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                     </div>
 
                     {{-- Profile Image  --}}

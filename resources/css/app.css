@@ -153,15 +153,6 @@ a {
     line-height: 2rem; /* 177.778% */
 }
 
-#franchise-category-btn {
-    border-radius: 1.875rem;
-    padding: 0.75rem 5rem;
-}
-
-#franchise-category-btn a:hover {
-    background-color: rgba(255, 255, 255, 0.95);
-}
-
 .section-label {
     color: var(--blue, rgba(0, 112, 240, 0.9));
     font-feature-settings: "liga" off;

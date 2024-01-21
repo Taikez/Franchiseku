@@ -46,7 +46,7 @@ class UserController extends Controller
         // Pass the data to the view or use it as needed
         return view('dashboard', compact('franchiseCategories', 'franchises', 'latestNews'))->with('successData', $successData);
     }
-
+    
       // Display the profile update form
       public function edit()
       {

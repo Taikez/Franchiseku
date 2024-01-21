@@ -55,7 +55,6 @@ Route::controller(EducationTransactionController::class)->group(function(){
 Route::controller(UserController::class)->group(function(){
     Route::get('/', [UserController::class, 'userDashboard'])->name('dashboard');
     Route::get('/dashboard', [UserController::class, 'userDashboard'])->name('dashboard');
-
 });    
 
 Route::middleware('auth')->group(function () {

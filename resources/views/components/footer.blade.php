@@ -7,9 +7,11 @@
 
         <div id="logo" class="row">
             <div class="col-md-2 col-sm-12">
-                <img class="img-fluid mb-4" src="{{ asset('homeImages/logo.png') }}" alt="Logo">
+                <p class="fs-3 fw-bold mb-4"><span style="color: #015051">Franch</span><span
+                        syle="color: #373937">ise</span><span style="color: #015051">K</span><span
+                        syle="color: #373937">u</span></p>
             </div>
-            <p class="fs-4 fw-bold mb-5">Reach us</p>
+            <p class="fs-5 fw-bold mb-4">Reach us</p>
         </div>
 
         <div id="footer-content" class="row">
@@ -20,7 +22,7 @@
                             <i class="material-symbols-rounded" style="color:#015051;">mail</i>
                         </div>
                         <div class="col-lg-6 col-md-10 col-sm-12 me-n1">
-                            <p><span class="fw-bold me-3">Support:</span><br>adm.franchiseku@gmail.com</p>
+                            <p><span class="fw-bold me-3">Support:</span>adm.franchiseku@gmail.com</p>
                         </div>
                     </div>
 
@@ -44,11 +46,11 @@
                 </div>
                 <div id="social-media" class="row d-flex align-items-center mb-3">
                     <div class="col-lg-6 col-md-6 col-sm-12">
-                        <a href="www.facebook.com"><img class="social-media facebook img-fluid me-4"
+                        <a href="https://www.facebook.com"><img class="social-media facebook img-fluid me-4"
                                 src="{{ asset('homeImages/facebook.png') }}" alt="Facebook"></a>
-                        <a href="www.twitter.com"><img class="social-media twitter img-fluid me-4"
+                        <a href="https://www.twitter.com"><img class="social-media twitter img-fluid me-4"
                                 src="{{ asset('homeImages/twitter.png') }}" alt="Twitter"></a>
-                        <a href="www.instagram.com"><img class="social-media instagram img-fluid me-4"
+                        <a href="https://www.instagram.com"><img class="social-media instagram img-fluid me-4"
                                 src="{{ asset('homeImages/instagram.png') }}" alt="Instagram"></a>
                     </div>
                 </div>
@@ -69,7 +71,8 @@
                 <p><a href="{{ route('aboutUs') }}"
                         class="footer-link link-offset-2 link-underline link-underline-opacity-0">About
                         FranchiseKu</a></p>
-                <p><a href="#" class="footer-link link-offset-2 link-underline link-underline-opacity-0">Help
+                <p><a href="#" id="help-center-link"
+                        class="footer-link link-offset-2 link-underline link-underline-opacity-0">Help
                         Center</a></p>
             </div>
 

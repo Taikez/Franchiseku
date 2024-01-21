@@ -112,7 +112,7 @@
         }
 
         // capture scroll position
-        $('#franchise-category-btn').on('click', function(e) {
+        $('.franchise-category-btn').on('click', function(e) {
             e.preventDefault();
             var scrollPosition = $(window).scrollTop();
             localStorage.setItem('scrollPosition', scrollPosition);
@@ -137,6 +137,26 @@
                 }
 
                 reader.readAsDataURL(e.target.files['0']);
+            });
+        });
+
+        // franchise category button color divider
+        $(document).ready(function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const categoryId = urlParams.get('category');
+
+            if (categoryId) {
+                document.getElementById(`franchise-category-btn-${categoryId}`).classList.remove('btn-light');
+                document.getElementById(`franchise-category-btn-${categoryId}`).classList.add('btn-primary');
+            }
+        });
+
+        // help center link
+        document.getElementById('help-center-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            var helpCenterSection = document.getElementById('contact-us-scroll');
+            helpCenterSection.scrollIntoView({
+                behavior: 'smooth'
             });
         });
     </script>

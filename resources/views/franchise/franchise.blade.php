@@ -57,25 +57,6 @@
                                                 <h3>{{ $item->franchiseName }}</h3>
                                             </div>
                                             <div class="col-lg-4 col-md-4 col-sm-12 text-end">
-                                                @if ($myFranchise == true)
-                                                    @if ($item->status == 'Requested')
-                                                        <span class="badge bg-warning mb-3">
-                                                            Requested
-                                                        </span>
-                                                    @elseif($item->status == 'Approved')
-                                                        <span class="badge bg-success mb-3">
-                                                            Approved
-                                                        </span>
-                                                    @elseif($item->status == 'Rejected')
-                                                        <span class="badge bg-danger mb-3">
-                                                            Rejected
-                                                        </span>
-                                                    @else
-                                                        <span class="badge bg-warning mb-3">
-                                                            Status not found
-                                                        </span>
-                                                    @endif
-                                                @endif
                                                 @if ($item->isBought == 1)
                                                     <span class="badge bg-info mb-3">
                                                         Purchased

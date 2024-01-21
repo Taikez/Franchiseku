@@ -61,6 +61,7 @@
                                         <p>Status:</p>
                                         @if ($educationTransaction->transaction_status == 'pending')
                                             <p class="text-warning fw-bold">Payment Pending</p>
+                                            <a href="{{route('education.transaction',$educationTransaction->id)}}" class="btn btn-info text-white">Complete Payment</a>
                                         @elseif($educationTransaction->transaction_status == 'settlement')
                                             <p class="text-success fw-bold">Payment Success</p>
                                         @elseif($educationTransaction->transaction_status == 'expire')

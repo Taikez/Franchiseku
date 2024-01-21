@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\FranchiseCategory;
 use App\Models\Franchise;
 use App\Models\News;
+use App\Models\EducationContent;
+use App\Models\EducationTransaction;
+use Illuminate\Support\Carbon;
 
 class UserController extends Controller
 {
@@ -190,7 +193,40 @@ class UserController extends Controller
 
 
     public function AdminDashboard(){
-        return view('admin.admin_index');
+        $transactions = EducationTransaction::latest()->get();
+
+        //calculate user 
+        $currentUser = User::whereMonth('created_at', Carbon::now()->month)->count();
+        $previousMonthUser = User::whereMonth('created_at', Carbon::now()->subMonth()->month)->count();
+        $userDifference = $currentUser - $previousMonthUser;
+
+        //calculate franchisor
+        $currentFranchisor = User::where('role','Franchisor')->whereMonth('created_at', Carbon::now()->month)->count();
+        $previousMonthFranchisor = User::where('role','Franchisor')->whereMonth('created_at', Carbon::now()->subMonth()->month)->count();
+        $franchisorDifference = $currentFranchisor - $previousMonthFranchisor;
+
+        //calculate franchise
+        $currentFranchise = Franchise::whereMonth('created_at', Carbon::now()->month)->count();
+        $previousMonthFranchise = Franchise::whereMonth('created_at', Carbon::now()->subMonth()->month)->count();
+        $franchiseDifference = $currentFranchise - $previousMonthFranchise;
+
+        //calculate education
+        $currentEducation = EducationContent::whereMonth('created_at', Carbon::now()->month)->count();
+        $previousMonthEducation = EducationContent::whereMonth('created_at', Carbon::now()->subMonth()->month)->count();
+        $educationDifference = $currentEducation - $previousMonthEducation;
+
+        
+
+        return view('admin.admin_index', compact('currentUser',
+                                                'userDifference',
+                                                'currentFranchisor',
+                                                'franchisorDifference',
+                                                'currentFranchise',
+                                                'franchiseDifference',
+                                                'currentEducation',
+                                                'educationDifference',
+                                                'transactions'
+                                            ));
     }
 
     public function calculateMonthlyUserIncrease(){

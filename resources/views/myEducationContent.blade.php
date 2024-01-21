@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Education | FranchiseKu
+    Owned Education | FranchiseKu
 @endsection
 
 @section('main')
@@ -11,12 +11,13 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12 p-5">
-                <h1 class="text-center fw-bold" data-aos="fade-down" data-aos-duration="800">All Franchises</h1>
+                <h1 class="text-center fw-bold" data-aos="fade-down" data-aos-duration="800">Owned Education Content</h1>
+                <h5 class="text-center fw-light text-secondary">Let's start learning today!</h5>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 mb-4 px-3">
-                <form action="{{ route('franchise.search') }}" class="col-md-12" method="POST">
+                <form action="{{ route('my.education.search') }}" class="col-md-12" method="POST">
                     @csrf
                     <div class="input-group">
                         <div class="input-group-prepend">
@@ -24,66 +25,52 @@
                                     class="fa fa-search"></i></span>
                         </div>
                         <input type="text" id="search-content" class="form-control border-1 bg-white"
-                            placeholder="Search franchise here ..." name="searchValue">
+                            placeholder="Search content here ..." name="searchValue">
                     </div>
                 </form>
             </div>
         </div>
         <div class="row">
-            @include('components.franchise-sidebar')
-            @if ($allFranchise->count() == 0)
-                <div class="col-lg-9 pb-3">
-                    <div class="alert alert-warning w-100">No franchise found!</div>
+            @include('components.owned-education-sidebar')
+            @if ($myEducations->count() == 0)
+                <div class="col-lg-9 pb-3" data-aos="fade-down-right" data-aos-duration="800">
+                    <div class="alert alert-warning w-100">No education content to be found!</div>
                 </div>
             @else
                 <div class="col-lg-9 pb-3">
                     <div class="row">
-                        @foreach ($allFranchise as $item)
+                        @foreach ($myEducations as $myEducation)
                             <div class="col-lg-3 col-md-6 col-sm-9 mb-3" data-aos="fade-down-left" data-aos-duration="1000">
                                 <div class="fixed-height-box h-100 rounded border border-1 shadow-sm bg-white"
                                     style="overflow: hidden">
                                     <div class="container-fluid w-100 m-0 p-0" style="overflow: hidden; height: 15rem">
-                                        <img src="{{ asset($item->franchiseLogo) }}" alt="Education Content Banner"
-                                            class="img-fluid w-100" style="object-fit: cover; height: 100%; width: 100%;">
+                                        <img src="{{ asset($myEducation->educationThumbnail) }}"
+                                            alt="Education Content Banner" class="img-fluid w-100"
+                                            style="object-fit: cover; height: 100%; width: 100%;">
                                     </div>
                                     <div class="p-3">
-                                        <div class="row">
-                                            <div class="col-lg-8 col-md-8 col-sm-12">
-                                                <h3>{{ $item->franchiseName }}</h3>
-                                            </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-12 text-end">
-                                                @if ($item->isBought == 1 && Auth::user()->id == $item->boughtBy)
-                                                    <span class="badge bg-info mb-3">
-                                                        Purchased
-                                                    </span>
-                                                @else
-                                                    <span class="badge bg-success mb-3">
-                                                        Available
-                                                    </span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <p class="mb-2 text-muted">By {{ $item->franchisePICName }}</p>
-                                        @if ($item->franchiseRating != null)
+                                        <h3>{{ $myEducation->educationTitle }}</h3>
+                                        <p class="mb-2 text-muted">By {{ $myEducation->educationAuthor }}</p>
+                                        @if ($myEducation->educationRating != null)
                                             <div class="d-flex align-items-end">
-                                                @for ($i = 1; $i <= $item->franchiseRating; $i++)
+                                                @for ($i = 1; $i <= $myEducation->educationRating; $i++)
                                                     <div id="star" class="fs-3 fw-bold text-warning">★ </div>
                                                 @endfor
-                                                <p style="margin-bottom: 6px;">({{ $item->franchiseRating }})</p>
+                                                <p style="margin-bottom: 6px;">({{ $myEducation->educationRating }})</p>
                                             </div>
                                         @endif
                                         <span class="badge bg-info mb-3">
-                                            {{ $item->franchiseCategory }}
+                                            {{ $myEducation->category->educationCategory }}
                                         </span>
-                                        <p class="mb-2">IDR {{ number_format($item->franchisePrice, 2) }}</p>
+                                        <p class="mb-2">IDR {{ number_format($myEducation->educationPrice, 2) }}</p>
                                         <p class="mb-2 text-muted" style="font-size: 12px;">
-                                            {{ $item->educationShortDesc }}
+                                            {{ $myEducation->educationShortDesc }}
                                         </p>
                                         <hr>
-                                        <a href="{{ route('franchise.detail', $item->id) }}"
+                                        <a href="{{ route('education.detail', $myEducation->id) }}"
                                             class="d-flex justify-content-between">
                                             <div>
-                                                Read More
+                                                View Content
                                             </div>
                                             <div>
                                                 <span class="material-symbols-rounded">
@@ -95,6 +82,9 @@
                                 </div>
                             </div>
                         @endforeach
+                    </div>
+                    <div class="mt-5">
+                        {{ $myEducations->links() }}
                     </div>
                 </div>
             @endif

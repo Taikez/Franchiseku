@@ -94,6 +94,8 @@ Route::controller(EducationController::class)->group(function(){
     Route::get('/education', 'index')->name('education.index');
     Route::get('/education/all', 'userAllEducation')->name('education.all');
     Route::post('/education/search', 'search')->name('education.search');
+    Route::get('/education/myEducation', 'myEducation')->name('my.education');
+    Route::post('/education/myEducation/search', 'myEducationSearch')->name('my.education.search');
     Route::get('/education/detail/{id}','detail')->name('education.detail');
     Route::get('/education/ratingView', 'ratingView');
     Route::post('/education/{id}/rate', 'rateEducation')->name('education.rate');
@@ -121,7 +123,7 @@ Route::controller(FranchiseController::class)->group(function(){
     Route::get('/franchise/all','browseAllFranchise')->name('browse.all.franchise');
     Route::post('/franchise/search', 'search')->name('franchise.search');
     Route::get('/franchise/detail/{id}','detail')->name('franchise.detail');
-    Route::get('franchise/myFranchise','MyFranchise')->middleware('franchisor')->name('my.franchise');
+    Route::get('franchise/myFranchise','MyFranchise')->name('my.franchise');
     Route::get('/franchise/register','RegisterFranchise')->middleware('franchisor')->name('register.franchise');
     Route::post('/franchise/post','StoreFranchise')->middleware('franchisor')->name('store.franchise');
     Route::get('/dashboard/registerFranchise','RegisterFranchise')->middleware('franchisor')->name('dashboard.register.franchise');
@@ -140,7 +142,11 @@ Route::controller(FranchiseController::class)->group(function(){
 Route::middleware(['auth'])->group(function(){
     Route::controller(EducationTransactionController::class)->group(function(){
         Route::get('/my/education/transaction','MyTransaction')->name('my.education.transaction');
+        Route::get('/education/transaction/{id}','GetEducationTransaction')->name('education.transaction');
+        Route::post('/education/transaction/create','CreateTransaction')->name('create.education.transaction');
         Route::post('/education/transaction/post','PostTransaction')->name('post.education.transaction');
+        Route::post('/education/transaction/callback','TransactionCallback')->name('callback.education.transaction');
+        Route::put('/education/transaction/midtransCallback','MidtransCallback')->name('midtrans.callback');
     });
 });
 

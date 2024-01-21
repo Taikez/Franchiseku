@@ -247,42 +247,9 @@ class EducationController extends Controller
             $transaction = EducationTransaction::where(['userId'=> $user->id,'education_id'=>$education->id])->get();
             $buttonMessage = '';
 
-            //GET SNAP TOKEN
-            // Set your Merchant Server Key
-            \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-            // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-            \Midtrans\Config::$isProduction = false;
-            // Set sanitization on (default)
-            \Midtrans\Config::$isSanitized = true;
-            // Set 3DS transaction for credit card to true
-            \Midtrans\Config::$is3ds = false;
-
-            $params = [
-                'transaction_details' => [
-                    'order_id' => rand(),
-                    'gross_amount' => $education->educationPrice,
-                ],
-                'customer_details' => [
-                    'first_name' => $user->name,
-                    'last_name' => '',
-                    'email' => $user->email,
-                    'phone' => $user->phoneNumber,
-                ],
-                'item_details' => [
-                    [
-                        'id' => 'a1',
-                        'price' => $education->educationPrice,
-                        'quantity' => 1,
-                        'name' => $education->educationTitle,
-                    ],
-                ],
-            ];
-
             if($transaction->isEmpty()){
                 $transactionStatus = false;
-                $snapToken = \Midtrans\Snap::getSnapToken($params);
                 $buttonMessage = 'Purchase Content';
-                
             }else{
                 if($transaction[$transaction->count()-1]->transaction_status == 'settlement'){
                     $transactionStatus = true;
@@ -305,7 +272,6 @@ class EducationController extends Controller
                 'averageRating',
                 'countingStars',
                 'ratings',
-                'snapToken',
                 'transaction',
                 'transactionStatus',
                 'transactionCount',
@@ -498,4 +464,69 @@ class EducationController extends Controller
         return redirect()->route('all.education')->with($notification);
     }
 
+    public function myEducation(Request $request) {
+        if(!Auth::check()) {
+            $message = "You have to login to view owned education content";
+            return redirect()->route('login')->with($message);
+
+        } else {
+            $educationCategories = EducationCategory::all();
+
+            // GET PARAMETER VALUES
+            $categoryId = $request->input('category');
+            $minPrice = $request->input('minPrice');
+            $maxPrice = $request->input('maxPrice');
+            $rating = $request->input('rating');
+
+            $user = Auth::user();
+            $educationTransaction = EducationTransaction::where(['userId' => $user->id, 'transaction_status' => 'settlement'])->get();
+            
+            $educationIds = [];
+            foreach ($educationTransaction as $transaction) {
+                $educationIds[] = $transaction->education_id;
+            }
+            
+            // FILTER DATA
+            $queryOwnedEducation = EducationContent::query()->whereIn('id', $educationIds);
+            
+            if ($categoryId !== null) {
+                $queryOwnedEducation->where('education_category_id', $categoryId);
+            }
+
+            if ($minPrice !== null) {
+                $queryOwnedEducation->where('educationPrice', '>=', $minPrice);
+            }
+
+            if ($maxPrice !== null) {
+                $queryOwnedEducation->where('educationPrice', '<=', $maxPrice);
+            }
+
+            if ($rating !== null) {
+                $queryOwnedEducation->where('educationRating', $rating);
+            }
+
+            $myEducations = $queryOwnedEducation->paginate(12);
+            return view('myEducationContent', compact('educationCategories', 'myEducations'));
+        }
+    }
+    
+    public function myEducationSearch(Request $request) {
+        $user = Auth::user();
+        $educationCategories = EducationCategory::all();
+        $educationTransaction = EducationTransaction::where(['userId' => $user->id, 'transaction_status' => 'settlement'])->get();
+            
+        $educationIds = [];
+        foreach ($educationTransaction as $transaction) {
+            $educationIds[] = $transaction->education_id;
+        }
+
+        $ownedEducations = EducationContent::where(
+            'educationTitle',
+            'like',
+            '%' . $request->searchValue . '%'
+        )->whereIn('id', $educationIds)
+        ->paginate(9);
+
+        return view('myEducationContent', compact('educationCategories', 'myEducations'));
+    }
 }

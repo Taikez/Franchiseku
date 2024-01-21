@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('education_transaction', function (Blueprint $table) {
             $table->id();
             $table->string('paymentType')->nullable();
-            $table->string('transaction_id');
+            $table->string('transaction_id')->nullable();
             $table->string('transaction_status')->nullable();
-            $table->string('order_id');
+            $table->string('order_id')->nullable();
             $table->string('paymentCode')->nullable();
             $table->text('jsonData')->nullable();
             $table->string('pdf_url')->nullable();

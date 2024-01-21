@@ -4,7 +4,7 @@
         <div class="d-flex">
             <!-- LOGO -->
             <div class="navbar-brand-box">
-                <a href="index.html" class="logo logo-dark">
+                <a href="{{route('adminDashboard')}}" class="logo logo-dark">
                     <span class="logo-sm">
                         {{-- <img src="{{asset('backend/assets/images/logo-sm.png')}}" alt="logo-sm" height="22"> --}}
                         <img src="{{asset('authImg/franchiseku_logo.png')}}" alt="logo-sm" height="20">
@@ -15,7 +15,7 @@
                     </span>
                 </a>
                 
-                <a href="index.html" class="logo logo-light">
+                <a href="{{route('adminDashboard')}}" class="logo logo-light">
                     <span class="logo-sm">
                         <img src="{{asset('authImg/franchiseku_logo_light.png')}}" alt="logo-sm-light" height="22">
                         {{-- <img src="{{asset('backend/assets/images/logo-sm.png')}}" alt="logo-sm-light" height="22"> --}}
@@ -73,8 +73,6 @@
                     <!-- item-->
                     <a class="dropdown-item" href="{{route('profile.edit')}}"><i class="ri-user-line align-middle me-1"></i> Profile</a>
                     <a class="dropdown-item" href="{{route('change.password')}}"><i class="ri-wallet-2-line align-middle me-1"></i> Change Password</a>
-                    <a class="dropdown-item d-block" href="#"><span class="badge bg-success float-end mt-1">11</span><i class="ri-settings-2-line align-middle me-1"></i> Settings</a>
-                    <a class="dropdown-item" href="#"><i class="ri-lock-unlock-line align-middle me-1"></i> Lock screen</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item text-danger" href="{{route('admin.logout')}}"><i class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
                 </div>

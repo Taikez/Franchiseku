@@ -51,7 +51,7 @@
                                                     id="edit">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <a href="#" class="btn btn-danger btn-sm" title="Delete data"
+                                                <a href="{{route('delete.education', $item->id)}}" class="btn btn-danger btn-sm" title="Delete data"
                                                     id="delete">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </a>

@@ -161,6 +161,7 @@ Route::middleware(['admin','auth'])->group(function(){
         Route::post('/admin/post/education','PostEducation')->name('post.education');
         Route::get('/admin/edit/education/{id}','EditEducation')->name('edit.education');
         Route::post('/admin/push/education','UpdateEducation')->name('update.education');
+        Route::get('/admin/delete/education/{id}', 'DeleteEducation')->name('delete.education');
     });
 
     Route::controller(FranchiseCategoryController::class)->group(function(){

@@ -529,4 +529,18 @@ class EducationController extends Controller
 
         return view('myEducationContent', compact('educationCategories', 'myEducations'));
     }
+
+    public function DeleteEducation($id){
+        $education = EducationContent::find($id);
+        $education->delete();
+
+         $notification = [
+            'message' => 'Education Deleted Successfully',
+            'alert-type' => 'success',
+        ];
+
+        return redirect()
+            ->route('all.education')
+            ->with($notification);
+    }
 }

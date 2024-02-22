@@ -19,6 +19,6 @@ class FranchiseProposal extends Model
 
     public function franchise()
     {
-        return $this->belongsTo('App\Models\Franchise', 'franchise_id', 'id');
+        return $this->belongsTo(Franchise::class, 'franchise_id', 'id');
     }
 }

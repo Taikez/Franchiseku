@@ -44,19 +44,19 @@
                     <div class="card mb-3 border-0 shadow-sm rounded" style="background-color: #EFF6FE;" data-aos="fade"
                         data-aos-duration="800">
                         <div class="row">
-                            <div class="col-md-5 p-5">
-                                <div class="card-body">
+                            <div class="col-md-6">
+                                <div class="d-flex flex-column p-5">
                                     <a href="{{ route('news.detail', $latestNews->id) }}" class="text-decoration-0">
                                         <h1 class="card-title fs-1 fw-bold news-title">{{ $latestNews->newsTitle }}
                                         </h1>
                                     </a>
-                                    <h2 class="badge bg-secondary mb-5 fs-6">
+                                    <h2 class="badge bg-secondary mb-5 fs-6 w-25">
                                         {{ $latestNews['category']['newsCategory'] }}</h2>
                                     <p class="card-text">By {{ $latestNews->newsAuthor }}</p>
                                     <p class="card-text"><small class="text-body-secondary">Published
                                             {{ Carbon\Carbon::parse($latestNews->created_at)->diffForHumans() }} </small>
                                     </p>
-                                    <div class="position-absolute bottom-0 mb-5 col-lg-4 col-md-4 col-sm-12">
+                                    <div class="mb-5 w-100">
                                         <a href="{{ route('news.detail', $latestNews->id) }}"
                                             class="btn btn-lg btn-success text-white fw-bold w-100">
                                             Read This Article
@@ -64,7 +64,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-7 col-md-7 p-5">
+                            <div class="col-lg-6 col-md-7 p-5">
                                 <img src="{{ asset($latestNews->newsImage) }}" class=" w-100 img-fluid rounded"
                                     alt="...">
 

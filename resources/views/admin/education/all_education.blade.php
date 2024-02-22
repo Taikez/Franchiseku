@@ -34,7 +34,7 @@
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-
+                                
                                 <tbody>
                                     @php($i = 1)
                                     @foreach ($educations as $item)

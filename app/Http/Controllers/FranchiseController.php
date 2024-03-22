@@ -662,7 +662,7 @@ class FranchiseController extends Controller
 
     public function franchiseProposalRequest(Request $request)
     {
-        $franchisorId = Auth::user()->id;
+        $franchisorId = Auth::user()->id; 
         $ownedFranchises = Franchise::where(['franchisePIC' => $franchisorId])->get();
         $ownedFranchiseIds = $ownedFranchises->pluck('id')->toArray();
         $queryFranchiseProposals = FranchiseProposal::query()->whereIn('franchise_id', $ownedFranchiseIds)->where('status', 'Requested')->orderBy('created_at','desc');
@@ -756,7 +756,7 @@ class FranchiseController extends Controller
                 ->subject('Your proposal to ' . $franchiseProposal->franchise->franchiseName . ' has been rejected!');
         });
 
-        $message = 'You have succesfully rejected the proposal!';
+        $message = 'You have successfully rejected the proposal!';
         return redirect()->back()->with('success', $message);
     }
 
